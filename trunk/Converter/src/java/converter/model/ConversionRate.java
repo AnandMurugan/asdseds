@@ -12,7 +12,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author Alex
+ * @author Anand
  */
 @Entity
 public class ConversionRate implements Serializable {
