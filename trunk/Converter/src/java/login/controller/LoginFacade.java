@@ -22,7 +22,7 @@ import login.model.UserAccountDTO;
 @Stateless
 public class LoginFacade {
 
-    @PersistenceContext(unitName = "converterPU")
+    @PersistenceContext(unitName = "ConverterPU")
     private EntityManager em;
     
     public UserAccountDTO login(String userName, String password) throws LoginException {
