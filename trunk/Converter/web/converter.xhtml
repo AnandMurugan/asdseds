@@ -29,11 +29,13 @@
             <h:selectOneMenu id="srcCurDrpDown" value="#{converterManager.srcCurrency}" >
                 <f:selectItems value="#{converterManager.srcCurrencyList}" />
             </h:selectOneMenu> 
+            <br/>
             <h:outputLabel for="dstCurDrpDown" value="To:" />
             <h:selectOneMenu id="dstCurDrpDown" value="#{converterManager.dstCurrency}" >
                 <f:selectItems value="#{converterManager.dstCurrencyList}" />
             </h:selectOneMenu> 
-            <h:outputLabel for="" value=""/>
+            <br/>
+            <h:outputLabel for="amount" value="Amount:"/>
             <h:inputText id="amount" value="#{converterManager.amount}" />
             <br/>
             <br/>
