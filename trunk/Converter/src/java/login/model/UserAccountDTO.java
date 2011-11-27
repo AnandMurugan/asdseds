@@ -8,6 +8,7 @@ package login.model;
  *
  * @author Alex
  */
-public interface UserDTO {
-    
+public interface UserAccountDTO {
+    public boolean checkPassword(String password);
+    public String getName();
 }
