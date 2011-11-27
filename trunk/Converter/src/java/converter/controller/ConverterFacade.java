@@ -4,8 +4,12 @@
  */
 package converter.controller;
 
+import converter.model.ConversionRate;
+import converter.model.ConversionRateDTO;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -13,9 +17,18 @@ import javax.ejb.LocalBean;
  */
 @Stateless
 @LocalBean
-public class ConverterFacade {
+public class ConverterFacade{
+    @PersistenceContext(unitName = "ConverterPU")
+    private EntityManager em;
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    public ConversionRateDTO addConversion(String srcCurrency, String dstCurrency, double rate) {
+        ConversionRate exchangeRate = new ConversionRate(srcCurrency, dstCurrency, rate);
+        em.persist(exchangeRate);
+        return exchangeRate;
+    }
+
+    public void convert(){
+        
+    }
     
 }

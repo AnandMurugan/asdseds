@@ -10,4 +10,8 @@ package converter.model;
  */
 public interface ConversionRateDTO {
     
+    String getSrcCurrency();
+    String getDstCurrency();
+    double getRate();
+    
 }

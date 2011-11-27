@@ -5,53 +5,54 @@
 package converter.model;
 
 import java.io.Serializable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  *
  * @author Anand
  */
 @Entity
-public class ConversionRate implements Serializable {
+public class ConversionRate implements ConversionRateDTO, Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    ConversionRatePK primaryKey;
 
-    public Integer getId() {
-        return id;
+    public void setPrimaryKey(ConversionRatePK primaryKey) {
+        this.primaryKey = primaryKey;
     }
+    private double rate;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public ConversionRate(String srcCurrency, String dstCurrency, double rate) {
+        ConversionRatePK newConversion = new ConversionRatePK(srcCurrency, dstCurrency);
+        this.primaryKey = newConversion;
+        this.rate = rate;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ConversionRate)) {
-            return false;
-        }
-        ConversionRate other = (ConversionRate) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public double getRate() {
+        return rate;
     }
 
-    @Override
-    public String toString() {
-        return "converter.model.ConversionRate[ id=" + id + " ]";
+    public void setRate(double rate) {
+        this.rate = rate;
     }
     
+    public ConversionRate(){
+        
+    }
+    
+    @EmbeddedId
+    public ConversionRatePK getPrimaryKey(){
+        return primaryKey;
+    }
+
+    @Override
+    public String getSrcCurrency() {
+        return primaryKey.getFromCurrency();
+    }
+
+    @Override
+    public String getDstCurrency() {
+        return primaryKey.getToCurrency();
+    }
 }
