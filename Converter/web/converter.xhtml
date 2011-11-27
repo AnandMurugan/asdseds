@@ -1,12 +1,49 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Welcome to Currency Converter</title>
     </h:head>
     <h:body>
-        Hello from Converter
+        <h1>Universal Currency Converter</h1>
+        <h:form>
+        <p>
+            <h:outputLabel for="srcCur" value="From:" />
+            <h:inputText id="srcCur" value="#{converterManager.srcCurrency}" />
+            <h:outputLabel for="dstCur" value="To:" />
+            <h:inputText id="dstCur" value="#{converterManager.dstCurrency}" />
+            <h:outputLabel for="rate" value="Conversion Rate:" />
+            <h:inputText id="rate" value="#{converterManager.rate}" />
+            <br></br>
+            <br></br>
+        </p>
+        <p>
+            <h:commandButton value="Add Conversion Rate" action="#{converterManager.addConversion}" />
+            <br></br>
+            <br></br>
+        </p>
+        <p>
+            <h:outputLabel for="srcCurDrpDown" value="From:" />
+            <h:selectOneMenu id="srcCurDrpDown" value="#{converterManager.srcCurrency}" >
+                <f:selectItems value="#{converterManager.srcCurrencyList}" />
+            </h:selectOneMenu> 
+            <h:outputLabel for="dstCurDrpDown" value="To:" />
+            <h:selectOneMenu id="dstCurDrpDown" value="#{converterManager.dstCurrency}" >
+                <f:selectItems value="#{converterManager.dstCurrencyList}" />
+            </h:selectOneMenu> 
+            <h:outputLabel for="" value=""/>
+            <h:inputText id="amount" value="#{converterManager.amount}" />
+            <br/>
+            <br/>
+            <h:commandButton value="Convert" action="#{converterManager.convert}" />
+            <br/>
+            <br/>
+            <h:outputLabel for="convertValue" value="Value:"/>
+            <h:outputText id="convertValue" value="#{converterManager.value}" />
+        </p>
+        </h:form>
     </h:body>
 </html>
 
