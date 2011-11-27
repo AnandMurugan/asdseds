@@ -9,8 +9,8 @@ import converter.model.ConversionRateDTO;
 import javax.inject.Named;
 import javax.enterprise.context.ConversationScoped;
 import java.io.Serializable;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.inject.Inject;
@@ -32,8 +32,8 @@ public class ConverterManager implements Serializable {
     private double rate;
     private double amount;
     private double value;
-    private Map<String, Object> srcCurrencyList;
-    private static Map<String, Object> dstCurrencyList;
+    private List<String> srcCurrencyList = new ArrayList<String>();
+    private List<String> dstCurrencyList = new ArrayList<String>();
     private ConversionRateDTO conversionRateDTO;
 
     public double getValue() {
@@ -52,19 +52,13 @@ public class ConverterManager implements Serializable {
         this.amount = amount;
     }
 
-    public Map<String, Object> getDstCurrencyList() {
-        dstCurrencyList = new LinkedHashMap<String, Object>();
-        dstCurrencyList.put("SEK", "sek");
-        dstCurrencyList.put("EUR", "eur");
-        dstCurrencyList.put("GBP", "gbp");
+    public List<String> getDstCurrencyList() {
+        dstCurrencyList = converterFacade.getDestCurrencyLst();
         return dstCurrencyList;
     }
 
-    public Map<String, Object> getSrcCurrencyList() {
-        srcCurrencyList = new LinkedHashMap<String, Object>();
-        srcCurrencyList.put("SEK", "sek");
-        srcCurrencyList.put("EUR", "eur");
-        srcCurrencyList.put("GBP", "gbp");
+    public List<String> getSrcCurrencyList() {
+        srcCurrencyList = converterFacade.getSourceCurrencyLst();
         return srcCurrencyList;
     }
 
@@ -101,6 +95,6 @@ public class ConverterManager implements Serializable {
     }
 
     public void convert() {
-        converterFacade.convert();
+        setValue(converterFacade.convert(srcCurrency, dstCurrency, amount));
     }
 }
