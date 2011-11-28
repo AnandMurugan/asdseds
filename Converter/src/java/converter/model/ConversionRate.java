@@ -17,9 +17,9 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "findAllCurrency",
-                query = "SELECT OBJECT(cRate) FROM ConversionRate cRate")
-//    @NamedQuery(name="findRate", 
-//                query = "SELECT OBJECT(cRate) FROM ConversionRate cRate WHERE cRate.getPrimaryKey().getFromCurrency() = ?1 AND cRate.getPrimaryKey().getToCurrency() = ?2")
+                query = "SELECT OBJECT(cRate) FROM ConversionRate cRate"),
+    @NamedQuery(name="findRate", 
+                query = "SELECT OBJECT(cRate) FROM ConversionRate cRate WHERE cRate.primaryKey = ?1")
 })
 public class ConversionRate implements ConversionRateDTO, Serializable {
 
@@ -27,6 +27,7 @@ public class ConversionRate implements ConversionRateDTO, Serializable {
     @EmbeddedId
     ConversionRatePK primaryKey;
     private double rate;
+    
 
     public void setPrimaryKey(ConversionRatePK primaryKey) {
         this.primaryKey = primaryKey;
