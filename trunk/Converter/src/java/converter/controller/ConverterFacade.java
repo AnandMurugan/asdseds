@@ -40,7 +40,9 @@ public class ConverterFacade {
         Iterator objLstIterator = objLst.iterator();
         while (objLstIterator.hasNext()) {
             ConversionRate cRate = (ConversionRate) objLstIterator.next();
-            srcLst.add(cRate.getPrimaryKey().getFromCurrency());
+            if(!(srcLst.contains(cRate.getPrimaryKey().getFromCurrency()))){
+                srcLst.add(cRate.getPrimaryKey().getFromCurrency());
+            }
         }
         return srcLst;
     }
@@ -50,7 +52,9 @@ public class ConverterFacade {
         Iterator objLstIterator = objLst.iterator();
         while (objLstIterator.hasNext()) {
             ConversionRate cRate = (ConversionRate) objLstIterator.next();
-            dstLst.add(cRate.getPrimaryKey().getToCurrency());
+            if(!(dstLst.contains(cRate.getPrimaryKey().getToCurrency()))){
+                dstLst.add(cRate.getPrimaryKey().getToCurrency());
+            }
         }
         return dstLst;
     }
@@ -60,7 +64,7 @@ public class ConverterFacade {
         double value = 0;
         ConversionRate temp, cRate;
         temp = new ConversionRate(srcCurrency, dstCurrency, 0);
-        Query queryObj = em.createQuery("SELECT OBJECT(cRate) FROM ConversionRate cRate WHERE cRate.primaryKey = ?1");
+        Query queryObj = em.createNamedQuery("findRate");
         queryObj.setParameter(1, temp.getPrimaryKey());
         tmpLst = queryObj.getResultList();
         Iterator it = tmpLst.iterator();

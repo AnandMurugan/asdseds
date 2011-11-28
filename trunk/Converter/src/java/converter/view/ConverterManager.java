@@ -14,6 +14,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.inject.Inject;
+import javax.persistence.EntityNotFoundException;
 
 /**
  *
@@ -95,6 +96,9 @@ public class ConverterManager implements Serializable {
     }
 
     public void convert() {
-        setValue(converterFacade.convert(srcCurrency, dstCurrency, amount));
+        value = converterFacade.convert(srcCurrency, dstCurrency, amount);
+        if(value == 0){
+            throw new EntityNotFoundException("Conversion rate is not found for the above conversion");
+        }
     }
 }
