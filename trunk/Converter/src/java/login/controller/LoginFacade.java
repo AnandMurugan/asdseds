@@ -13,7 +13,6 @@ import javax.security.auth.login.LoginException;
 import login.model.UserAccount;
 import login.model.UserAccountDTO;
 
-
 /**
  *
  * @author Alex
@@ -24,12 +23,12 @@ public class LoginFacade {
 
     @PersistenceContext(unitName = "ConverterPU")
     private EntityManager em;
-    
+
     public UserAccountDTO login(String userName, String password) throws LoginException {
-       UserAccountDTO user = em.find(UserAccount.class, userName);
+        UserAccountDTO user = em.find(UserAccount.class, userName);
         if (user == null || !user.checkPassword(password)) {
             throw new LoginException("userName and/or password are invalid");
         }
-       return user;
+        return user;
     }
 }
