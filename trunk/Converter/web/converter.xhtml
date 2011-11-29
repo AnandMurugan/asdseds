@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
     <link type="text/css" rel="stylesheet" href="converter.css" />
     <head>
         <h:head>
@@ -19,6 +20,17 @@
                     </h:commandLink>
                 </p>
                 <table align="center" width="30%">
+                    <tr>
+                        <td colspan="2">
+                            <div class="error">
+                                <c:choose>
+                                    <c:when test="#{converterManager.success==false}">
+                                        <h:outputLabel value="Conversion Failed" />
+                                    </c:when>
+                                </c:choose>
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <h:outputLabel for="srcCurDrpDown" value="From:" />
