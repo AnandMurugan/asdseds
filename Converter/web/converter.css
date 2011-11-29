@@ -68,3 +68,9 @@ h5, h6
     font-size: 1em;
 }
 
+.error
+{
+    font-size: 1.5em;
+    font-weight: bold;
+    color: red;
+}
