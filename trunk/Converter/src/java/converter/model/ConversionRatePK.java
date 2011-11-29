@@ -20,7 +20,7 @@ public class ConversionRatePK implements Serializable{
     public ConversionRatePK(){
     }
 
-    ConversionRatePK(String fromCurrency, String toCurrency) {
+    public ConversionRatePK(String fromCurrency, String toCurrency) {
         this.fromCurrency = fromCurrency;
         this.toCurrency = toCurrency;
     }
