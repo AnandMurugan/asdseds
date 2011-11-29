@@ -14,7 +14,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.inject.Inject;
-import javax.persistence.EntityNotFoundException;
 
 /**
  *
@@ -36,6 +35,7 @@ public class ConverterManager implements Serializable {
     private List<String> srcCurrencyList = new ArrayList<String>();
     private List<String> dstCurrencyList = new ArrayList<String>();
     private ConversionRateDTO conversionRateDTO;
+    private Exception conversionFailure;
 
     public double getValue() {
         return value;
@@ -96,9 +96,29 @@ public class ConverterManager implements Serializable {
     }
 
     public void convert() {
-        value = converterFacade.convert(srcCurrency, dstCurrency, amount);
-        if(value == 0){
-            throw new EntityNotFoundException("Conversion rate is not found for the above conversion");
+        try{
+            startConversation();
+            value = converterFacade.convert(srcCurrency, dstCurrency, amount);
+        }catch(Exception e){
+            handleException(e);
         }
+    }
+    
+    private void startConversation() {
+        if (conversation.isTransient()) {
+            conversation.begin();
+        }
+    }
+
+    private void stopConversation() {
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
+    }
+    
+    private void handleException(Exception e) {
+        stopConversation();
+        e.printStackTrace(System.err);
+        conversionFailure = e;
     }
 }
