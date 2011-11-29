@@ -11,4 +11,5 @@ package login.model;
 public interface UserAccountDTO {
     public boolean checkPassword(String password);
     public String getName();
+    public int getRole();
 }
