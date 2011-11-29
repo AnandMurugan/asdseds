@@ -21,7 +21,8 @@ public class UserAccount implements UserAccountDTO, Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String userName;
     private String password;
-    private String name;
+    private String fullName;
+    private int userRole;
 
     
     public String getUserName() {
@@ -29,8 +30,13 @@ public class UserAccount implements UserAccountDTO, Serializable {
     }
     
     @Override
+    public int getRole() {
+        return userRole;
+    }
+    
+    @Override
     public String getName() {
-        return name;
+        return fullName;
     }
     
     @Override
