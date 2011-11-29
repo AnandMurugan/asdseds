@@ -7,9 +7,8 @@ package login.view;
 import javax.inject.Named;
 import java.io.Serializable;
 import javax.ejb.EJB;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
-import javax.inject.Inject;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import login.controller.LoginFacade;
 import login.model.UserAccountDTO;
 
@@ -17,43 +16,22 @@ import login.model.UserAccountDTO;
  *
  * @author Alex
  */
-@Named(value = "loginManager")
-@ConversationScoped
-public class LoginManager implements Serializable {
+@Named(value = "usrManager")
+@SessionScoped
+public class UserManager implements Serializable {
 
     @EJB
     private LoginFacade loginFacade;
-    @Inject
-    private Conversation conversation;
     private Exception loginFailure;
     
     private String userName;
     private String password;
     private UserAccountDTO userAccount;
 
-    private void startConversation() {
-        if (conversation.isTransient()) {
-            conversation.begin();
-        }
-    }
-
-    private void stopConversation() {
-        if (!conversation.isTransient()) {
-            conversation.end();
-        }
-    }
-    
     private void handleException(Exception e) {
-        stopConversation();
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         e.printStackTrace(System.err);
         loginFailure = e;
-    }
-    
-    /**
-     * Returns <code>false</code> if the latest transaction failed, otherwise <code>false</code>.
-     */
-    public boolean getSuccess() {
-        return loginFailure == null;
     }
 
     /**
@@ -79,12 +57,35 @@ public class LoginManager implements Serializable {
         return "";
     }
     
+    public String getFullName() {
+        return userAccount.getName();
+    }
+    
     public void login() {
         try {
-            startConversation();
             userAccount = loginFacade.login(userName, password);
+            loginFailure = null;
         } catch (Exception e) {
             handleException(e);
         }
+    }
+
+    public void logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+    }
+
+    public boolean isLoggedIn() {
+        return userAccount != null;
+    }
+    
+    public int getRole() {
+        if(!isLoggedIn()) {
+            return 0;
+        }
+        return userAccount.getRole();
+    }
+    
+    public boolean success() {
+        return loginFailure == null;
     }
 }
