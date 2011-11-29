@@ -53,14 +53,9 @@ public class ConverterManager implements Serializable {
         this.amount = amount;
     }
 
-    public List<String> getDstCurrencyList() {
-        dstCurrencyList = converterFacade.getDestCurrencyLst();
+    public List<String> getCurrencyList() {
+        dstCurrencyList = converterFacade.getConversionList();
         return dstCurrencyList;
-    }
-
-    public List<String> getSrcCurrencyList() {
-        srcCurrencyList = converterFacade.getSourceCurrencyLst();
-        return srcCurrencyList;
     }
 
     public double getRate() {
@@ -86,22 +81,7 @@ public class ConverterManager implements Serializable {
     public void setSrcCurrency(String srcCurrency) {
         this.srcCurrency = srcCurrency;
     }
-
-    /** Creates a new instance of ConverterManager */
-    public ConverterManager() {
-    }
-
-    public void addConversion() {
-        try {
-            conversionFailure = null;
-            startConversation();
-            converterFacade.addConversion(srcCurrency, dstCurrency, rate);
-        } catch (Exception e) {
-            handleException(e);
-        }
-
-    }
-
+    
     public void convert() {
         try {
             conversionFailure = null;
