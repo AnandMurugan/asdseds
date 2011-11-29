@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <title>Currency Converter</title>
     </h:head>
@@ -10,16 +11,18 @@
         <h:form>
             <p>
                 <h:outputLabel for="srcCur" value="From:" />
-                <h:inputText id="srcCur" value="#{converterManager.srcCurrency}" />
+                <h:inputText id="srcCur" value="#{converterAdminManager.srcCurrency}" />
                 <h:outputLabel for="dstCur" value="To:" />
-                <h:inputText id="dstCur" value="#{converterManager.dstCurrency}" />
+                <h:inputText id="dstCur" value="#{converterAdminManager.dstCurrency}" />
                 <h:outputLabel for="rate" value="Conversion Rate:" />
-                <h:inputText id="rate" value="#{converterManager.rate}" />
+                <h:inputText id="rate" value="#{converterAdminManager.rate}">
+                    <f:validateLongRange minimum="0"/>
+                </h:inputText>
                 <br></br>
                 <br></br>
             </p>
             <p>
-                <h:commandButton value="Add Conversion Rate" action="#{converterManager.addConversion}" />
+                <h:commandButton value="Add Conversion Rate" action="#{converterAdminManager.addConversion}" />
                 <br></br>
                 <br></br>
             </p>
