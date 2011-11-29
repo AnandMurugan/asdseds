@@ -17,20 +17,15 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "findAllCurrency",
-                query = "SELECT OBJECT(cRate) FROM ConversionRate cRate"),
-    @NamedQuery(name="findRate", 
-                query = "SELECT OBJECT(cRate) FROM ConversionRate cRate WHERE cRate.primaryKey = ?1")
-})
+    query = "SELECT OBJECT(cRate) FROM ConversionRate cRate"),})
 public class ConversionRate implements ConversionRateDTO, Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     ConversionRatePK primaryKey;
     private double rate;
-    
 
-    public void setPrimaryKey(ConversionRatePK primaryKey) {
-        this.primaryKey = primaryKey;
+    public ConversionRate() {
     }
 
     public ConversionRate(String srcCurrency, String dstCurrency, double rate) {
@@ -39,20 +34,39 @@ public class ConversionRate implements ConversionRateDTO, Serializable {
         this.rate = rate;
     }
 
+//    public ConversionRatePK getPrimaryKey() {
+//        return primaryKey;
+//    }
+    public void setPrimaryKey(ConversionRatePK primaryKey) {
+        this.primaryKey = primaryKey;
+    }
+
+//    @Override
+//    public double getRate() {
+//        return rate;
+//    }
+//
+//    public void setRate(double rate) {
+//        this.rate = rate;
+//    }
+//
+//    @Override
+//    public String getSrcCurrency() {
+//        return primaryKey.getFromCurrency();
+//    }
+//
+//    @Override
+//    public String getDstCurrency() {
+//        return primaryKey.getToCurrency();
+//    }
     @Override
-    public double getRate() {
-        return rate;
+    public double convert(double amount) {
+        return rate * amount;
     }
 
-    public void setRate(double rate) {
-        this.rate = rate;
-    }
-
-    public ConversionRate() {
-    }
-
-    public ConversionRatePK getPrimaryKey() {
-        return primaryKey;
+    @Override
+    public String getDstCurrency() {
+        return primaryKey.getToCurrency();
     }
 
     @Override
@@ -61,7 +75,12 @@ public class ConversionRate implements ConversionRateDTO, Serializable {
     }
 
     @Override
-    public String getDstCurrency() {
-        return primaryKey.getToCurrency();
+    public double getRate() {
+        return rate;
+    }
+
+    @Override
+    public void setRate(double rate) {
+        this.rate = rate;
     }
 }
