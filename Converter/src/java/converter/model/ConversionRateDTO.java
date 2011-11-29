@@ -9,9 +9,9 @@ package converter.model;
  * @author Alex
  */
 public interface ConversionRateDTO {
-    
-    String getSrcCurrency();
-    String getDstCurrency();
-    double getRate();
-    
+    public double convert(double amount);
+    public String getSrcCurrency();
+    public String getDstCurrency();
+    public double getRate();
+    public void setRate(double rate);
 }
