@@ -3,34 +3,68 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
-    <h:head>
-        <title>Welcome to Currency Converter</title>
-    </h:head>
-    <h:body>
-        <h1>Universal Currency Converter</h1>
-        <h:form>
-            <p>
-                <h:outputLabel for="srcCurDrpDown" value="From:" />
-                <h:selectOneMenu id="srcCurDrpDown" value="#{converterManager.srcCurrency}" >
-                    <f:selectItems value="#{converterManager.srcCurrencyList}" />
-                </h:selectOneMenu> 
-                <br/>
-                <h:outputLabel for="dstCurDrpDown" value="To:" />
-                <h:selectOneMenu id="dstCurDrpDown" value="#{converterManager.dstCurrency}" >
-                    <f:selectItems value="#{converterManager.dstCurrencyList}" />
-                </h:selectOneMenu> 
-                <br/>
-                <h:outputLabel for="amount" value="Amount:"/>
-                <h:inputText id="amount" value="#{converterManager.amount}" />
-                <br/>
-                <br/>
-                <h:commandButton value="Convert" action="#{converterManager.convert}" />
-                <br/>
-                <br/>
-                <h:outputLabel for="convertValue" value="Value:"/>
-                <h:outputText id="convertValue" value="#{converterManager.value}" />
-            </p>
-        </h:form>
-    </h:body>
+    <link type="text/css" rel="stylesheet" href="converter.css" />
+    <head>
+        <h:head>
+            <title>Welcome to Currency Converter</title>
+        </h:head>
+    </head>
+    <body>
+        <h:body>
+            <h1>Universal Currency Converter</h1>
+            <h:form>
+                <table align="center" width="30%">
+                    <tr>
+                        <td>
+                            <h:outputLabel for="srcCurDrpDown" value="From:" />
+                        </td>
+                        <td>
+                            <h:selectOneMenu id="srcCurDrpDown" value="#{converterManager.srcCurrency}" >
+                                <f:selectItems value="#{converterManager.srcCurrencyList}" />
+                            </h:selectOneMenu> 
+                            <br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputLabel for="dstCurDrpDown" value="To:" />
+                        </td>
+                        <td>
+                            <h:selectOneMenu id="dstCurDrpDown" value="#{converterManager.dstCurrency}" >
+                                <f:selectItems value="#{converterManager.dstCurrencyList}" />
+                            </h:selectOneMenu> 
+                            <br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputLabel for="amount" value="Amount:"/>
+                        </td>
+                        <td>
+                            <h:inputText id="amount" value="#{converterManager.amount}" />
+                            <br/>
+                        </td>
+                    </tr>
+                    <br/>
+                    <br/>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <h:commandButton value="Convert" action="#{converterManager.convert}" />
+                            <br/>
+                            <br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputLabel for="convertValue" value="Value:"/>
+                        </td>
+                        <td>
+                            <h:outputText id="convertValue" value="#{converterManager.value}" />
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </h:body>
+    </body>
 </html>
-
