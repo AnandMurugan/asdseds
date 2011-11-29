@@ -92,18 +92,26 @@ public class ConverterManager implements Serializable {
     }
 
     public void addConversion() {
-        converterFacade.addConversion(srcCurrency, dstCurrency, rate);
+        try {
+            conversionFailure = null;
+            startConversation();
+            converterFacade.addConversion(srcCurrency, dstCurrency, rate);
+        } catch (Exception e) {
+            handleException(e);
+        }
+
     }
 
     public void convert() {
-        try{
+        try {
+            conversionFailure = null;
             startConversation();
             value = converterFacade.convert(srcCurrency, dstCurrency, amount);
-        }catch(Exception e){
+        } catch (Exception e) {
             handleException(e);
         }
     }
-    
+
     private void startConversation() {
         if (conversation.isTransient()) {
             conversation.begin();
@@ -115,10 +123,14 @@ public class ConverterManager implements Serializable {
             conversation.end();
         }
     }
-    
+
     private void handleException(Exception e) {
         stopConversation();
         e.printStackTrace(System.err);
         conversionFailure = e;
+    }
+
+    public boolean getSuccess() {
+        return conversionFailure == null;
     }
 }
