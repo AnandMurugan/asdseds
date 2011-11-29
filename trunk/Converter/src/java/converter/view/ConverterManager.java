@@ -128,6 +128,7 @@ public class ConverterManager implements Serializable {
         stopConversation();
         e.printStackTrace(System.err);
         conversionFailure = e;
+        setValue(0);
     }
 
     public boolean getSuccess() {
