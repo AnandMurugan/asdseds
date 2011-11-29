@@ -9,7 +9,13 @@
     <navigation-rule>
         <from-view-id>/converter.xhtml</from-view-id>
         <navigation-case>
-            <from-action>login</from-action>
+            <if>#{usrManager.loggedIn}</if>
+            <from-action>adminPage</from-action>
+            <to-view-id>/admin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <if>#{!usrManager.loggedIn}</if>
+            <from-action>adminPage</from-action>
             <to-view-id>/login.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
@@ -25,7 +31,7 @@
     <navigation-rule>
         <from-view-id>/login.xhtml</from-view-id>
         <navigation-case>
-            <if>#{loginManager.success}</if>
+            <if>#{usrManager.success()}</if>
             <to-view-id>/admin.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>

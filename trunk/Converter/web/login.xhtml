@@ -15,7 +15,7 @@
             </p>
             <p align="center">
                 <c:choose>
-                    <c:when test="#{loginManager.success == false}">
+                    <c:when test="#{usrManager.success() == false}">
                         <h:outputLabel for="status" value="Login failed - "/>
                         <h:outputText id ="status" value="wrong username and/or password"/>
                     </c:when>
@@ -27,7 +27,7 @@
                         <h:outputLabel for="userName" value="UserName:"/>
                     </td>
                     <td>
-                        <h:inputText id="userName" value="#{loginManager.userName}"/>
+                        <h:inputText id="userName" value="#{usrManager.userName}"/>
                     </td>
                 </tr>
                 <tr>
@@ -35,12 +35,12 @@
                         <h:outputLabel for="password" value="Password:"/>
                     </td>
                     <td>
-                        <h:inputSecret id="password" value="#{loginManager.password}"/>
+                        <h:inputSecret id="password" value="#{usrManager.password}"/>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <h:commandButton value="Login" action="#{loginManager.login}"/>
+                        <h:commandButton value="Login" action="#{usrManager.login()}"/>
                     </td>
                 </tr>
             </table>
