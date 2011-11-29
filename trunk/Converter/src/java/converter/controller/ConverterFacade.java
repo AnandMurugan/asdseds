@@ -4,17 +4,17 @@
  */
 package converter.controller;
 
+import converter.model.ConversionException;
 import converter.model.ConversionRate;
 import converter.model.ConversionRateDTO;
+import converter.model.ConversionRatePK;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
@@ -28,59 +28,25 @@ public class ConverterFacade {
     private EntityManager em;
     List<Object> objLst;
 
-    public ConversionRateDTO addConversion(String srcCurrency, String dstCurrency, double rate) {
-        ConversionRate exchangeRate = new ConversionRate(srcCurrency, dstCurrency, rate);
-        double invRate = 1/rate;
-        ConversionRate inverseRate = new ConversionRate(dstCurrency, srcCurrency, invRate);
-        em.persist(exchangeRate);
-        em.persist(inverseRate);
-        return exchangeRate;
-    }
-
-    public List<String> getSourceCurrencyLst() {
+    public List<String> getConversionList() {
         List<String> srcLst = new ArrayList<String>();
         objLst = em.createNamedQuery("findAllCurrency").getResultList();
         Iterator objLstIterator = objLst.iterator();
         while (objLstIterator.hasNext()) {
-            ConversionRate cRate = (ConversionRate) objLstIterator.next();
-            if(!(srcLst.contains(cRate.getPrimaryKey().getFromCurrency()))){
-                srcLst.add(cRate.getPrimaryKey().getFromCurrency());
+            ConversionRateDTO cRate = (ConversionRateDTO) objLstIterator.next();
+            String srcCurrency = cRate.getSrcCurrency();
+            if(!(srcLst.contains(srcCurrency ))){
+                srcLst.add(srcCurrency);
             }
         }
         return srcLst;
     }
 
-    public List<String> getDestCurrencyLst() {
-        List<String> dstLst = new ArrayList<String>();
-        Iterator objLstIterator = objLst.iterator();
-        while (objLstIterator.hasNext()) {
-            ConversionRate cRate = (ConversionRate) objLstIterator.next();
-            if(!(dstLst.contains(cRate.getPrimaryKey().getToCurrency()))){
-                dstLst.add(cRate.getPrimaryKey().getToCurrency());
-            }
+    public double convert(String srcCurrency, String dstCurrency, double amount) throws ConversionException{
+        ConversionRateDTO conversionRate = em.find(ConversionRate.class, new ConversionRatePK(srcCurrency, dstCurrency));
+        if (conversionRate == null) {
+            throw new ConversionException("conversion rate does not exist");
         }
-        return dstLst;
-    }
-
-    public double convert(String srcCurrency, String dstCurrency, double amount) {
-        List<String> tmpLst = new ArrayList<String>();
-        double value = 0;
-        ConversionRate temp, cRate;
-        temp = new ConversionRate(srcCurrency, dstCurrency, 0);
-        Query queryObj = em.createNamedQuery("findRate");
-        queryObj.setParameter(1, temp.getPrimaryKey());
-        tmpLst = queryObj.getResultList();
-        Iterator it = tmpLst.iterator();
-        if (it.hasNext()) {
-            cRate = (ConversionRate) it.next();
-            if (cRate == null) {
-                throw new EntityNotFoundException("No Conversion rate found from:" + srcCurrency + " to:" + dstCurrency);
-            }
-            value = (cRate.getRate()) * amount;
-        }
-        if(value == 0){
-            throw new EntityNotFoundException("Conversion rate is not found for the above conversion");
-        }
-        return value;
+        return conversionRate.convert(amount);
     }
 }
