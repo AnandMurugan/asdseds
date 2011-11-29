@@ -75,7 +75,9 @@ public class ConverterFacade {
             }
             value = (cRate.getRate()) * amount;
         }
-
+        if(value == 0){
+            throw new EntityNotFoundException("Conversion rate is not found for the above conversion");
+        }
         return value;
     }
 }
