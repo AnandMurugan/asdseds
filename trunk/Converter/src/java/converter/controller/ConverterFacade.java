@@ -30,7 +30,10 @@ public class ConverterFacade {
 
     public ConversionRateDTO addConversion(String srcCurrency, String dstCurrency, double rate) {
         ConversionRate exchangeRate = new ConversionRate(srcCurrency, dstCurrency, rate);
+        double invRate = 1/rate;
+        ConversionRate inverseRate = new ConversionRate(dstCurrency, srcCurrency, invRate);
         em.persist(exchangeRate);
+        em.persist(inverseRate);
         return exchangeRate;
     }
 
