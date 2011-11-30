@@ -7,7 +7,6 @@ package converter.model;
 import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 /**
@@ -15,9 +14,8 @@ import javax.persistence.NamedQuery;
  * @author Anand
  */
 @Entity
-@NamedQueries({
-    @NamedQuery(name = "findAllCurrency",
-    query = "SELECT OBJECT(cRate) FROM ConversionRate cRate"),})
+@NamedQuery(name = "findAllCurrency",
+    query = "SELECT OBJECT(cRate) FROM ConversionRate cRate")
 public class ConversionRate implements ConversionRateDTO, Serializable {
 
     private static final long serialVersionUID = 1L;
