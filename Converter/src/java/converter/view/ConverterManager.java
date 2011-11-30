@@ -114,4 +114,8 @@ public class ConverterManager implements Serializable {
     public boolean getSuccess() {
         return conversionFailure == null;
     }
+    
+    public Exception getException() {
+        return conversionFailure;
+    }
 }
