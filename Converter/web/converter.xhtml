@@ -14,12 +14,28 @@
         <h:body>
             <h1>Universal Currency Converter</h1>
             <h:form>
-                <p align="center">
-                    <h:outputText id="userName" value="#{usrManager.fullName}" rendered ="#{usrManager.loggedIn}"/>
-                    <h:commandLink id="link" action="adminPage">
-                        <h:outputText value="go to adminPage"/>
-                    </h:commandLink>
-                </p>
+                <table align="center">
+                    <tr>
+                        <td>
+                            <h:link value="login" outcome="login" rendered="#{!usrManager.loggedIn}"/>
+                            <h:commandLink id="logout" action="#{usrManager.logout()}" rendered="#{usrManager.loggedIn}">
+                                <h:outputText value="logout"/>
+                            </h:commandLink>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputText id="userName" value="#{usrManager.fullName}" rendered ="#{usrManager.loggedIn}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:commandLink id="adminPage" action="adminPage" rendered="#{usrManager.role == 1}">
+                                <h:outputText value="go to adminPage"/>
+                            </h:commandLink>
+                        </td>
+                    </tr>
+                </table>
                 <p align="center">
                     <c:choose>
                         <c:when test="#{converterManager.exception.cause != null}">
@@ -58,9 +74,8 @@
                             <h:outputLabel for="amount" value="Amount:"/>
                         </td>
                         <td>
-                            <h:inputText id="amount" value="#{converterManager.amount}">
-                                <f:validateLongRange minimum="0"/>
-                            </h:inputText>
+                            <h:inputText id="amount" value="#{converterManager.amount}" validator="#{converterManager.validateAmount}"/>
+                            <h:message for="amount" showSummary="#{true}" showDetail="#{false}"/>
                             <br/>
                         </td>
                     </tr>
@@ -69,7 +84,7 @@
                     <tr>
                         <td></td>
                         <td>
-                            <h:commandButton value="Convert" action="#{converterManager.convert}" />
+                            <h:commandButton value="Convert" action="#{converterManager.convert()}" />
                             <br/>
                             <br/>
                         </td>
