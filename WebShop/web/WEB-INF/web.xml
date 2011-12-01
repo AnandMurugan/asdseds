@@ -19,6 +19,14 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/gnome.xhtml</welcome-file>
+        <welcome-file>faces/login.xhtml</welcome-file>
     </welcome-file-list>
+    <filter>
+        <filter-name>Restricting Filter</filter-name>
+        <filter-class>login.model.PageFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Restricting Filter</filter-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </filter-mapping>
 </web-app>
