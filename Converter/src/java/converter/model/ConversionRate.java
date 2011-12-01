@@ -15,7 +15,7 @@ import javax.persistence.NamedQuery;
  */
 @Entity
 @NamedQuery(name = "findAllCurrency",
-    query = "SELECT OBJECT(cRate) FROM ConversionRate cRate")
+query = "SELECT OBJECT(cRate) FROM ConversionRate cRate")
 public class ConversionRate implements ConversionRateDTO, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,31 +32,14 @@ public class ConversionRate implements ConversionRateDTO, Serializable {
         this.rate = rate;
     }
 
-//    public ConversionRatePK getPrimaryKey() {
-//        return primaryKey;
-//    }
+    public ConversionRatePK getPrimaryKey() {
+        return primaryKey;
+    }
+
     public void setPrimaryKey(ConversionRatePK primaryKey) {
         this.primaryKey = primaryKey;
     }
 
-//    @Override
-//    public double getRate() {
-//        return rate;
-//    }
-//
-//    public void setRate(double rate) {
-//        this.rate = rate;
-//    }
-//
-//    @Override
-//    public String getSrcCurrency() {
-//        return primaryKey.getFromCurrency();
-//    }
-//
-//    @Override
-//    public String getDstCurrency() {
-//        return primaryKey.getToCurrency();
-//    }
     @Override
     public double convert(double amount) {
         return rate * amount;
