@@ -18,21 +18,47 @@ import javax.persistence.Id;
 public class ShoppingCart implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private String customerId;
+    private String gnomeType;
+    private int nbrOfUnits;
+    private double price;
 
-    public Integer getId() {
-        return id;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCustomerId(String id) {
+        this.customerId = id;
     }
 
+    public String getGnomeType() {
+        return gnomeType;
+    }
+
+    public void setGnomeType(String gnomeType) {
+        this.gnomeType = gnomeType;
+    }
+
+    public int getNbrOfUnits() {
+        return nbrOfUnits;
+    }
+
+    public void setNbrOfUnits(int nbrOfUnits) {
+        this.nbrOfUnits = nbrOfUnits;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (customerId != null ? customerId.hashCode() : 0);
         return hash;
     }
 
@@ -43,7 +69,7 @@ public class ShoppingCart implements Serializable {
             return false;
         }
         ShoppingCart other = (ShoppingCart) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.customerId == null && other.customerId != null) || (this.customerId != null && !this.customerId.equals(other.customerId))) {
             return false;
         }
         return true;
@@ -51,7 +77,7 @@ public class ShoppingCart implements Serializable {
 
     @Override
     public String toString() {
-        return "shopping.model.ShoppingCart[ id=" + id + " ]";
+        return "shopping.model.ShoppingCart[ id=" + customerId + " ]";
     }
     
 }

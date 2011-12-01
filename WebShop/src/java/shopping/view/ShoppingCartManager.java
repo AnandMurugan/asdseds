@@ -5,17 +5,42 @@
 package shopping.view;
 
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.SessionScoped;
+import java.io.Serializable;
+import javax.ejb.EJB;
+import shopping.controller.ShoppingCartFacade;
 
 /**
  *
  * @author Anand
  */
 @Named(value = "shoppingCartManager")
-@Dependent
-public class ShoppingCartManager {
+@SessionScoped
+public class ShoppingCartManager implements Serializable {
+    @EJB
+    private ShoppingCartFacade shoppingCartFacade;
+    private String gnomeType;
+    private int nbrOfUnits;
+    private double price;
 
-    /** Creates a new instance of Shopping */
+    public void setGnomeType(String gnomeType) {
+        this.gnomeType = gnomeType;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setNbrOfUnits(int selectedUnits) {
+        this.nbrOfUnits = selectedUnits;
+    }
+    
+    
+    /** Creates a new instance of ShoppingCartManager */
     public ShoppingCartManager() {
+    }
+
+    public void addGnomes() {
+        shoppingCartFacade.addToShoppingCart(gnomeType, nbrOfUnits, price);
     }
 }
