@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <link type="text/css" rel="stylesheet" href="style.css" />
+    <h:head>
+        <title>>Welcome to Acme Plastic Gnomes</title>
+    </h:head>
+    <h:body>
+        <h1>
+            Acme Plastic Gnomes
+        </h1>
+        <h:form>
+            <p>
+                <h:outputLabel for="gnomeDrpDown" value="Gnome Type:" />
+                <h:selectOneMenu id="gnomeDrpDown" value="#{inventoryManager.gnomeType}" >
+                    <f:selectItems value="#{inventoryManager.gnomesList}" />
+                </h:selectOneMenu> 
+                <h:commandButton value="select" action="#{inventoryManager.select}" />
+                <br/>
+                <br/>
+            </p>
+            <p>
+                <h:panelGrid columns="2" id="panel" border="1">
+                    <f:facet name="header">
+                        <h:outputText value="Gnome Details"/>
+                    </f:facet>
+                    <h:outputLabel for="gnomeDsc" value="Gnome Description:" />
+                    <h:outputText id="gnomeDsc" value="#{inventoryManager.gnomeDesc}" />
+                    <h:outputLabel for="nbrOfUnits" value="Number of units available:" />
+                    <h:outputText id="nbrOfUnits" value="#{inventoryManager.nbrOfUnits}" />
+                    <h:outputLabel for="price" value="Price per unit:" />
+                    <h:outputText id="price" value="#{inventoryManager.price}" />
+                    <h:outputLabel for="selectedUnits" value="Please enter number of units you wish to buy:" />
+                    <h:inputText id="selectedUnits" value="#{inventoryManager.selectedUnits}" />
+                    <f:facet name="footer">
+                        <h:panelGroup style="display:block; text-align:center">
+                            <h:commandButton id="submit" value="Add to Shopping Cart" />
+                        </h:panelGroup>
+                    </f:facet>
+                </h:panelGrid>
+            </p>
+        </h:form>
+    </h:body>
+</html>
+
