@@ -6,33 +6,68 @@ package inventory.model;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Anand
  */
 @Entity
-public class Inventory implements Serializable {
+@NamedQuery(
+        name="findAllGnomeType",
+        query="SELECT OBJECT(inv) FROM Inventory inv"
+)
+public class Inventory implements InventoryDTO, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private String gnomeType;
+    private String gnomeDesc;
+    private int nbrOfUnits;
+    private double price;
 
-    public Integer getId() {
-        return id;
+    @Override
+    public String getGnomeType() {
+        return gnomeType;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setGnomeType(String id) {
+        this.gnomeType = id;
     }
+
+    @Override
+    public String getGnomeDesc() {
+        return gnomeDesc;
+    }
+
+    public void setGnomeDesc(String gnomeDesc) {
+        this.gnomeDesc = gnomeDesc;
+    }
+
+    @Override
+    public int getNbrOfUnits() {
+        return nbrOfUnits;
+    }
+
+    public void setNbrOfUnits(int nbrOfUnits) {
+        this.nbrOfUnits = nbrOfUnits;
+    }
+
+    @Override
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    
+    
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (gnomeType != null ? gnomeType.hashCode() : 0);
         return hash;
     }
 
@@ -43,7 +78,7 @@ public class Inventory implements Serializable {
             return false;
         }
         Inventory other = (Inventory) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.gnomeType == null && other.gnomeType != null) || (this.gnomeType != null && !this.gnomeType.equals(other.gnomeType))) {
             return false;
         }
         return true;
@@ -51,7 +86,7 @@ public class Inventory implements Serializable {
 
     @Override
     public String toString() {
-        return "inventory.model.Inventory[ id=" + id + " ]";
+        return "inventory.model.Inventory[ id=" + gnomeType + " ]";
     }
-    
+
 }
