@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>Login page</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p align="center">
+                <c:choose>
+                    <c:when test="#{usrManager.success() == false}">
+                        <h:outputLabel value="Login failed"/> <br/>
+                        <c:choose>
+                            <c:when test="#{usrManager.exception.cause != null}">
+                                <h:outputLabel value="#{usrManager.exception.cause.message}"/>
+                            </c:when>
+                            <c:otherwise>
+                                <h:outputLabel value="#{usrManager.exception.message}"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:when>
+                </c:choose>
+            </p>
+            <table align="center">
+                <tr>
+                    <td>
+                        <h:outputLabel for="userName" value="UserName:"/>
+                    </td>
+                    <td>
+                        <h:inputText id="userName" value="#{usrManager.userName}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputLabel for="password" value="Password:"/>
+                    </td>
+                    <td>
+                        <h:inputSecret id="password" value="#{usrManager.password}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h:commandButton value="Login" action="#{usrManager.login()}"/>
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+    </h:body>
+</html>
+
