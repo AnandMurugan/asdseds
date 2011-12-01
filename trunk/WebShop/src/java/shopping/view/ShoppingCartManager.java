@@ -19,6 +19,7 @@ import shopping.controller.ShoppingCartFacade;
 public class ShoppingCartManager implements Serializable {
     @EJB
     private ShoppingCartFacade shoppingCartFacade;
+    private String username;
     private String gnomeType;
     private int nbrOfUnits;
     private double price;
@@ -34,13 +35,16 @@ public class ShoppingCartManager implements Serializable {
     public void setNbrOfUnits(int selectedUnits) {
         this.nbrOfUnits = selectedUnits;
     }
-    
-    
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     /** Creates a new instance of ShoppingCartManager */
     public ShoppingCartManager() {
     }
 
     public void addGnomes() {
-        shoppingCartFacade.addToShoppingCart(gnomeType, nbrOfUnits, price);
+        shoppingCartFacade.addToShoppingCart(username, gnomeType, nbrOfUnits, price);
     }
 }

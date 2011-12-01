@@ -27,6 +27,10 @@ public class InventoryManager implements Serializable {
     private String gnomeType;
     private static boolean initialize = false;
     private int selectedUnits;
+
+    public InventoryDTO getInventoryDTO() {
+        return inventoryDTO;
+    }
     
     public String getGnomeDesc() {
         if(inventoryDTO==null){
@@ -67,7 +71,7 @@ public class InventoryManager implements Serializable {
 
     public List<String> getGnomesList() {
         if (initialize == false) {
-         //   inventoryFacade.init();
+//            inventoryFacade.init();
             initialize = true;
         }
 
@@ -89,4 +93,5 @@ public class InventoryManager implements Serializable {
     private void handleException(Exception e) {
         e.printStackTrace(System.err);
     }
+    
 }
