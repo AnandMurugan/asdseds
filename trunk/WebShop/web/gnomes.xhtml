@@ -45,7 +45,11 @@
                     <h:inputText id="selectedUnits" value="#{inventoryManager.selectedUnits}" />
                     <f:facet name="footer">
                         <h:panelGroup style="display:block; text-align:center">
-                            <h:commandButton id="submit" value="Add to Shopping Cart" />
+                            <h:commandButton id="submit" value="Add to Shopping Cart" action="#{shoppingCartManager.addGnomes}">
+                                <f:setPropertyActionListener target="#{shoppingCartManager.gnomeType}" value="#{inventoryManager.gnomeType}"/>
+                                <f:setPropertyActionListener target="#{shoppingCartManager.nbrOfUnits}" value="#{inventoryManager.selectedUnits}"/>
+                                <f:setPropertyActionListener target="#{shoppingCartManager.price}" value="#{inventoryManager.price}"/>
+                            </h:commandButton>
                         </h:panelGroup>
                     </f:facet>
                 </h:panelGrid>
