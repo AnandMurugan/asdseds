@@ -8,7 +8,6 @@ import inventory.controller.InventoryFacade;
 import inventory.model.InventoryDTO;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -24,25 +23,30 @@ public class InventoryManager implements Serializable {
     @EJB
     private InventoryFacade inventoryFacade;
     
-    private List<String> gnomesList = new ArrayList<String>();
     private InventoryDTO inventoryDTO;
     private String gnomeType;
     private static boolean initialize = false;
-    private String gnomeDesc;
-    private int nbrOfUnits;
     private int selectedUnits;
-    private double price;
     
     public String getGnomeDesc() {
-        return gnomeDesc;
+        if(inventoryDTO==null){
+            return null;
+        }
+        return inventoryDTO.getGnomeDesc();
     }
 
     public int getNbrOfUnits() {
-        return nbrOfUnits;
+        if(inventoryDTO==null){
+            return 0;
+        }
+        return inventoryDTO.getNbrOfUnits();
     }
 
     public double getPrice() {
-        return price;
+        if(inventoryDTO==null){
+            return 0;
+        }
+        return inventoryDTO.getPrice();
     }
     
     public String getGnomeType() {
@@ -67,8 +71,7 @@ public class InventoryManager implements Serializable {
             initialize = true;
         }
 
-        gnomesList = inventoryFacade.getGnomesList();
-        return gnomesList;
+        return inventoryFacade.getGnomesList();
     }
 
     /** Creates a new instance of InventoryManager */
@@ -81,10 +84,6 @@ public class InventoryManager implements Serializable {
         }catch(Exception e){
             handleException(e);
         }
-        
-        gnomeDesc = inventoryDTO.getGnomeDesc();
-        nbrOfUnits = inventoryDTO.getNbrOfUnits();
-        price = inventoryDTO.getPrice();
     }
     
     private void handleException(Exception e) {
