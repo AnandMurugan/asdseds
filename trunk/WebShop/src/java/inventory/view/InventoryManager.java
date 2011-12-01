@@ -7,26 +7,22 @@ package inventory.view;
 import inventory.controller.InventoryFacade;
 import inventory.model.InventoryDTO;
 import javax.inject.Named;
-import javax.enterprise.context.ConversationScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.enterprise.context.Conversation;
-import javax.inject.Inject;
+import javax.enterprise.context.SessionScoped;
 
 /**
  *
  * @author Anand
  */
 @Named(value = "inventoryManager")
-@ConversationScoped
+@SessionScoped
 public class InventoryManager implements Serializable {
 
     @EJB
     private InventoryFacade inventoryFacade;
-    @Inject
-    private Conversation conversation;
     
     private List<String> gnomesList = new ArrayList<String>();
     private InventoryDTO inventoryDTO;
@@ -81,7 +77,6 @@ public class InventoryManager implements Serializable {
 
     public void select() {
         try{
-            startConversation();
             inventoryDTO = inventoryFacade.select(gnomeType);
         }catch(Exception e){
             handleException(e);
@@ -92,20 +87,7 @@ public class InventoryManager implements Serializable {
         price = inventoryDTO.getPrice();
     }
     
-    private void startConversation() {
-        if (conversation.isTransient()) {
-            conversation.begin();
-        }
-    }
-
-    private void stopConversation() {
-        if (!conversation.isTransient()) {
-            conversation.end();
-        }
-    }
-
     private void handleException(Exception e) {
-        stopConversation();
         e.printStackTrace(System.err);
     }
 }
