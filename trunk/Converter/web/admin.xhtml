@@ -7,24 +7,21 @@
         <title>Currency Converter</title>
     </h:head>
     <h:body>
-        <h1>Universal Currency Converter</h1>
+        <h1 align="center">Universal Currency Converter</h1>
         <h:form>
-            <p>
+            <p align="center">
+                <h:link value="back to converter" outcome="converter"/>
+                <br/><br/>
                 <h:outputLabel for="srcCur" value="From:" />
                 <h:inputText id="srcCur" value="#{converterAdminManager.srcCurrency}" />
                 <h:outputLabel for="dstCur" value="To:" />
                 <h:inputText id="dstCur" value="#{converterAdminManager.dstCurrency}" />
                 <h:outputLabel for="rate" value="Conversion Rate:" />
-                <h:inputText id="rate" value="#{converterAdminManager.rate}">
-                    <f:validateLongRange minimum="0"/>
-                </h:inputText>
-                <br></br>
-                <br></br>
-            </p>
-            <p>
+                <h:inputText id="rate" value="#{converterAdminManager.rate}" validator="#{converterManager.validateAmount}" />
+                <h:message for="rate" showSummary="#{true}" showDetail="#{false}"/>
+                <br/><br/>
                 <h:commandButton value="Add Conversion Rate" action="#{converterAdminManager.addConversion}" />
-                <br></br>
-                <br></br>
+                <br/><br/>
             </p>
         </h:form>
     </h:body>

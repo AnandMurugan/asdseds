@@ -9,21 +9,16 @@
     <navigation-rule>
         <from-view-id>/converter.xhtml</from-view-id>
         <navigation-case>
-            <if>#{usrManager.loggedIn}</if>
+            <from-action>login</from-action>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <if>#{usrManager.role == 1}</if>
             <from-action>adminPage</from-action>
             <to-view-id>/admin.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
-            <if>#{!usrManager.loggedIn}</if>
-            <from-action>adminPage</from-action>
-            <to-view-id>/login.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-    
-    <navigation-rule>
-        <from-view-id>/login.xhtml</from-view-id>
-        <navigation-case>
-            <from-action>converter</from-action>
+            <from-outcome>logout</from-outcome>
             <to-view-id>/converter.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
@@ -31,8 +26,24 @@
     <navigation-rule>
         <from-view-id>/login.xhtml</from-view-id>
         <navigation-case>
-            <if>#{usrManager.success()}</if>
+            <from-outcome>converter</from-outcome>
+            <to-view-id>/converter.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <if>#{usrManager.role == 1}</if>
             <to-view-id>/admin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <if>#{usrManager.role != 1}</if>
+            <to-view-id>/converter.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/admin.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>converter</from-outcome>
+            <to-view-id>/converter.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>
