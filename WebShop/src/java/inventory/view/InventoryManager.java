@@ -67,7 +67,7 @@ public class InventoryManager implements Serializable {
 
     public List<String> getGnomesList() {
         if (initialize == false) {
-            inventoryFacade.init();
+         //   inventoryFacade.init();
             initialize = true;
         }
 
