@@ -5,44 +5,44 @@
 package converter.view;
 
 import converter.controller.ConverterFacade;
-import converter.model.ConversionRateDTO;
+import converter.model.ConversionException;
 import javax.inject.Named;
-import javax.enterprise.context.ConversationScoped;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.enterprise.context.Conversation;
-import javax.inject.Inject;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 /**
  *
  * @author Anand
  */
 @Named(value = "converterManager")
-@ConversationScoped
+@SessionScoped
 public class ConverterManager implements Serializable {
 
     @EJB
     private ConverterFacade converterFacade;
-    @Inject
-    private Conversation conversation;
+    
     private String srcCurrency;
     private String dstCurrency;
-    private double rate;
     private double amount;
     private double value;
-    private List<String> srcCurrencyList = new ArrayList<String>();
-    private List<String> dstCurrencyList = new ArrayList<String>();
-    private ConversionRateDTO conversionRateDTO;
+    
     private Exception conversionFailure;
 
-    public double getValue() {
-        return value;
-    }
-
+    /*
+     * getters/setters for the attributes
+     */
+    
     public void setValue(double value) {
         this.value = value;
+    }
+    public double getValue() {
+        return value;
     }
 
     public double getAmount() {
@@ -51,19 +51,6 @@ public class ConverterManager implements Serializable {
 
     public void setAmount(double amount) {
         this.amount = amount;
-    }
-
-    public List<String> getCurrencyList() {
-        dstCurrencyList = converterFacade.getConversionList();
-        return dstCurrencyList;
-    }
-
-    public double getRate() {
-        return rate;
-    }
-
-    public void setRate(double rate) {
-        this.rate = rate;
     }
 
     public String getDstCurrency() {
@@ -82,40 +69,52 @@ public class ConverterManager implements Serializable {
         this.srcCurrency = srcCurrency;
     }
     
-    public void convert() {
-        try {
-            conversionFailure = null;
-            startConversation();
-            value = converterFacade.convert(srcCurrency, dstCurrency, amount);
-        } catch (Exception e) {
-            handleException(e);
-        }
-    }
-
-    private void startConversation() {
-        if (conversation.isTransient()) {
-            conversation.begin();
-        }
-    }
-
-    private void stopConversation() {
-        if (!conversation.isTransient()) {
-            conversation.end();
-        }
-    }
+    /*
+     * succes and exception handling
+     */
+    
 
     private void handleException(Exception e) {
-        stopConversation();
         e.printStackTrace(System.err);
         conversionFailure = e;
-        setValue(0);
+        value = 0;
     }
 
     public boolean getSuccess() {
         return conversionFailure == null;
+        
     }
-    
+
     public Exception getException() {
         return conversionFailure;
+    }
+    
+    /*
+     * methods from ConverterManager
+     */
+    
+    public List<String> getCurrencyList() {
+        return converterFacade.getCurrencyList();
+    }
+    
+    public void convert() {
+        try {
+            System.out.println(srcCurrency + " " + dstCurrency + " " + amount);
+            conversionFailure = null;
+            value = converterFacade.convert(srcCurrency, dstCurrency, amount);
+        } catch (ConversionException e) {
+            handleException(e);
+        }
+    }
+    
+    public void validateAmount(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        Double v = (Double) value;
+        if (v < 0) {
+            FacesMessage message = new FacesMessage();
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            message.setSummary("number should be positive");
+            message.setDetail("number should be positive");
+            throw new ValidatorException(message);
+        }
     }
 }

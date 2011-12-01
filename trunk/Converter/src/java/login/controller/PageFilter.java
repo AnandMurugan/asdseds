@@ -29,16 +29,19 @@ public class PageFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        UserManager userManager = (UserManager) req.getSession().getAttribute("userManager");
-        String pageRequested = req.getRequestURI().toString();
-
+        UserManager userManager = (UserManager)req.getSession().getAttribute("user");
+        String pageRequested = req.getRequestURL().toString();
+        
         //role 1 - admin
         if (pageRequested.contains("/admin.xhtml")) {
             if (userManager == null || !userManager.isLoggedIn() || !(userManager.getRole() == 1)) {
+                System.out.println("redirect");
                 res.sendRedirect(req.getContextPath() + "/faces/converter.xhtml");
-            }
+                return;
+            } 
         }
         chain.doFilter(request, response);
+
     }
 
     @Override

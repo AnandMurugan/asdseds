@@ -28,7 +28,7 @@ public class ConverterFacade {
     private EntityManager em;
     List<Object> objLst;
 
-    public List<String> getConversionList() {
+    public List<String> getCurrencyList() {
         List<String> srcLst = new ArrayList<String>();
         objLst = em.createNamedQuery("findAllCurrency").getResultList();
         Iterator objLstIterator = objLst.iterator();
