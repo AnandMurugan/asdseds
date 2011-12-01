@@ -8,9 +8,17 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
 
     <navigation-rule>
+        <from-view-id>/gnomes.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
         <from-view-id>/login.xhtml</from-view-id>
         <navigation-case>
-            <if>#{usrManager.role == 2}</if>
+            <if>#{usrManager.loggedIn}</if>
             <to-view-id>/gnomes.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
