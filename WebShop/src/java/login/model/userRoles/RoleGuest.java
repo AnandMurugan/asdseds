@@ -18,6 +18,7 @@ public class RoleGuest implements Role{
     public RoleGuest() {
         allowedPages.add(homepage);
         allowedPages.add("/WebShop/faces/login.xhtml");
+        allowedPages.add("/WebShop/faces/register.xhtml");
     }
     
     @Override

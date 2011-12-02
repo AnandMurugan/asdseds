@@ -7,6 +7,7 @@ package login.controller;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.security.auth.login.LoginException;
@@ -33,5 +34,10 @@ public class LoginFacade {
             throw new LoginException("user is banned");
         }
         return user;
+    }
+    
+    public void registerUser(String userName, String password, String fullName) throws EntityExistsException {
+        UserAccount user = new UserAccount(userName, password, fullName, 2);
+        em.persist(user);
     }
 }
