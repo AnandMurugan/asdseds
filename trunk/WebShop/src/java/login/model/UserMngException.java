@@ -8,9 +8,9 @@ package login.model;
  *
  * @author Alex
  */
-public class LoginException extends Exception {
+public class UserMngException extends Exception {
     
-    public LoginException(String s) {
+    public UserMngException(String s) {
         super(s);
     }
 }

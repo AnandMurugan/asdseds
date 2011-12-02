@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import login.model.userRoles.Role;
 import login.model.userRoles.RoleGuest;
-import login.model.userRoles.RoleUser;
 import login.view.UserManager;
 
 /**
@@ -50,6 +49,7 @@ public class PageFilter implements Filter {
                 res.sendRedirect(redirectPath);
                 return;
             }
+            System.out.println("loading");
             chain.doFilter(request, response);
             return;
         } else {

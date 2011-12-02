@@ -28,10 +28,11 @@ public class UserManager implements Serializable {
     @EJB
     private LoginFacade loginFacade;
     
-    private Exception loginFailure;
+    private Exception userMngFailure;
     
     private String userName;
     private String password;
+    private String fullName;
     
     private UserAccountDTO userAccount;
     private Role role;
@@ -39,14 +40,14 @@ public class UserManager implements Serializable {
     private void handleException(Exception e) {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         e.printStackTrace(System.err);
-        loginFailure = e;
+        userMngFailure = e;
     }
 
     /**
      * Returns the latest thrown exception.
      */
     public Exception getException() {
-        return loginFailure;
+        return userMngFailure;
     }
 
     public void setUserName(String userName) {
@@ -66,7 +67,14 @@ public class UserManager implements Serializable {
     }
 
     public String getFullName() {
-        return userAccount.getName();
+        if(userAccount != null) {
+            return userAccount.getName();
+        }
+        return fullName;
+    }
+    
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public void login() {
@@ -81,7 +89,16 @@ public class UserManager implements Serializable {
             HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
             HttpSession httpSession = request.getSession(false);
             httpSession.setAttribute("user", this);
-            loginFailure = null;
+            userMngFailure = null;
+        } catch (Exception e) {
+            handleException(e);
+        }
+    }
+    
+    public void register() {
+        try {
+            loginFacade.registerUser(userName, password, fullName);
+            userMngFailure = null;
         } catch (Exception e) {
             handleException(e);
         }
@@ -105,7 +122,7 @@ public class UserManager implements Serializable {
     }
 
     public boolean success() {
-        return loginFailure == null;
+        return userMngFailure == null;
     }
     
     public Role getUserRole() {

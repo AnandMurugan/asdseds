@@ -25,6 +25,18 @@ public class UserAccount implements UserAccountDTO, Serializable {
     private int userRole;
     private boolean banned;
 
+    public UserAccount(String userName, String password, String fullName, int userRole) {
+        this.userName = userName;
+        this.password = password;
+        this.userRole = userRole;
+        this.fullName = fullName;
+        banned = false;
+    }
+    
+    public UserAccount() {
+        
+    }
+
     
     public String getUserName() {
         return userName;
