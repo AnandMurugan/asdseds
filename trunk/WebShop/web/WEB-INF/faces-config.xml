@@ -21,5 +21,9 @@
             <if>#{usrManager.loggedIn}</if>
             <to-view-id>/gnomes.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>register</from-outcome>
+            <to-view-id>/register.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
 </faces-config>
