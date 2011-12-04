@@ -13,14 +13,14 @@
                     <h:outputText value="Register Details"/>
                 </f:facet>
                 <h:outputLabel for="userName" value="Username:" />
-                <h:inputText id="userName" value="#{usrManager.userName}" />
+                <h:inputText id="userName" value="#{registerCustomer.userName}" />
                 <h:outputLabel for="password" value="Password:" />
-                <h:inputSecret id="password" value="#{usrManager.password}" />
+                <h:inputSecret id="password" value="#{registerCustomer.password}" />
                 <h:outputLabel for="fullName" value="Full Name:" />
-                <h:inputText id="fullName" value="#{usrManager.fullName}" />
+                <h:inputText id="fullName" value="#{registerCustomer.fullName}" />
                 <f:facet name="footer">
                     <h:panelGroup style="display:block; text-align:center">
-                        <h:commandButton id="submit" value="Submit details" action="#{usrManager.register()}"/>
+                        <h:commandButton id="submit" value="Submit details" action="#{registerCustomer.registerCustomer()}"/>
                     </h:panelGroup>
                 </f:facet>
             </h:panelGrid>
