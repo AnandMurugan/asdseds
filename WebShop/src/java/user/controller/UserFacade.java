@@ -34,6 +34,7 @@ public class UserFacade {
         }
         try {
             user = new User_details(userName, password, fullName, "CUSTOMER", false);
+            em.persist(user);
         } catch(Exception e) {
             throw new RegistrationException("registration not possible");
         }
