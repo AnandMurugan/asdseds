@@ -1,12 +1,32 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <link type="text/css" rel="stylesheet" href="style.css" />
     <h:head>
-        <title>Facelet Title</title>
+        <title>Welcome to Acme Plastic Gnomes</title>
     </h:head>
     <h:body>
-        Hello from Admin
+        <h1>
+            Acme Plastic Gnomes Administrative Page
+        </h1>
+        <h:form>
+            <p>
+                <h:commandLink id="logout" action="#{authBackingBean.logout()}">
+                    <h:outputText value="logout"/>
+                </h:commandLink>
+                <br/>
+                <h:link value="add/modify gnome" outcome="modifyGnome"/>
+                <br/>
+                <h:link value="user management" outcome="userMng"/>
+                <br/>
+                <h:link value="back home" outcome="home"/>
+                <br/>
+            </p>
+            
+        </h:form>
     </h:body>
 </html>
 
