@@ -31,8 +31,16 @@ public class AuthBackingBean {
      
     FacesContext context = FacesContext.getCurrentInstance();
     HttpServletResponse response = (HttpServletResponse)context.getExternalContext().getResponse();
-    context.getExternalContext().invalidateSession();;
+    context.getExternalContext().invalidateSession();
+    System.out.println(FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName());
     return result;
+  }
+  
+  public boolean loggedIn() {
+      if(FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal() == null) {
+          return false;
+      }
+      return true;
   }
     
 //    public void logout(){

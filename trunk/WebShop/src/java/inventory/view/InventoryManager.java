@@ -23,34 +23,41 @@ public class InventoryManager implements Serializable {
     @EJB
     private InventoryFacade inventoryFacade;
     
-    private InventoryDTO inventoryDTO;
     private String gnomeType;
-    private static boolean initialize = false;
+   // private static boolean initialize = false;
     private int selectedUnits;
+    private String gnomeDesc;
+    private int nbrOfUnits;
+    private double price;
+    private boolean selected = false;
+    private boolean newGnome = false;
 
-    public InventoryDTO getInventoryDTO() {
-        return inventoryDTO;
+     /** Creates a new instance of InventoryManager */
+    public InventoryManager() {
     }
     
     public String getGnomeDesc() {
-        if(inventoryDTO==null){
-            return null;
-        }
-        return inventoryDTO.getGnomeDesc();
+        return gnomeDesc;
+    }
+    
+    public void setGnomeDesc(String gnomeDesc) {
+        this.gnomeDesc = gnomeDesc;
     }
 
     public int getNbrOfUnits() {
-        if(inventoryDTO==null){
-            return 0;
-        }
-        return inventoryDTO.getNbrOfUnits();
+        return nbrOfUnits;
+    }
+    
+    public void setNbrOfUnits(int nbrOfUnits) {
+        this.nbrOfUnits = nbrOfUnits;
     }
 
     public double getPrice() {
-        if(inventoryDTO==null){
-            return 0;
-        }
-        return inventoryDTO.getPrice();
+        return price;
+    }
+    
+    private void setPrice(double price) {
+        this.price = price;
     }
     
     public String getGnomeType() {
@@ -70,24 +77,44 @@ public class InventoryManager implements Serializable {
     }
 
     public List<String> getGnomesList() {
-        if (initialize == false) {
+//        if (initialize == false) {
 //            inventoryFacade.init();
-            initialize = true;
-        }
+//            initialize = true;
+//        }
 
         return inventoryFacade.getGnomesList();
     }
 
-    /** Creates a new instance of InventoryManager */
-    public InventoryManager() {
-    }
-
     public void select() {
         try{
-            inventoryDTO = inventoryFacade.select(gnomeType);
+            InventoryDTO inventoryDTO = inventoryFacade.select(gnomeType);
+            this.gnomeDesc = inventoryDTO.getGnomeDesc();
+            this.nbrOfUnits = inventoryDTO.getNbrOfUnits();
+            this.price = inventoryDTO.getPrice();
         }catch(Exception e){
             handleException(e);
         }
+    }
+    
+    public String updateItem() {
+        inventoryFacade.updateItem(gnomeType, gnomeDesc, nbrOfUnits, price);
+        return "modified";
+    }
+    
+    public void newGnome() {
+        newGnome = true;
+        this.gnomeDesc = null;
+        this.gnomeType = null;
+        this.nbrOfUnits = 0;
+        this.price = 0;
+    }
+
+    public void oldGnome() {
+        newGnome = false;
+    }
+    
+    public boolean isNewGnome() {
+        return newGnome;
     }
     
     private void handleException(Exception e) {

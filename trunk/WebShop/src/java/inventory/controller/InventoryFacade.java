@@ -64,12 +64,25 @@ public class InventoryFacade {
         em.persist(inventory);
     }
 
-    public InventoryDTO select(String gnomeType) {
+    public InventoryDTO select(String gnomeType) throws EntityNotFoundException {
         InventoryDTO inventoryDTO = em.find(Inventory.class, gnomeType);
         if(inventoryDTO==null){
             throw new EntityNotFoundException("No entity found of type -"+gnomeType);
         }
         return inventoryDTO;
+    }
+    
+    public void updateItem(String gnomeType, String gnomeDesc, int nbrOfUnits, double price) {
+        Inventory inventoryItem = em.find(Inventory.class, gnomeType);
+        if(inventoryItem == null){
+            Inventory newItem = new Inventory(gnomeType, gnomeDesc, nbrOfUnits, price);
+            em.persist(newItem);
+        } else {
+            inventoryItem.setGnomeDesc(gnomeDesc);
+            inventoryItem.setNbrOfUnits(nbrOfUnits);
+            inventoryItem.setPrice(price);
+            em.persist(inventoryItem);
+        }
     }
     
 }
