@@ -26,6 +26,17 @@ public class Inventory implements InventoryDTO, Serializable {
     private int nbrOfUnits;
     private double price;
 
+    public Inventory() {
+        
+    }
+    
+    public Inventory(String gnomeType, String gnomeDesc, int nbrOfUnits, double price) {
+        this.gnomeDesc = gnomeDesc;
+        this.gnomeType = gnomeType;
+        this.price = price;
+        this.nbrOfUnits = nbrOfUnits;
+    }
+    
     @Override
     public String getGnomeType() {
         return gnomeType;
