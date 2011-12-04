@@ -6,7 +6,7 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core">
     <link type="text/css" rel="stylesheet" href="style.css" />
     <h:head>
-        <title>>Welcome to Acme Plastic Gnomes</title>
+        <title>Welcome to Acme Plastic Gnomes</title>
     </h:head>
     <h:body>
         <h1>
@@ -19,6 +19,12 @@
                 <br/>
                 <h:commandLink id="logout" action="#{usrManager.logout()}">
                     <h:outputText value="logout"/>
+                </h:commandLink>
+            </p>
+            <p>
+                <h:commandLink id="viewcart" action="viewcart">
+                    <f:setPropertyActionListener target="#{shoppingCartManager.username}" value="#{usrManager.userName}" />
+                    <h:outputText value="view shopping cart" />
                 </h:commandLink>
             </p>
             <p>
