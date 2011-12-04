@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateful;
 import javax.ejb.LocalBean;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
@@ -27,10 +28,10 @@ public class ShoppingCartFacade {
     @PersistenceContext(unitName = "WebShopPU")
     EntityManager em;
 
-    public void addToShoppingCart(String username, String gnomeType, int nbrOfUnits, double price) {
-        if (!(isItemExist(username, gnomeType))) {
+    public void addToShoppingCart(String gnomeType, int nbrOfUnits, double price) {
+        if (!(isItemExist(gnomeType))) {
             ShoppingCartItem shoppingCart = new ShoppingCartItem();
-            shoppingCart.setCustomerId(username);
+            shoppingCart.setCustomerId(FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName());
             shoppingCart.setGnomeType(gnomeType);
             shoppingCart.setNbrOfUnits(nbrOfUnits);
             shoppingCart.setPrice(price);
@@ -42,13 +43,15 @@ public class ShoppingCartFacade {
 
     }
 
-    public List<ShoppingCartItem> getShoppingCartItems(String customerId) {
+    public List<ShoppingCartItem> getShoppingCartItems() {
+        String customerId = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
         List<ShoppingCartItem> itemsLst = new ArrayList<ShoppingCartItem>();
         itemsLst = (List) em.createNamedQuery("RetrieveShoppingCartItemsByCustomer").setParameter("customerId", customerId).getResultList();
         return itemsLst;
     }
 
-    private boolean isItemExist(String username, String gnomeType) {
+    private boolean isItemExist(String gnomeType) {
+        String username = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
         try {
             ShoppingCartItem item = (ShoppingCartItem) em.createNamedQuery("RetrieveShoppingCartItem").setParameter("customerId", username).setParameter("gnomeType", gnomeType).getSingleResult();
             if (item == null) {
@@ -64,11 +67,11 @@ public class ShoppingCartFacade {
         return true;
     }
 
-    public void checkout(String username) {
+    public void checkout() {
         //update inventory and remove shopping cart items in a single transaction
         int units;
         List<ShoppingCartItem> itemsLst = new ArrayList<ShoppingCartItem>();
-        itemsLst = getShoppingCartItems(username);
+        itemsLst = getShoppingCartItems();
         for(ShoppingCartItem item:itemsLst){
             Inventory inv = em.find(Inventory.class, item.getGnomeType());
             if(inv == null){

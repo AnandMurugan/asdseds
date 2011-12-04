@@ -33,7 +33,7 @@ public class ShoppingCartManager implements Serializable {
     }
     
     public List<ShoppingCartItem> getShoppingCartItems(){
-        setShoppingCartItems(shoppingCartFacade.getShoppingCartItems(username));
+        setShoppingCartItems(shoppingCartFacade.getShoppingCartItems());
         return shoppingCartItems;
     }
 
@@ -63,7 +63,7 @@ public class ShoppingCartManager implements Serializable {
     }
 
     public void addGnomes() {
-        shoppingCartFacade.addToShoppingCart(username, gnomeType, nbrOfUnits, price);
+        shoppingCartFacade.addToShoppingCart(gnomeType, nbrOfUnits, price);
     }
     
     public String saveAction(){
@@ -74,7 +74,7 @@ public class ShoppingCartManager implements Serializable {
     }
     
     public String checkout(){
-        shoppingCartFacade.checkout(username);
+        shoppingCartFacade.checkout();
         return "checkout";
     }
 }
