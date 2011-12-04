@@ -11,6 +11,12 @@
         <h:link value="go to shop page" outcome="shop"/>
         <br/>
         <h:link value="go to admin page" outcome="admin"/>
+        <br/>
+        <h:form>
+            <h:commandLink id="logout" action="#{authBackingBean.logout()}" rendered="#{authBackingBean.loggedIn()}">
+                <h:outputText value="logout"/>
+            </h:commandLink>
+        </h:form>
     </h:body>
 </html>
 
