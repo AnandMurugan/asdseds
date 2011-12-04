@@ -14,10 +14,7 @@
         </h1>
         <h:form>
             <p>
-                <h:outputLabel for="userFullName" value="Welcome " />
-                <h:outputText id="userFullName" value="#{usrManager.fullName}" />
-                <br/>
-                <h:commandLink id="logout" action="#{usrManager.logout()}">
+                <h:commandLink id="logout" action="#{authBackingBean.logout()}">
                     <h:outputText value="logout"/>
                 </h:commandLink>
             </p>

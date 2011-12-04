@@ -7,49 +7,50 @@
         <title>Login page</title>
     </h:head>
     <h:body>
-        <h:form>
-            <p align="center">
-                <c:choose>
-                    <c:when test="#{usrManager.success() == false}">
-                        <h:outputLabel value="Login failed"/> <br/>
-                        <c:choose>
-                            <c:when test="#{usrManager.exception.cause != null}">
-                                <h:outputLabel value="#{usrManager.exception.cause.message}"/>
-                            </c:when>
-                            <c:otherwise>
-                                <h:outputLabel value="#{usrManager.exception.message}"/>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:when>
-                </c:choose>
-            </p>
-            <table align="center">
-                <tr>
-                    <td>
-                        <h:outputLabel for="userName" value="UserName:"/>
-                    </td>
-                    <td>
-                        <h:inputText id="userName" value="#{usrManager.userName}"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h:outputLabel for="password" value="Password:"/>
-                    </td>
-                    <td>
-                        <h:inputSecret id="password" value="#{usrManager.password}"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h:link value="Register" outcome="register"/>
-                    </td>
-                    <td>
-                        <h:commandButton value="Login" action="#{usrManager.login()}"/>
-                    </td>
-                </tr>
-            </table>
-        </h:form>
+        <form method="post" action="j_security_check">
+            <h:panelGrid columns="2">
+                <h:outputLabel for="j_username" value="Username" />
+                <input type="text" name="j_username" />
+
+                <h:outputLabel for="j_password" value="Password" />
+                <input type="password" name="j_password" />
+
+                <h:outputText value="" />
+                <h:panelGrid columns="2">
+                    <input type="submit" name="submit" value="Login" />
+<!--                    <h:button outcome="index" value="Cancel" />-->
+                </h:panelGrid>
+            </h:panelGrid>
+             <h:link value="register" outcome="register"/>
+        </form>
+        <!--        <h:form>
+                    <table align="center">
+                        <tr>
+                            <td>
+                                <h:outputLabel for="j_username" value="UserName:"/>
+                            </td>
+                            <td>
+                                <h:inputText id="j_username"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h:outputLabel for="j_password" value="Password:"/>
+                            </td>
+                            <td>
+                                <h:inputSecret id="j_password"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h:link value="Register" outcome="register"/>
+                            </td>
+                            <td>
+                                <h:commandButton value="Login" action="j_security_check"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>-->
     </h:body>
 </html>
 
