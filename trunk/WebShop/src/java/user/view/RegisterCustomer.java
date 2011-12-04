@@ -56,12 +56,14 @@ public class RegisterCustomer {
         return fullName;
     }
     
-    public void registerCustomer() {
+    public String registerCustomer() {
         try {
             userFacade.registerCustomer(userName, password, fullName);
             registrationError = null;
-        } catch (RegistrationException ex) {
-            Logger.getLogger(RegisterCustomer.class.getName()).log(Level.SEVERE, null, ex);
+            return "registered";
+        } catch (RegistrationException e) {
+            registrationError = e;
+            return "not registered";
         }
     }
     
