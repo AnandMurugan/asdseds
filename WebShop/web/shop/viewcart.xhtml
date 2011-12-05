@@ -14,6 +14,9 @@
                 <h:commandLink id="home" action="home">
                     <h:outputText value="Home Page"/>
                 </h:commandLink>
+                <br/>
+                <h:link value="Browse Gnomes" outcome="inventory"/>
+                <br/>
             </p>
             <p>
                 <h:panelGrid id="cartItems" rendered="#{shoppingCartManager.cartNotEmpty}" headerClass="list-header">
