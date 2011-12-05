@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
-    <link type="text/css" rel="stylesheet" href="style.css" />
+    <link type="text/css" rel="stylesheet" href="./style.css" />
     <h:head>
         <title>Main Account Page</title>
     </h:head>
@@ -16,41 +16,52 @@
                 </h:commandLink>
             </p>
             <p>
-                <h:dataTable id="shoppingcartTbl" value="#{shoppingCartManager.shoppingCartItems}" var="cart">
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Gnome Type" />
-                        </f:facet>
-                        <h:outputText value="#{cart.gnomeType}" />
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Units"/>
-                        </f:facet>
-                        <h:inputText value="#{cart.nbrOfUnits}" rendered="#{not cart.editable}"/>
-                        <h:outputText value="#{cart.nbrOfUnits}" rendered="#{cart.editable}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Price"/>
-                        </f:facet>
-                        <h:outputText value="#{cart.price}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Action"/>
-                        </f:facet>
-                        <h:commandLink value="Edit" action="#{shoppingCartManager.editAction(cart)}" rendered="#{not cart.editable}" />
-                    </h:column>
-                    <f:facet name="footer">
-                        <h:panelGroup>
-                            <h:commandButton value="Save Changes" action="#{shoppingCartManager.saveAction}" />
-                        </h:panelGroup>
+                <h:panelGrid id="cartItems" rendered="#{shoppingCartManager.cartNotEmpty}" headerClass="list-header">
+                    <f:facet name="header">
+                        <h:outputText value="Shopping Cart Items"/>
                     </f:facet>
-                </h:dataTable>
+                    <h:dataTable id="shoppingcartTbl" value="#{shoppingCartManager.shoppingCartItems}" var="cart"
+                                 styleClass="cart-table" headerClass="cart-table-header"
+                                 rowClasses="cart-table-odd-row,cart-table-even-row" border="1"
+                                 footerClass="footer">
+                         <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Quantity"/>
+                            </f:facet>
+                            <h:outputText value="#{cart.nbrOfUnits}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Gnome Type" />
+                            </f:facet>
+                            <h:outputText value="#{cart.gnomeType}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Price"/>
+                            </f:facet>
+                            <h:outputText value="#{cart.price}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Action"/>
+                            </f:facet>
+                            <h:commandLink value="Remove Item" action="#{shoppingCartManager.deleteAction(cart)}"/>
+                        </h:column>
+                        <f:facet name="footer">
+                            <h:panelGroup>
+                                <h:outputText value="Total Price - "/>
+                                <h:outputText value="#{shoppingCartManager.totalPrice}" />
+                            </h:panelGroup>
+                        </f:facet>
+                    </h:dataTable>
+                </h:panelGrid>
             </p>
             <p>
-                <h:commandButton value="Checkout" action="#{shoppingCartManager.checkout}" />
+                <h:commandButton value="Checkout" action="#{shoppingCartManager.checkout}" rendered="#{shoppingCartManager.cartNotEmpty}" />
+            </p>
+            <p>
+                <h:outputText value="No Items in the shopping cart." rendered="#{not shoppingCartManager.cartNotEmpty}"/>
             </p>
         </h:form>
     </h:body>
