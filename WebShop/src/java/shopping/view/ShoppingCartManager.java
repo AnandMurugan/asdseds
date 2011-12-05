@@ -4,12 +4,16 @@
  */
 package shopping.view;
 
+import inventory.controller.InventoryFacade;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import shopping.controller.ShoppingCartFacade;
 import shopping.model.ShoppingCartItem;
 
@@ -23,7 +27,8 @@ public class ShoppingCartManager implements Serializable {
 
     @EJB
     private ShoppingCartFacade shoppingCartFacade;
-    private String username;
+    @EJB
+    private InventoryFacade inventoryFacade;
     private String gnomeType;
     private int nbrOfUnits;
     private double price;
@@ -72,10 +77,6 @@ public class ShoppingCartManager implements Serializable {
         this.nbrOfUnits = selectedUnits;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public void deleteAction(ShoppingCartItem item) {
         shoppingCartFacade.removeItemFromCart(item);
         refreshPage();
@@ -86,7 +87,9 @@ public class ShoppingCartManager implements Serializable {
     }
 
     public void addGnomes() {
-        shoppingCartFacade.addToShoppingCart(gnomeType, nbrOfUnits, price);
+        if(validateQuantity()){
+            shoppingCartFacade.addToShoppingCart(gnomeType, nbrOfUnits, price);
+        }
     }
 
     public String checkout() {
@@ -96,5 +99,31 @@ public class ShoppingCartManager implements Serializable {
 
     private void refreshPage() {
         setShoppingCartItems(shoppingCartFacade.getShoppingCartItems());
+    }
+
+    public boolean validateQuantity() {
+        int totalUnits = 0;
+        FacesContext context;
+        context = FacesContext.getCurrentInstance();
+        FacesMessage message = new FacesMessage();
+        ShoppingCartItem item = shoppingCartFacade.retrieveItem(gnomeType);
+        if(item!=null){
+            totalUnits = nbrOfUnits + item.getNbrOfUnits();
+        }
+        if (nbrOfUnits < 1) {
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            message.setSummary("number should be positive");
+            message.setDetail("number should be positive");
+            context.addMessage(null, message);
+            return false;
+        } 
+        else if (!(inventoryFacade.isQuantityValid(gnomeType, totalUnits))) {
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            message.setSummary("selected number of units not available. Please check your shopping cart for exisitng items.");
+            message.setDetail("selected number of units not available. Please check your shopping cart for exisitng items.");
+            context.addMessage(null, message);
+            return false;
+        }
+        return true;
     }
 }

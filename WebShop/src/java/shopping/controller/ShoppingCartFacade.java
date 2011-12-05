@@ -28,19 +28,20 @@ public class ShoppingCartFacade {
     @PersistenceContext(unitName = "WebShopPU")
     EntityManager em;
 
-    public boolean addToShoppingCart(String gnomeType, int nbrOfUnits, double price) {
-        if (!(isItemExist(gnomeType))) {
+    public void addToShoppingCart(String gnomeType, int nbrOfUnits, double price) {
+        ShoppingCartItem item = retrieveItem(gnomeType);
+        if (item==null) {
             ShoppingCartItem shoppingCart = new ShoppingCartItem();
             shoppingCart.setCustomerId(FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName());
             shoppingCart.setGnomeType(gnomeType);
             shoppingCart.setNbrOfUnits(nbrOfUnits);
             shoppingCart.setPrice(price * nbrOfUnits);
             em.persist(shoppingCart);
-            return true;
+        }else{
+            item.setNbrOfUnits(nbrOfUnits + item.getNbrOfUnits());
+            item.setPrice(price * nbrOfUnits + item.getPrice());
+            em.persist(item);
         }
-        System.out.println("Item exists");
-        return false;
-
     }
 
     public List<ShoppingCartItem> getShoppingCartItems() {
@@ -50,21 +51,19 @@ public class ShoppingCartFacade {
         return itemsLst;
     }
 
-    private boolean isItemExist(String gnomeType) {
+    public ShoppingCartItem retrieveItem(String gnomeType) {
         String username = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+        ShoppingCartItem item = null;
         try {
-            ShoppingCartItem item = (ShoppingCartItem) em.createNamedQuery("RetrieveShoppingCartItem").setParameter("customerId", username).setParameter("gnomeType", gnomeType).getSingleResult();
-            if (item == null) {
-                return false;
-            }
+            item = (ShoppingCartItem) em.createNamedQuery("RetrieveShoppingCartItem").setParameter("customerId", username).setParameter("gnomeType", gnomeType).getSingleResult();
         } catch (NoResultException e) {
             e.printStackTrace();
-            return false;
+            return null;
         } catch (NonUniqueResultException e1) {
             e1.printStackTrace();
-            return true;
+            return null;
         }
-        return true;
+        return item;
     }
 
     public void checkout() {
@@ -91,4 +90,5 @@ public class ShoppingCartFacade {
     public void removeItemFromCart(ShoppingCartItem item) {
         em.remove(em.find(ShoppingCartItem.class, item.getId()));
     }
+
 }
