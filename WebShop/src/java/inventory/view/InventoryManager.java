@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.ValueChangeEvent;
 
 /**
  *
@@ -36,7 +37,7 @@ public class InventoryManager implements Serializable {
     public InventoryManager() {
     }
     
-    public boolean isSelectClicked(){
+    public boolean isSelected(){
         return selected;
     }
     
@@ -89,15 +90,15 @@ public class InventoryManager implements Serializable {
         return inventoryFacade.getGnomesList();
     }
 
-    public void select() {
+    public void select(ValueChangeEvent e) {
         try{
             InventoryDTO inventoryDTO = inventoryFacade.select(gnomeType);
             this.gnomeDesc = inventoryDTO.getGnomeDesc();
             this.nbrOfUnits = inventoryDTO.getNbrOfUnits();
             this.price = inventoryDTO.getPrice();
             selected = true;
-        }catch(Exception e){
-            handleException(e);
+        }catch(Exception e1){
+            handleException(e1);
         }
     }
     
