@@ -84,5 +84,16 @@ public class InventoryFacade {
             em.persist(inventoryItem);
         }
     }
+
+    public boolean isQuantityValid(String gnomeType, int totalUnits) {
+        System.out.println("gnome type - "+gnomeType);
+        Inventory inventoryItem = em.find(Inventory.class, gnomeType);
+        if(inventoryItem != null){
+            if(inventoryItem.getNbrOfUnits() >= totalUnits){
+                return true;
+            }
+        }
+        return false;
+    }
     
 }
