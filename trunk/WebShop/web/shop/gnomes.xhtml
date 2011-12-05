@@ -25,15 +25,14 @@
             </p>
             <p>
                 <h:outputLabel for="gnomeDrpDown" value="Gnome Type:" />
-                <h:selectOneMenu id="gnomeDrpDown" value="#{inventoryManager.gnomeType}" >
+                <h:selectOneMenu id="gnomeDrpDown" value="#{inventoryManager.gnomeType}" onchange="submit()" valueChangeListener="#{inventoryManager.select}">
                     <f:selectItems value="#{inventoryManager.gnomesList}" />
                 </h:selectOneMenu> 
-                <h:commandButton value="select" action="#{inventoryManager.select}" />
                 <br/>
                 <br/>
             </p>
             <p>
-                <h:panelGrid columns="2" id="panel" border="1" rendered="#{inventoryManager.selectClicked}">
+                <h:panelGrid columns="2" id="panel" border="1" >
                     <f:facet name="header">
                         <h:outputText value="Gnome Details"/>
                     </f:facet>
