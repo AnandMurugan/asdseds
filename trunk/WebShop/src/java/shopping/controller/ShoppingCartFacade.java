@@ -28,18 +28,18 @@ public class ShoppingCartFacade {
     @PersistenceContext(unitName = "WebShopPU")
     EntityManager em;
 
-    public void addToShoppingCart(String gnomeType, int nbrOfUnits, double price) {
+    public boolean addToShoppingCart(String gnomeType, int nbrOfUnits, double price) {
         if (!(isItemExist(gnomeType))) {
             ShoppingCartItem shoppingCart = new ShoppingCartItem();
             shoppingCart.setCustomerId(FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName());
             shoppingCart.setGnomeType(gnomeType);
             shoppingCart.setNbrOfUnits(nbrOfUnits);
-            shoppingCart.setPrice(price);
-            shoppingCart.setEditable(true);
+            shoppingCart.setPrice(price * nbrOfUnits);
             em.persist(shoppingCart);
-        }else{
-            System.out.println("Item exists");
+            return true;
         }
+        System.out.println("Item exists");
+        return false;
 
     }
 
@@ -57,10 +57,10 @@ public class ShoppingCartFacade {
             if (item == null) {
                 return false;
             }
-        }catch (NoResultException e) {
+        } catch (NoResultException e) {
             e.printStackTrace();
             return false;
-        }catch(NonUniqueResultException e1){
+        } catch (NonUniqueResultException e1) {
             e1.printStackTrace();
             return true;
         }
@@ -72,19 +72,23 @@ public class ShoppingCartFacade {
         int units;
         List<ShoppingCartItem> itemsLst = new ArrayList<ShoppingCartItem>();
         itemsLst = getShoppingCartItems();
-        for(ShoppingCartItem item:itemsLst){
+        for (ShoppingCartItem item : itemsLst) {
             Inventory inv = em.find(Inventory.class, item.getGnomeType());
-            if(inv == null){
+            if (inv == null) {
                 throw new EntityNotFoundException("The selected gnome type doesn't exist in inventory");
             }
             units = inv.getNbrOfUnits();
             units = units - item.getNbrOfUnits();
-            if(units > 0){
+            if (units > 0) {
                 inv.setNbrOfUnits(units);
-            }else{
+            } else {
                 em.remove(inv);
             }
             em.remove(item);
         }
+    }
+
+    public void removeItemFromCart(ShoppingCartItem item) {
+        em.remove(em.find(ShoppingCartItem.class, item.getId()));
     }
 }

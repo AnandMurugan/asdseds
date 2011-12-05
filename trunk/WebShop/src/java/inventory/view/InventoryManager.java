@@ -36,6 +36,10 @@ public class InventoryManager implements Serializable {
     public InventoryManager() {
     }
     
+    public boolean isSelectClicked(){
+        return selected;
+    }
+    
     public String getGnomeDesc() {
         return gnomeDesc;
     }
@@ -91,6 +95,7 @@ public class InventoryManager implements Serializable {
             this.gnomeDesc = inventoryDTO.getGnomeDesc();
             this.nbrOfUnits = inventoryDTO.getNbrOfUnits();
             this.price = inventoryDTO.getPrice();
+            selected = true;
         }catch(Exception e){
             handleException(e);
         }
@@ -120,5 +125,6 @@ public class InventoryManager implements Serializable {
     private void handleException(Exception e) {
         e.printStackTrace(System.err);
     }
+    
     
 }

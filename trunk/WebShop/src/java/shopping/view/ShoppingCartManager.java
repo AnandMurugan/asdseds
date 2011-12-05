@@ -20,21 +20,44 @@ import shopping.model.ShoppingCartItem;
 @Named(value = "shoppingCartManager")
 @SessionScoped
 public class ShoppingCartManager implements Serializable {
+
     @EJB
     private ShoppingCartFacade shoppingCartFacade;
     private String username;
     private String gnomeType;
     private int nbrOfUnits;
     private double price;
+//    private double totalPrice = 0;
     private List<ShoppingCartItem> shoppingCartItems = new ArrayList<ShoppingCartItem>();
+
+    public double getTotalPrice() {
+        double totalPrice = 0;
+        if (shoppingCartItems.size() > 0) {
+            for (ShoppingCartItem item : shoppingCartItems) {
+                totalPrice = totalPrice + item.getPrice();
+            }
+        }
+        return totalPrice;
+    }
+
+    public void calculateTotal() {
+    }
 
     public void setShoppingCartItems(List<ShoppingCartItem> shoppingCartItems) {
         this.shoppingCartItems = shoppingCartItems;
+//        calculateTotal();
     }
-    
-    public List<ShoppingCartItem> getShoppingCartItems(){
-        setShoppingCartItems(shoppingCartFacade.getShoppingCartItems());
+
+    public List<ShoppingCartItem> getShoppingCartItems() {
         return shoppingCartItems;
+    }
+
+    public boolean isCartNotEmpty() {
+        refreshPage();
+        if (shoppingCartItems.size() > 0) {
+            return true;
+        }
+        return false;
     }
 
     public void setGnomeType(String gnomeType) {
@@ -53,11 +76,11 @@ public class ShoppingCartManager implements Serializable {
         this.username = username;
     }
 
-    public String editAction(ShoppingCartItem item) {
-	item.setEditable(true);
-	return null;
+    public void deleteAction(ShoppingCartItem item) {
+        shoppingCartFacade.removeItemFromCart(item);
+        refreshPage();
     }
-    
+
     /** Creates a new instance of ShoppingCartManager */
     public ShoppingCartManager() {
     }
@@ -65,16 +88,13 @@ public class ShoppingCartManager implements Serializable {
     public void addGnomes() {
         shoppingCartFacade.addToShoppingCart(gnomeType, nbrOfUnits, price);
     }
-    
-    public String saveAction(){
-        for(ShoppingCartItem item:shoppingCartItems){
-            item.setEditable(false);
-        }
-        return null;
-    }
-    
-    public String checkout(){
+
+    public String checkout() {
         shoppingCartFacade.checkout();
         return "checkout";
+    }
+
+    private void refreshPage() {
+        setShoppingCartItems(shoppingCartFacade.getShoppingCartItems());
     }
 }

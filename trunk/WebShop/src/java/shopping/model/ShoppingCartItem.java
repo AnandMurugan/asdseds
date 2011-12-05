@@ -33,16 +33,7 @@ public class ShoppingCartItem implements Serializable {
     private String gnomeType;
     private int nbrOfUnits;
     private double price;
-    private boolean editable;
 
-    public boolean isEditable() {
-        return editable;
-    }
-
-    public void setEditable(boolean editable) {
-        this.editable = editable;
-    }
-    
     public String getCustomerId() {
         return customerId;
     }
