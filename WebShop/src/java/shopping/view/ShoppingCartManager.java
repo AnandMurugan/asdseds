@@ -87,27 +87,31 @@ public class ShoppingCartManager implements Serializable {
     }
 
     public void addGnomes() {
-        if(validateQuantity()){
+        if (validateQuantity()) {
             shoppingCartFacade.addToShoppingCart(gnomeType, nbrOfUnits, price);
         }
     }
 
     public String checkout() {
-        shoppingCartFacade.checkout();
-        return "checkout";
+        if (validateCheckOut()) {
+            shoppingCartFacade.checkout();
+            return "checkout";
+        }
+        return null;
+
     }
 
     private void refreshPage() {
         setShoppingCartItems(shoppingCartFacade.getShoppingCartItems());
     }
 
-    public boolean validateQuantity() {
+    private boolean validateQuantity() {
         int totalUnits = 0;
         FacesContext context;
         context = FacesContext.getCurrentInstance();
         FacesMessage message = new FacesMessage();
         ShoppingCartItem item = shoppingCartFacade.retrieveItem(gnomeType);
-        if(item!=null){
+        if (item != null) {
             totalUnits = nbrOfUnits + item.getNbrOfUnits();
         }
         if (nbrOfUnits < 1) {
@@ -116,8 +120,7 @@ public class ShoppingCartManager implements Serializable {
             message.setDetail("number should be positive");
             context.addMessage(null, message);
             return false;
-        } 
-        else if (!(inventoryFacade.isQuantityValid(gnomeType, totalUnits))) {
+        } else if (!(inventoryFacade.isQuantityValid(gnomeType, totalUnits))) {
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
             message.setSummary("selected number of units not available. Please check your shopping cart for exisitng items.");
             message.setDetail("selected number of units not available. Please check your shopping cart for exisitng items.");
@@ -125,5 +128,37 @@ public class ShoppingCartManager implements Serializable {
             return false;
         }
         return true;
+    }
+
+    private boolean validateCheckOut() {
+        FacesContext context;
+        context = FacesContext.getCurrentInstance();
+        FacesMessage message = new FacesMessage();
+        if (shoppingCartItems.size() > 0) {
+            for (ShoppingCartItem item : shoppingCartItems) {
+                if (!(validateItemAvailability(item))) {
+                    message.setSeverity(FacesMessage.SEVERITY_ERROR);
+                    message.setSummary("Selected quantity of "+item.getGnomeType()+" is not available.");
+                    message.setDetail("Selected quantity of "+item.getGnomeType()+" is not available.");
+                    context.addMessage(null, message);
+                    return false;
+                }
+            }
+        } else {
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            message.setSummary("No items in the Shopping cart.");
+            message.setDetail("No items in the Shopping cart.");
+            context.addMessage(null, message);
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean validateItemAvailability(ShoppingCartItem item) {
+        if (inventoryFacade.isQuantityValid(item.getGnomeType(), item.getNbrOfUnits())) {
+            return true;
+        }
+        return false;
     }
 }
