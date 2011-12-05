@@ -20,7 +20,6 @@
             </p>
             <p>
                 <h:commandLink id="viewcart" action="viewcart">
-                    <f:setPropertyActionListener target="#{shoppingCartManager.username}" value="#{usrManager.userName}" />
                     <h:outputText value="view shopping cart" />
                 </h:commandLink>
             </p>
@@ -49,7 +48,6 @@
                     <f:facet name="footer">
                         <h:panelGroup style="display:block; text-align:center">
                             <h:commandButton id="submit" value="Add to Shopping Cart" action="#{shoppingCartManager.addGnomes}">
-                                <f:setPropertyActionListener target="#{shoppingCartManager.username}" value="#{usrManager.userName}" />
                                 <f:setPropertyActionListener target="#{shoppingCartManager.gnomeType}" value="#{inventoryManager.gnomeType}"/>
                                 <f:setPropertyActionListener target="#{shoppingCartManager.nbrOfUnits}" value="#{inventoryManager.selectedUnits}"/>
                                 <f:setPropertyActionListener target="#{shoppingCartManager.price}" value="#{inventoryManager.price}"/>
