@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.event.ValueChangeEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 
 /**
  *
@@ -32,10 +32,18 @@ public class InventoryManager implements Serializable {
     private double price;
     private boolean selected = false;
     private boolean newGnome = false;
-//    private List<String> gnomesList = new ArrayList<String>();
+    List<String> gnomesLst = new ArrayList<String>();
 
     /** Creates a new instance of InventoryManager */
     public InventoryManager() {
+    }
+
+    public String getSubmitLbl() {
+        if (newGnome) {
+            return "Add gnome";
+        } else {
+            return "Save";
+        }
     }
 
     public boolean isSelected() {
@@ -67,10 +75,6 @@ public class InventoryManager implements Serializable {
     }
 
     public String getGnomeType() {
-//        if(gnomesList.size()==1){
-//            gnomeType = gnomesList.get(0).toString();
-//            refreshGnomeDetails();
-//        }
         return gnomeType;
     }
 
@@ -87,25 +91,24 @@ public class InventoryManager implements Serializable {
     }
 
     public List<String> getGnomesList() {
-//        if (initialize == false) {
-//            inventoryFacade.init();
-//            initialize = true;
-//        }
-//        gnomesList = inventoryFacade.getGnomesList();
-        return inventoryFacade.getGnomesList();
+        gnomesLst = inventoryFacade.getGnomesList();
+        if (gnomesLst.size() == 1) {
+            refreshPage();
+        }
+        return gnomesLst;
     }
 
-    public void select(ValueChangeEvent e) {
-        gnomeType = e.getNewValue().toString();
-        refreshGnomeDetails();
+    public void refreshGnomeDetails(AjaxBehaviorEvent e) {
+        retrieveGnomeDetails();
     }
 
-    public void refreshGnomeDetails() {
+    private void retrieveGnomeDetails() {
         try {
             InventoryDTO inventoryDTO = inventoryFacade.select(gnomeType);
             this.gnomeDesc = inventoryDTO.getGnomeDesc();
             this.nbrOfUnits = inventoryDTO.getNbrOfUnits();
             this.price = inventoryDTO.getPrice();
+            this.selectedUnits = 0;
             selected = true;
         } catch (Exception e1) {
             handleException(e1);
@@ -113,7 +116,12 @@ public class InventoryManager implements Serializable {
     }
 
     public String updateItem() {
-        inventoryFacade.updateItem(gnomeType, gnomeDesc, nbrOfUnits, price);
+        try {
+            inventoryFacade.updateItem(gnomeType, gnomeDesc, nbrOfUnits, price);
+            newGnome = false;
+        } catch (Exception e) {
+            handleException(e);
+        }
         return "modified";
     }
 
@@ -135,5 +143,30 @@ public class InventoryManager implements Serializable {
 
     private void handleException(Exception e) {
         e.printStackTrace(System.err);
+    }
+
+    public String delete() {
+        try {
+            if (gnomeType != null) {
+                inventoryFacade.deleteItem(gnomeType);
+                gnomesLst = inventoryFacade.getGnomesList();
+                refreshPage();
+            }
+        } catch (Exception e) {
+            handleException(e);
+        }
+        return "deleted";
+    }
+
+    private void refreshPage() {
+        if (gnomesLst.size() > 0) {
+            gnomeType = gnomesLst.get(0).toString();
+            retrieveGnomeDetails();
+        } else {
+            this.gnomeDesc = null;
+            this.gnomeType = null;
+            this.nbrOfUnits = 0;
+            this.price = 0;
+        }
     }
 }

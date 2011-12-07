@@ -94,5 +94,12 @@ public class InventoryFacade {
         }
         return false;
     }
+
+    public void deleteItem(String gnomeType) {
+        Inventory inventoryItem = em.find(Inventory.class, gnomeType);
+        if(inventoryItem!=null){
+            em.remove(inventoryItem);
+        }
+    }
     
 }
