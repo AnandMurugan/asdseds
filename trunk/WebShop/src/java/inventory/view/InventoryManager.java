@@ -45,6 +45,14 @@ public class InventoryManager implements Serializable {
             return "Save";
         }
     }
+    
+    public String getAdminTitle() {
+        if (newGnome) {
+            return "Add Inventory";
+        } else {
+            return "Update Inventory";
+        }
+    }
 
     public boolean isSelected() {
         return selected;
