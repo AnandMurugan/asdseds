@@ -12,10 +12,12 @@
         <h:form>
             <p>
                 <h:commandLink id="home" action="home">
-                    <h:outputText value="Home Page"/>
+                    <h:outputText value="home"/>
                 </h:commandLink>
                 <br/>
-                <h:link value="Browse Gnomes" outcome="inventory"/>
+            </p>
+            <p>
+                <h:link value="go to shop page" outcome="inventory"/>
                 <br/>
             </p>
             <p>
@@ -27,7 +29,7 @@
                                  styleClass="cart-table" headerClass="cart-table-header"
                                  rowClasses="cart-table-odd-row,cart-table-even-row" border="1"
                                  footerClass="footer">
-                         <h:column>
+                        <h:column>
                             <f:facet name="header">
                                 <h:outputText value="Quantity"/>
                             </f:facet>

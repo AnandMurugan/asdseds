@@ -23,7 +23,9 @@
                     <h:outputText value="view shopping cart" />
                 </h:commandLink>
                 <br/>
-                <h:link value="Home" outcome="home"/>
+            </p>
+            <p>
+                <h:link value="home" outcome="home"/>
                 <br/>
             </p>
             <p>
@@ -35,10 +37,12 @@
                 <br/>
             </p>
             <p>
-                <h:panelGrid columns="2" id="panel" border="1" >
+                <h:panelGrid columns="2" id="panel" border="1" rendered="#{inventoryManager.selected}">
                     <f:facet name="header">
                         <h:outputText value="Gnome Details"/>
                     </f:facet>
+                    <h:outputLabel for="gnometype" value="Gnome Type:" />
+                    <h:outputText id="gnometype" value="#{inventoryManager.gnomeType}" />
                     <h:outputLabel for="gnomeDsc" value="Gnome Description:" />
                     <h:outputText id="gnomeDsc" value="#{inventoryManager.gnomeDesc}" />
                     <h:outputLabel for="nbrOfUnits" value="Number of units available:" />
