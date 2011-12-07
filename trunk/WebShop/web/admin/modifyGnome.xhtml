@@ -18,8 +18,8 @@
                         <h:outputLabel for="gnomeDrpDown" value="Gnome Type:" />
                         <h:selectOneMenu id="gnomeDrpDown" value="#{inventoryManager.gnomeType}">
                             <f:selectItems value="#{inventoryManager.gnomesList}" />
+                            <f:ajax event="change" listener="#{inventoryManager.refreshGnomeDetails}" render="gnomeDsc nbrOfUnits price" />
                         </h:selectOneMenu> 
-                        <h:commandButton value="select" action="#{inventoryManager.select}"/>
                     </c:when>
                     <c:otherwise>
                         <h:commandButton value="Modify existing gnome" action="#{inventoryManager.oldGnome()}"/>
@@ -43,7 +43,9 @@
                     <h:inputText id="price" value="#{inventoryManager.price}" />
                     <f:facet name="footer">
                         <h:panelGroup style="display:block; text-align:center">
-                            <h:commandButton id="submit" value="Modify inventory item" action="#{inventoryManager.updateItem()}"/>
+                            <h:commandButton id="submit" value="#{inventoryManager.submitLbl}" action="#{inventoryManager.updateItem()}"/>
+                            <h:commandButton id="delete" value="Delete" action="#{inventoryManager.delete()}">
+                            </h:commandButton>
                         </h:panelGroup>
                     </f:facet>
                 </h:panelGrid>

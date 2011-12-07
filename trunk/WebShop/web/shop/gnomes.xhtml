@@ -30,19 +30,16 @@
             </p>
             <p>
                 <h:outputLabel for="gnomeDrpDown" value="Gnome Type:" />
-                <h:selectOneMenu id="gnomeDrpDown" value="#{inventoryManager.gnomeType}" onchange="submit()" valueChangeListener="#{inventoryManager.select}">
+                <h:selectOneMenu id="gnomeDrpDown" value="#{inventoryManager.gnomeType}">
                     <f:selectItems value="#{inventoryManager.gnomesList}" />
+                    <f:ajax event="change" listener="#{inventoryManager.refreshGnomeDetails}" render="gnomeDsc nbrOfUnits price selectedUnits" />
                 </h:selectOneMenu> 
                 <br/>
                 <br/>
-            </p>
-            <p>
-                <h:panelGrid columns="2" id="panel" border="1" rendered="#{inventoryManager.selected}">
+                <h:panelGrid columns="2" id="panel" border="1">
                     <f:facet name="header">
                         <h:outputText value="Gnome Details"/>
                     </f:facet>
-                    <h:outputLabel for="gnometype" value="Gnome Type:" />
-                    <h:outputText id="gnometype" value="#{inventoryManager.gnomeType}" />
                     <h:outputLabel for="gnomeDsc" value="Gnome Description:" />
                     <h:outputText id="gnomeDsc" value="#{inventoryManager.gnomeDesc}" />
                     <h:outputLabel for="nbrOfUnits" value="Number of units available:" />
