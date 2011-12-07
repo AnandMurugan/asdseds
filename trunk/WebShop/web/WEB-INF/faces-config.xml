@@ -101,5 +101,9 @@
             <from-outcome>modified</from-outcome>
             <to-view-id>/admin/admin.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>deleted</from-outcome>
+            <to-view-id>/admin/admin.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
 </faces-config>
