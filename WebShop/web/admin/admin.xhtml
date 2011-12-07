@@ -4,7 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
-    <link type="text/css" rel="stylesheet" href="style.css" />
+    <link type="text/css" rel="stylesheet" href="../style.css" />
     <h:head>
         <title>Welcome to Acme Plastic Gnomes</title>
     </h:head>
@@ -12,7 +12,8 @@
         <h1>
             Acme Plastic Gnomes Administrative Page
         </h1>
-        <h:form>
+        <h:form styleClass="form">
+            <p><br/><br/></p>
             <p>
                 <h:commandLink id="logout" action="#{authBackingBean.logout()}">
                     <h:outputText value="logout"/>

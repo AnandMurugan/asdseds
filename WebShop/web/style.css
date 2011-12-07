@@ -67,34 +67,44 @@ h5, h6
     font-size: 1em;
 }
 
-.cart-table{   
-	border-collapse:collapse;
+.gnome-table{   
+    border-collapse:collapse;
 }
 
-.cart-table-header{
-	text-align:center;
-	background:none repeat scroll 0 0 #E5E5E5;
-	border-bottom:1px solid #BBBBBB;
-	padding:16px;
+.gnome-table-header{
+    text-align:center;
+    background:none repeat scroll 0 0 #E5E5E5;
+    border-bottom:1px solid #BBBBBB;
+    padding:16px;
 }
 
 .cart-table-odd-row{
-	text-align:center;
-	background:none repeat scroll 0 0 #FFFFFFF;
-	border-top:1px solid #BBBBBB;
+    text-align:center;
+    background:none repeat scroll 0 0 #FFFFFFF;
+    border-top:1px solid #BBBBBB;
 }
 
 .cart-table-even-row{
-	text-align:center;
-	background:none repeat scroll 0 0 #F9F9F9;
-	border-top:1px solid #BBBBBB;
+    text-align:center;
+    background:none repeat scroll 0 0 #F9F9F9;
+    border-top:1px solid #BBBBBB;
 }
 
 .list-header { 
-  background-color: #ffffff;
-  color: #000000;
-  text-align: center;
+    color: #000000;
+    text-align: center;
 } 
 .footer{
     text-align: center;
+}
+
+.loginBtn{
+    margin: -20px 0 0 287px;
+    color: red;
+}
+
+.form{
+    width:563px;
+    height:124px;
+    margin:auto;
 }

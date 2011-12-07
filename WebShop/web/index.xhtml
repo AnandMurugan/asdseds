@@ -2,21 +2,32 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html">
+    <link type="text/css" rel="stylesheet" href="../style.css" />
     <h:head>
         <title>Facelet Title</title>
     </h:head>
-    <h:body>
-        <h:link value="register" outcome="register"/>
-        <br/>
-        <h:link value="go to shop page" outcome="shop"/>
-        <br/>
-        <h:link value="go to admin page" outcome="admin"/>
-        <br/>
-        <h:form>
-            <h:commandLink id="logout" action="#{authBackingBean.logout()}" rendered="#{authBackingBean.loggedIn()}">
-                <h:outputText value="logout"/>
-            </h:commandLink>
-        </h:form>
+    <h:body styleClass="form">
+        <h1>Index</h1>
+        <p><br/><br/></p>
+        <p>
+            <h:link value="register" outcome="register"/>
+            <br/>
+        </p>
+        <p>
+            <h:link value="go to shop page" outcome="shop"/>
+            <br/>
+        </p>
+        <p>
+            <h:link value="go to admin page" outcome="admin"/>
+            <br/>
+        </p>
+        <p>
+            <h:form>
+                <h:commandLink id="logout" action="#{authBackingBean.logout()}" rendered="#{authBackingBean.loggedIn()}">
+                    <h:outputText value="logout"/>
+                </h:commandLink>
+            </h:form>
+        </p>
     </h:body>
 </html>
 
