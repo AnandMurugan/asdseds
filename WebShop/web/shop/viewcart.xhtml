@@ -9,7 +9,7 @@
     </h:head>
     <h:body>
         <h1> Shopping Cart </h1>
-        <h:form styleClass="form">
+        <h:form id="viewcartForm" styleClass="form">
             <p><br></br></p>
             <p><br></br></p>
             <p>
@@ -65,10 +65,11 @@
                 </h:panelGrid>
             </p>
             <p>
-                <h:commandButton value="Checkout" action="#{shoppingCartManager.checkout}" rendered="#{shoppingCartManager.cartNotEmpty}" />
+                <h:commandButton id="submit" value="Checkout" action="#{shoppingCartManager.checkout}" rendered="#{shoppingCartManager.cartNotEmpty}" />
             </p>
             <p>
-                <h:outputText value="No Items in the shopping cart." rendered="#{not shoppingCartManager.cartNotEmpty}"/>
+                <h:outputText value="No Items in the shopping cart." rendered="#{not shoppingCartManager.cartNotEmpty}" styleClass="error"/>
+                <h:message for="submit" errorClass="error" />
             </p>
         </h:form>
     </h:body>
