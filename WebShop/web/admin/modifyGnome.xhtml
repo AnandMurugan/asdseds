@@ -8,34 +8,22 @@
     <h:head>
         <title>Modify Gnome</title>
     </h:head>
-    <h:body>
-        <h:form styleClass="form">
-            <h1>#{inventoryManager.adminTitle}</h1>
+    <h:body styleClass="form">
+        <h:form>
+            <h1>Modify Gnome</h1>
             <p><br></br></p>
             <p><br></br></p>
             <p>
-                <c:choose>
-                    <c:when test="#{inventoryManager.newGnome == false}">
-                        <h:commandButton value="New gnome" action="#{inventoryManager.newGnome()}"/>
-                        <br/>
-                        <h:outputLabel for="gnomeDrpDown" value="Gnome Type:" />
-                        <h:selectOneMenu id="gnomeDrpDown" value="#{inventoryManager.gnomeType}">
-                            <f:selectItems value="#{inventoryManager.gnomesList}" />
-                            <f:ajax event="change" listener="#{inventoryManager.refreshGnomeDetails}" render="gnomeDsc nbrOfUnits price" />
-                        </h:selectOneMenu> 
-                    </c:when>
-                    <c:otherwise>
-                        <h:commandButton value="Modify existing gnome" action="#{inventoryManager.oldGnome()}"/>
-                        <br/>
-                        <h:outputLabel for="gnomeDrpDown" value="Gnome Type:"/>
-                        <h:inputText value="#{inventoryManager.gnomeType}"/>
-                    </c:otherwise>
-                </c:choose>
+                <h:outputLabel for="gnomeDrpDown" value="Gnome Type:" />
+                <h:selectOneMenu id="gnomeDrpDown" value="#{inventoryManager.gnomeType}">
+                    <f:selectItems value="#{inventoryManager.gnomesList}" />
+                    <f:ajax event="change" listener="#{inventoryManager.refreshGnomeDetails}" render="gnomeDsc nbrOfUnits price" />
+                </h:selectOneMenu> 
                 <br/>
                 <br/>
 
                 <h:panelGrid columns="2" id="panel" border="1" styleClass="cart-table" headerClass="cart-table-header"
-                                 footerClass="footer">
+                             footerClass="footer">
                     <f:facet name="header">
                         <h:outputText value="Modify Gnome"/>
                     </f:facet>
