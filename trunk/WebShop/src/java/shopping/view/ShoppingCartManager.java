@@ -116,6 +116,8 @@ public class ShoppingCartManager implements Serializable {
         ShoppingCartItem item = shoppingCartFacade.retrieveItem(gnomeType);
         if (item != null) {
             totalUnits = nbrOfUnits + item.getNbrOfUnits();
+        }else{
+            totalUnits = nbrOfUnits;
         }
         if (nbrOfUnits < 1) {
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
