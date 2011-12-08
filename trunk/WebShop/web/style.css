@@ -98,8 +98,7 @@ h5, h6
     text-align: center;
 }
 
-.loginBtn{
-    margin: -20px 0 0 287px;
+.error{
     color: red;
 }
 

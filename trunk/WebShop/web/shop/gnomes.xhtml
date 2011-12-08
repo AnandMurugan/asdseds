@@ -12,7 +12,7 @@
         <h1>
             Acme Plastic Gnomes
         </h1>
-        <h:form styleClass="form">
+        <h:form id="gnomesForm" styleClass="form">
             <p><br></br></p>
             <p><br></br></p>
             <p>
@@ -61,6 +61,8 @@
                         </h:panelGroup>
                     </f:facet>
                 </h:panelGrid>
+                <br/>
+                <h:message for="selectedUnits" id="quantityError" errorClass="error"/>
             </p>
         </h:form>
     </h:body>

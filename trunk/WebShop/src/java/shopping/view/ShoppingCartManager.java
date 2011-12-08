@@ -119,15 +119,15 @@ public class ShoppingCartManager implements Serializable {
         }
         if (nbrOfUnits < 1) {
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
-            message.setSummary("number should be positive");
-            message.setDetail("number should be positive");
+            message.setSummary("Number should be positive.");
+            message.setDetail("Number should be positive.");
             context.addMessage(null, message);
             return false;
         } else if (!(inventoryFacade.isQuantityValid(gnomeType, totalUnits))) {
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
-            message.setSummary("selected number of units not available. Please check your shopping cart for exisitng items.");
-            message.setDetail("selected number of units not available. Please check your shopping cart for exisitng items.");
-            context.addMessage(null, message);
+            message.setSummary("Selected quantity is not available. Please check your shopping cart for existing items.");
+            message.setDetail("Selected quantity is not available. Please check your shopping cart for existing items.");
+            context.addMessage("gnomesForm:selectedUnits",message);
             return false;
         }
         return true;
