@@ -12,51 +12,25 @@
     <h:body styleClass="form">
         <h1>Index</h1>
         <p><br/><br/></p>
-        <c:choose>
-            <c:when test="#{authBackingBean.loggedIn()}">
-                <c:choose>
-                    <c:when test="#{authBackingBean.banned}">
-                        <p>
-                            <h:outputText value="you have been banned"/>
-                            <br/>
-                        </p>
-                    </c:when>
-                    <c:when test="#{authBackingBean.renderPage('shopMain')}">
-                        <p>
-                            <h:link value="go to shop page" outcome="shop" />
-                            <br/>
-                        </p>
-                    </c:when>
-                    <c:when test="#{authBackingBean.renderPage('adminMain')}">
-                        <p>
-                            <h:link value="go to admin page" outcome="admin" />
-                            <br/>
-                        </p>
-                    </c:when>
-                </c:choose>
-                <h:form>
-                    <h:commandLink id="logout" action="#{authBackingBean.logout()}" rendered="#{authBackingBean.loggedIn()}">
-                        <p>
-                            <h:outputText value="logout"/>
-                        </p>
-                    </h:commandLink>
-                </h:form>
-            </c:when>
-            <c:otherwise>
-                <p>
-                    <h:link value="register" outcome="register" />
-                    <br/>
-                </p>
-                <p>
-                    <h:link value="go to shop page" outcome="shop" />
-                    <br/>
-                </p>
-                <p>
-                    <h:link value="go to admin page" outcome="admin"/>
-                    <br/>
-                </p>
-            </c:otherwise>
-        </c:choose>
+
+        <p>
+            <h:link value="login" outcome="homePage" rendered="#{authBackingBean.loggedIn() == false}"/>
+            <br/>
+        </p>
+        <p>
+            <h:link value="register" outcome="registerPage" rendered="#{authBackingBean.loggedIn() == false}"/>
+            <br/>
+        </p>
+        <p>
+            <h:form>
+                <h:commandLink id="logout" action="#{authBackingBean.logout()}" rendered="#{authBackingBean.loggedIn()}">
+                    <p>
+                        <h:outputText value="logout"/>
+                    </p>
+                </h:commandLink>
+            </h:form>
+        </p>
+        <br/>
     </h:body>
 </html>
 
