@@ -9,12 +9,17 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Alex
  */
 @Entity
+@NamedQuery(
+        name="RetrieveUsers",
+        query="SELECT user FROM User_details user WHERE user.lusergroup='CUSTOMER' AND user.banned=false"
+)
 public class User_details implements Serializable {
    
     @Id

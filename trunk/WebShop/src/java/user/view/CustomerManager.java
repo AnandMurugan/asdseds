@@ -4,13 +4,14 @@
  */
 package user.view;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import user.controller.RegistrationException;
 import user.controller.UserFacade;
+import user.model.User_details;
 
 /**
  *
@@ -19,15 +20,15 @@ import user.controller.UserFacade;
 @Named(value = "customerMng")
 @RequestScoped
 public class CustomerManager {
+
     @EJB
     private UserFacade userFacade;
-    
     private String userName;
     private String password;
     private String fullName;
-    
+    private List<User_details> usrLst = new ArrayList<User_details>();
     Exception registrationError;
-    
+
     /** Creates a new instance of CustomerManager */
     public CustomerManager() {
     }
@@ -56,6 +57,18 @@ public class CustomerManager {
         return fullName;
     }
     
+    public List<User_details> getUsrLst() {
+        return usrLst;
+    }
+    
+    public boolean isUsrLstNotEmpty() {
+        refreshPage();
+        if (usrLst.size() > 0) {
+            return true;
+        }
+        return false;
+    }
+    
     public String registerCustomer() {
         try {
             userFacade.registerCustomer(userName, password, fullName);
@@ -67,6 +80,16 @@ public class CustomerManager {
         }
     }
     
+    public void banAction(String username) {
+        try {
+            userFacade.banUser(username);
+            refreshPage();
+        } catch (Exception e) {
+            handleException(e);
+        }
+        
+    }
+
     private void handleException(Exception e) {
         e.printStackTrace(System.err);
         registrationError = e;
@@ -78,5 +101,9 @@ public class CustomerManager {
     
     public Exception getException() {
         return registrationError;
+    }
+    
+    private void refreshPage() {
+        usrLst = userFacade.getUsrLst();
     }
 }
