@@ -121,7 +121,7 @@ public class ShoppingCartManager implements Serializable {
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
             message.setSummary("Number should be positive.");
             message.setDetail("Number should be positive.");
-            context.addMessage(null, message);
+            context.addMessage("gnomesForm:selectedUnits",message);
             return false;
         } else if (!(inventoryFacade.isQuantityValid(gnomeType, totalUnits))) {
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
@@ -145,7 +145,7 @@ public class ShoppingCartManager implements Serializable {
                     message.setSeverity(FacesMessage.SEVERITY_ERROR);
                     message.setSummary("Selected quantity of "+item.getGnomeType()+" is not available.");
                     message.setDetail("Selected quantity of "+item.getGnomeType()+" is not available.");
-                    context.addMessage(null, message);
+                    context.addMessage("viewcartForm:submit", message);
                     return false;
                 }
             }
@@ -153,7 +153,7 @@ public class ShoppingCartManager implements Serializable {
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
             message.setSummary("No items in the Shopping cart.");
             message.setDetail("No items in the Shopping cart.");
-            context.addMessage(null, message);
+            context.addMessage("viewcartForm:submit", message);
             return false;
         }
 
