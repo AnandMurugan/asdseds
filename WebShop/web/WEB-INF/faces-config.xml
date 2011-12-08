@@ -54,10 +54,6 @@
     <navigation-rule>
         <from-view-id>/shop/gnomes.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>logout</from-outcome>
-            <to-view-id>/login.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
             <from-outcome>home</from-outcome>
             <to-view-id>/homepage.xhtml</to-view-id>
         </navigation-case>
@@ -69,10 +65,6 @@
     
     <navigation-rule>
         <from-view-id>/shop/viewcart.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>home</from-outcome>
-            <to-view-id>/homepage.xhtml</to-view-id>
-        </navigation-case>
         <navigation-case>
             <from-outcome>inventory</from-outcome>
             <to-view-id>/shop/gnomes.xhtml</to-view-id>

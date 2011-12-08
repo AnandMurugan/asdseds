@@ -34,7 +34,7 @@
         <web-resource-collection>
             <web-resource-name>inventoryPage</web-resource-name>
             <description/>
-            <url-pattern>/faces/shop/gnomes.xhtml</url-pattern>
+            <url-pattern>/faces/shop/*</url-pattern>
         </web-resource-collection>
         <!--        <web-resource-collection>
             <web-resource-name>homepage</web-resource-name>
