@@ -39,4 +39,12 @@ public class UserFacade {
             throw new RegistrationException("registration not possible");
         }
     }
+    
+    public String getUserRole(String userName) {
+        User_details user = em.find(User_details.class, userName);
+        if(user != null) {
+            return user.getLgroup();
+        }
+        return "not a user";
+    }
 }
