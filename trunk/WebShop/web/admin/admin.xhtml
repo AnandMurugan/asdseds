@@ -19,7 +19,9 @@
                     <h:outputText value="logout"/>
                 </h:commandLink>
                 <br/>
-                <h:link value="add/modify gnome" outcome="modifyGnome"/>
+                <h:commandLink value="add gnome" action="#{inventoryManager.newGnome()}"/>
+                <br/>
+                <h:link value="modify gnome" outcome="modifyGnome"/>
                 <br/>
                 <h:link value="user management" outcome="userMng"/>
                 <br/>

@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <link type="text/css" rel="stylesheet" href="../style.css" />
+    <h:head>
+        <title>Add Gnome Page</title>
+    </h:head>
+    <h:body>
+        <h:form styleClass="form">
+            <h1>Add Gnomes</h1>
+            <p><br/><br/></p>
+            <h:panelGrid columns="2" id="panel" border="1" styleClass="cart-table" headerClass="cart-table-header"
+                         footerClass="footer">
+                <f:facet name="header">
+                    <h:outputText value="Gnome Details"/>
+                </f:facet>
+                <h:outputLabel for="gnomeType" value="Gnome Type:" />
+                <h:inputText id="gnomeType" value="#{inventoryManager.gnomeType}" />
+                <h:outputLabel for="gnomeDsc" value="Gnome Description:" />
+                <h:inputText id="gnomeDsc" value="#{inventoryManager.gnomeDesc}" />
+                <h:outputLabel for="nbrOfUnits" value="Quantity:" />
+                <h:inputText id="nbrOfUnits" value="#{inventoryManager.nbrOfUnits}" />
+                <h:outputLabel for="price" value="Price per unit:" />
+                <h:inputText id="price" value="#{inventoryManager.price}" />
+                <f:facet name="footer">
+                    <h:panelGroup style="display:block; text-align:center">
+                        <h:commandButton id="submit" value="Add gnome" action="#{inventoryManager.updateItem()}"/>
+                    </h:panelGroup>
+                </f:facet>
+            </h:panelGrid>
+            <br/>
+            <br/>
+            <h:link value="back to main admin page" outcome="mainAdmin"/>
+            <br/>
+        </h:form>
+    </h:body>
+</html>
+

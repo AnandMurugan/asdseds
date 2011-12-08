@@ -133,12 +133,13 @@ public class InventoryManager implements Serializable {
         return "modified";
     }
 
-    public void newGnome() {
+    public String newGnome() {
         newGnome = true;
         this.gnomeDesc = "";
         this.gnomeType = "";
         this.nbrOfUnits = 0;
         this.price = 0;
+        return "addGnome";
     }
 
     public void oldGnome() {
