@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <link type="text/css" rel="stylesheet" href="../style.css" />
+    <h:head>
+        <title>Order Page</title>
+    </h:head>
+    <h:body>
+         <h1>Purchase History</h1>
+        <h:form id="orderForm" styleClass="form">
+            <p><br></br></p>
+            <p><br></br></p>
+            <p>
+                <h:link value="go to shop page" outcome="inventory"/>
+                <br/>
+                <h:panelGrid id="orderItems" rendered="#{orderManager.orderNotEmpty}" headerClass="list-header">
+                    <f:facet name="header">
+                        <h:outputText value="Orders"/>
+                    </f:facet>
+                    <h:dataTable id="orderTbl" value="#{orderManager.orderLst}" var="order"
+                                 styleClass="cart-table" headerClass="cart-table-header"
+                                 border="1"
+                                 footerClass="footer">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Quantity"/>
+                            </f:facet>
+                            <h:outputText value="#{order.nbrOfUnits}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Gnome Type" />
+                            </f:facet>
+                            <h:outputText value="#{order.gnomeType}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Price"/>
+                            </f:facet>
+                            <h:outputText value="#{order.price}"/>
+                        </h:column>
+                        <f:facet name="footer">
+                            <h:panelGroup>
+                                <h:outputText value="Total Price - "/>
+                                <h:outputText value="#{orderManager.totalPrice}" />
+                            </h:panelGroup>
+                        </f:facet>
+                    </h:dataTable>
+                </h:panelGrid>
+            </p>
+             <p>
+                 <h:outputText value="No orders." rendered="#{not orderManager.orderNotEmpty}" styleClass="error"/>
+            </p>
+        </h:form>
+    </h:body>
+</html>
+
