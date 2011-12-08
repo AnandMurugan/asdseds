@@ -10,7 +10,7 @@
         <h1>Index</h1>
         <p><br/><br/></p>
         <p>
-            <h:link value="register" outcome="register"/>
+            <h:link value="register" outcome="register" rendered="#{authBackingBean.loggedIn() == false}"/>
             <br/>
         </p>
         <p>
