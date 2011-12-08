@@ -54,15 +54,26 @@ public class UserHelper {
         } else {
             String userName = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
             String role = userFacade.getUserRole(userName);
-            System.out.println(page + " " + role);
-            if(role.equals("ADMIN") && page.equals("shopMain")) {
+            if (role.equals("ADMIN") && page.equals("shopMain")) {
                 return false;
             }
-            if(role.equals("CUSTOMER") && page.equals("adminMain")) {
+            if (role.equals("CUSTOMER") && page.equals("adminMain")) {
                 return false;
             }
+            if (role.equals("BANNED_CUSTOMER") && (page.equals("adminMain") || page.equals("shopMain"))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean isBanned() {
+        String userName = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+        String role = userFacade.getUserRole(userName);
+        if(role.equals("BANNED_CUSTOMER")) {
             return true;
         }
+        return false;
     }
 //    public void logout(){
 //      System.out.println("Logout");
