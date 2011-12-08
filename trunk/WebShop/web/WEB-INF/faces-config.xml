@@ -106,4 +106,12 @@
             <to-view-id>/admin/admin.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/admin/userMng.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>mainAdmin</from-outcome>
+            <to-view-id>/admin/admin.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
