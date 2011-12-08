@@ -42,6 +42,14 @@ public class AuthBackingBean {
       }
       return true;
   }
+  
+  public String getUserRole() {
+      String userName = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().
+      if( == null) {
+          return false;
+      }
+      return true;
+  }
     
 //    public void logout(){
 //      System.out.println("Logout");
