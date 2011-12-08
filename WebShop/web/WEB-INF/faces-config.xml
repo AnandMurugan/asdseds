@@ -10,9 +10,21 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>register</from-outcome>
+            <from-outcome>registerPage</from-outcome>
             <to-view-id>/register.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>homePage</from-outcome>
+            <to-view-id>/homepage.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/homepage.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>shop</from-outcome>
             <to-view-id>/shop/gnomes.xhtml</to-view-id>
@@ -47,7 +59,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>home</from-outcome>
-            <to-view-id>/index.xhtml</to-view-id>
+            <to-view-id>/homepage.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>viewcart</from-outcome>
@@ -59,7 +71,7 @@
         <from-view-id>/shop/viewcart.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>home</from-outcome>
-            <to-view-id>/index.xhtml</to-view-id>
+            <to-view-id>/homepage.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>inventory</from-outcome>
@@ -87,7 +99,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>home</from-outcome>
-            <to-view-id>/index.xhtml</to-view-id>
+            <to-view-id>/homepage.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     
@@ -121,9 +133,17 @@
             <from-outcome>mainAdmin</from-outcome>
             <to-view-id>/admin/admin.xhtml</to-view-id>
         </navigation-case>
-         <navigation-case>
+        <navigation-case>
             <from-outcome>modified</from-outcome>
             <to-view-id>/admin/admin.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/login_error.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>indexPage</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>
