@@ -1,14 +1,48 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <link type="text/css" rel="stylesheet" href="../style.css" />
     <h:head>
         <title>User Management</title>
     </h:head>
-    <h:body>
-        <h:selectOneMenu id="gnomeDrpDown" value="#{inventoryManager.gnomeType}">
-            <f:selectItems value="#{inventoryManager.gnomesList}" />
-        </h:selectOneMenu> 
+    <h:body styleClass="form">
+        <h:form>
+            <h1>Customer Management Page</h1>
+            <p><br/><br/></p>
+            <p><br/><br/></p>
+            <h:panelGrid id="usrLst" headerClass="list-header" rendered="#{customerMng.usrLstNotEmpty}">
+                <f:facet name="header">
+                    <h:outputText value="Registered users list"/>
+                </f:facet>
+                <h:dataTable id="usrTbl" value="#{customerMng.usrLst}" var="usr"
+                             styleClass="cart-table" headerClass="cart-table-header"
+                             footerClass="footer">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="user name"/>
+                        </f:facet>
+                        <h:outputText value="#{usr.luserName}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="fullname" />
+                        </f:facet>
+                        <h:outputText value="#{usr.fullName}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Action"/>
+                        </f:facet>
+                        <h:commandLink value="Ban user" action="#{customerMng.banAction(usr.luserName)}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGrid>
+            <p><br/></p>
+            <h:link value="back to main admin page" outcome="mainAdmin"/>
+            <br/>
+        </h:form>
     </h:body>
 </html>
 
