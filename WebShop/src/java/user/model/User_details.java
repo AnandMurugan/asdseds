@@ -18,7 +18,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQuery(
         name="RetrieveUsers",
-        query="SELECT user FROM User_details user WHERE user.lusergroup='CUSTOMER' AND user.banned=false"
+        query="SELECT user FROM User_details user WHERE user.lusergroup='CUSTOMER'"
 )
 public class User_details implements Serializable {
    
@@ -26,7 +26,6 @@ public class User_details implements Serializable {
     private String luserName;
     private String lpassword;
     private String lusergroup;
-    private boolean banned;
     private String fullName;
     
     public User_details() {
@@ -37,7 +36,6 @@ public class User_details implements Serializable {
         this.luserName = userName;
         this.lusergroup = group;
         this.fullName = fullName;
-        this.banned = banned;
         
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(password.getBytes(), 0, password.length());
@@ -69,14 +67,6 @@ public class User_details implements Serializable {
     
     public void setLGroup(String group) {
         this.lusergroup = group;
-    }
-    
-    public boolean getBanned() {
-        return banned;
-    }
-    
-    public void setBanned(boolean banned) {
-        this.banned = banned;
     }
     
     public String getFullName() {

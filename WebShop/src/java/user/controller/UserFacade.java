@@ -44,7 +44,7 @@ public class UserFacade {
     public void banUser(String username) {
         User_details user = em.find(User_details.class, username);
         if (user != null) {
-            user.setBanned(true);
+            user.setLGroup("BANNED_CUSTOMER");
             em.persist(user);
         }
     }
