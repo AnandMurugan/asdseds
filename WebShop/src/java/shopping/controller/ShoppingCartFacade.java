@@ -80,6 +80,7 @@ public class ShoppingCartFacade {
             units = units - item.getNbrOfUnits();
             if (units > 0) {
                 inv.setNbrOfUnits(units);
+                em.persist(inv);
             } else {
                 em.remove(inv);
             }
