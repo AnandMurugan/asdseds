@@ -5,6 +5,9 @@
 package user.model;
 
 import java.io.IOException;
+import javax.faces.context.FacesContext;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -18,6 +21,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author Alex
  */
 public class PageFilter implements Filter {
+
+    @PersistenceContext(unitName = "WebShopPU")
+    private EntityManager em;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
