@@ -15,6 +15,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
+import shopping.model.OrderItem;
 import shopping.model.ShoppingCartItem;
 
 /**
@@ -30,14 +31,14 @@ public class ShoppingCartFacade {
 
     public void addToShoppingCart(String gnomeType, int nbrOfUnits, double price) {
         ShoppingCartItem item = retrieveItem(gnomeType);
-        if (item==null) {
+        if (item == null) {
             ShoppingCartItem shoppingCart = new ShoppingCartItem();
             shoppingCart.setCustomerId(FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName());
             shoppingCart.setGnomeType(gnomeType);
             shoppingCart.setNbrOfUnits(nbrOfUnits);
             shoppingCart.setPrice(price * nbrOfUnits);
             em.persist(shoppingCart);
-        }else{
+        } else {
             item.setNbrOfUnits(nbrOfUnits + item.getNbrOfUnits());
             item.setPrice(price * nbrOfUnits + item.getPrice());
             em.persist(item);
@@ -84,12 +85,18 @@ public class ShoppingCartFacade {
             } else {
                 em.remove(inv);
             }
+            OrderItem orderItem = new OrderItem();
+            orderItem.setCustomerId(item.getCustomerId());
+            orderItem.setGnomeType(item.getGnomeType());
+            orderItem.setPrice(item.getPrice());
+            orderItem.setNbrOfUnits(item.getNbrOfUnits());
+            em.persist(orderItem);
             em.remove(item);
+
         }
     }
 
     public void removeItemFromCart(ShoppingCartItem item) {
         em.remove(em.find(ShoppingCartItem.class, item.getId()));
     }
-
 }

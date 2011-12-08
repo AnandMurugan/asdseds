@@ -44,12 +44,8 @@ public class ShoppingCartManager implements Serializable {
         return totalPrice;
     }
 
-    public void calculateTotal() {
-    }
-
     public void setShoppingCartItems(List<ShoppingCartItem> shoppingCartItems) {
         this.shoppingCartItems = shoppingCartItems;
-//        calculateTotal();
     }
 
     public List<ShoppingCartItem> getShoppingCartItems() {
