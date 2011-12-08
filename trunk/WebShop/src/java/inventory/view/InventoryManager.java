@@ -100,7 +100,7 @@ public class InventoryManager implements Serializable {
 
     public List<String> getGnomesList() {
         gnomesLst = inventoryFacade.getGnomesList();
-        if (gnomesLst.size() == 1) {
+        if (gnomesLst.size() == 1 || (gnomesLst.size() > 0 && gnomeDesc==null)) {
             refreshPage();
         }
         return gnomesLst;
