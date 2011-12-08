@@ -135,8 +135,8 @@ public class InventoryManager implements Serializable {
 
     public void newGnome() {
         newGnome = true;
-        this.gnomeDesc = null;
-        this.gnomeType = null;
+        this.gnomeDesc = "";
+        this.gnomeType = "";
         this.nbrOfUnits = 0;
         this.price = 0;
     }
