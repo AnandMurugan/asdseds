@@ -61,6 +61,18 @@
             <from-outcome>viewcart</from-outcome>
             <to-view-id>/shop/viewcart.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>vieworder</from-outcome>
+            <to-view-id>/shop/order.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/shop/order.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>inventory</from-outcome>
+            <to-view-id>/shop/gnomes.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     
     <navigation-rule>
