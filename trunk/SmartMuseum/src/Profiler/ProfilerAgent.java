@@ -10,10 +10,19 @@ public class ProfilerAgent extends Agent{
 	
 	protected void setup(){
 		addBehaviour(new SearchTourGuideBehaviour(this));
+		startNegotiation();
+	}
+	
+	public void startNegotiation() {
+		addBehaviour(new TourNegotiation(this));
 	}
 	
 	public void setTourGuide(AID tourGuide) {
 		this.tourGuide = tourGuide;
+	}
+	
+	public AID getTourGuide() {
+		return tourGuide;
 	}
 }
 

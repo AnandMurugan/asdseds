@@ -7,7 +7,6 @@ import jade.lang.acl.ACLMessage;
 public class SendTourProposal extends SimpleBehaviour {
 
 	private static final long serialVersionUID = -8890150364625075207L;
-	private int tourSent = 1;
 	private ACLMessage msg;
 
 	public SendTourProposal(Agent a, ACLMessage msg) {
@@ -29,8 +28,4 @@ public class SendTourProposal extends SimpleBehaviour {
 		return true;
 	}
 	
-	public int OnEnd(){
-		return tourSent;
-	}
-
 }

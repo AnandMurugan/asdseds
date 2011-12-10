@@ -6,7 +6,7 @@ import jade.core.Agent;
 public class TourGuideAgent extends Agent {
 
 	private static final long serialVersionUID = -2470451374035057773L;
-	private String provideServiceType = "tours";
+	private String provideServiceType = "tourGuide";
 	private String serviceId;
 	
 	protected void setup(){
