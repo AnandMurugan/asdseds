@@ -17,7 +17,7 @@ public class TourReqListening extends CyclicBehaviour{
 		ACLMessage msg = myAgent.receive( MessageTemplate.MatchPerformative( ACLMessage.REQUEST ) );
 		if (msg!=null) {
 			System.out.println("tour request");
-			myAgent.addBehaviour(new TourNegotiation(myAgent));
+			myAgent.addBehaviour(new TourNegotiation(myAgent, msg));
 		}
 		block();
 	}
