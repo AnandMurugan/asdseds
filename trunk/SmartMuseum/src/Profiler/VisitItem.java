@@ -22,9 +22,10 @@ public class VisitItem extends SequentialBehaviour {
 	public void onStart() {
 		System.out.println("getting item " + itemId);
 		ACLMessage msg = new ACLMessage(ACLMessage.QUERY_IF);
-		msg.addReceiver(((ProfilerAgent)myAgent).getTourGuide());
+		msg.addReceiver(((ProfilerAgent)myAgent).getCurator());
 		msg.setContent(itemId);
 		myAgent.send(msg);
+		System.out.println(((ProfilerAgent)myAgent).getCurator());
 		
 		MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM); 
 		addSubBehaviour(new MsgListener(myAgent, 3000, mt) {
