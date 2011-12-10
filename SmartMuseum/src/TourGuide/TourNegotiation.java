@@ -29,7 +29,7 @@ public class TourNegotiation extends FSMBehaviour {
 			}
 		}, STATE_B);
 		
-		registerTransition(STATE_A, STATE_B, 1);
+		registerDefaultTransition(STATE_A, STATE_B);
 	}
 
 	
