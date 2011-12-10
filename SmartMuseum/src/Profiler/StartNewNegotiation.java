@@ -19,7 +19,7 @@ public class StartNewNegotiation extends SequentialBehaviour {
 	@Override
 	public void onStart() {
 		System.out.println("starting new tour negotiation");
-		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST); 
+		ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
 		msg.addReceiver(((ProfilerAgent)myAgent).getTourGuide());
 		myAgent.send(msg);
 		
