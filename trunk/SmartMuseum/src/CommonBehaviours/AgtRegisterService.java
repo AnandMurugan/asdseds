@@ -27,6 +27,7 @@ public class AgtRegisterService extends OneShotBehaviour{
 		dfd.addServices(sd);
 		try{
 			DFService.register(myAgent, dfd);
+			
 		}catch(FIPAException e){
 			System.out.println("AgtRegisterService action FIPAException");
 			e.printStackTrace();
