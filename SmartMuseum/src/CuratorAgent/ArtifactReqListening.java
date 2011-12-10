@@ -2,7 +2,7 @@ package CuratorAgent;
 
 import java.io.IOException;
 
-import CommoClasses.ReadExcel;
+import CommonClasses.ReadExcel;
 import Profiler.profile.MuseumItem;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
