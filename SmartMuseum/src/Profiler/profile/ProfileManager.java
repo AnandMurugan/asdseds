@@ -21,170 +21,156 @@ import javax.xml.transform.stream.StreamSource;
 
 
 public class ProfileManager {
-	
-	public ProfileType  createProfile() {
-		JAXBContext jc;
-		Marshaller marshaller;
-		
-		try {
-			ObjectFactory factory=new ObjectFactory();
-			//create profile
-			ProfileType profile = factory.createProfileType();
-			/**
-			 * The following sample code shows how you can set the profile content, using the provided java Code
-			 */
-			/*--------------------------------------------*/
-			//initialize basic information
-			profile.setAge(33);
-			/** only one of : "higher education","postsecondary education","elementary education","secondary education" */
-			profile.setEducation("higher education");
-			/** only one of: "all",	"adventure","art of culture", "educational", "welfare and relaxing" */
-			profile.setMotivationOfVisit("educational");
-			/** only use of these values:{ greedy, normal, conservative} */
-			profile.setAttitude("greedy");
-			profile.setPrivacy(0.5);
-			/*--------------------------------------------*/
-			//add interests into profile 
-			ProfileType.Interests interests = factory.createProfileTypeInterests();
-			
-			/** choose any value of Subject, Object Type, Material from provided list */
-			interests.getInterest().add("astronomy");
-			interests.getInterest().add("art");
-			// add collection of interests into profile
-			profile.setInterests(interests);
-			/*--------------------------------------------*/
-			
-			// create one museum item and initialize it
-			MuseumItem  item1 = factory.createMuseumItem();
-			item1.setId("urn:imss:instrument:401037");
-			item1.setName("Sundial@en");
-			item1.setSubject("astronomy");
-			item1.setObjectType("sundials");
-			item1.setMaterial("brass");
-			// use rating 1-5 where 5 is more interesting (relevant) and 1 is the least interested one
-			item1.setRating(5);
-			
-			// create another museum item and initialize it
-			MuseumItem  item2 = factory.createMuseumItem();
-			item2.setId("urn:imss:instrument:414141");
-			item2.setName("Coulomb magnetic declination compass@en");
-			item2.setSubject("electrical engineering");
-			item2.setObjectType("declinometers");
-			item2.setMaterial("marble");
-			item1.setRating(4);
-			
-			// add the initialized museum items into a collection of visited itmes
-			ProfileType.VisitedItems visitedItems =  factory.createProfileTypeVisitedItems();
-			visitedItems.getVisitedItem().add(item1);
-			visitedItems.getVisitedItem().add(item2);
-			// add collection of visited items into profile
-			profile.setVisitedItems(visitedItems);
-			/*--------------------------------------------*/			
-			//dump profile into an XML file
-			jc = JAXBContext.newInstance("com.myprofile.profile");
-			marshaller = jc.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			String outputFileName = "Profile.xml";
-			marshaller.marshal( profile , new FileOutputStream(outputFileName));
-			
-			return profile;
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
 
-			e.printStackTrace();
+	public ProfileType getProfile(String profilePath, int profileNr) {
+		ProfileType profile = loadProfile(profilePath);
+		if(profile == null) {
+			if(profileNr == 1) {
+				profile = createProfile1();
+			} else {
+				profile = createProfile2();
+			}
 		}
 		
-		return null;
+		return profile;
 	}
 	
+	private ProfileType createProfile1() {
+
+		ObjectFactory factory=new ObjectFactory();
+		ProfileType profile = factory.createProfileType();
+		/**
+		 * The following sample code shows how you can set the profile content, using the provided java Code
+		 */
+		/*--------------------------------------------*/
+		//initialize basic information
+		profile.setAge(33);
+		/** only one of : "higher education","postsecondary education","elementary education","secondary education" */
+		profile.setEducation("higher education");
+		/** only one of: "all",	"adventure","art of culture", "educational", "welfare and relaxing" */
+		profile.setMotivationOfVisit("educational");
+		/** only use of these values:{ greedy, normal, conservative} */
+		profile.setAttitude("greedy");
+		profile.setPrivacy(0.5);
+		/*--------------------------------------------*/
+		//add interests into profile 
+		ProfileType.Interests interests = factory.createProfileTypeInterests();
+
+		/** choose any value of Subject, Object Type, Material from provided list */
+		interests.getInterest().add("astronomy");
+		interests.getInterest().add("art");
+		// add collection of interests into profile
+		profile.setInterests(interests);
+		profile.setVisitedItems(factory.createProfileTypeVisitedItems());
+		/*--------------------------------------------*/
+
+		return profile;
+	}
 	
-	public ProfileType loadProfile(String inputFileName ) {
+	private ProfileType createProfile2() {
+
+		ObjectFactory factory=new ObjectFactory();
+		ProfileType profile = factory.createProfileType();
+		/**
+		 * The following sample code shows how you can set the profile content, using the provided java Code
+		 */
+		/*--------------------------------------------*/
+		//initialize basic information
+		profile.setAge(33);
+		/** only one of : "higher education","postsecondary education","elementary education","secondary education" */
+		profile.setEducation("higher education");
+		/** only one of: "all",	"adventure","art of culture", "educational", "welfare and relaxing" */
+		profile.setMotivationOfVisit("educational");
+		/** only use of these values:{ greedy, normal, conservative} */
+		profile.setAttitude("greedy");
+		profile.setPrivacy(0.5);
+		/*--------------------------------------------*/
+		//add interests into profile 
+		ProfileType.Interests interests = factory.createProfileTypeInterests();
+
+		/** choose any value of Subject, Object Type, Material from provided list */
+		interests.getInterest().add("astronomy");
+		interests.getInterest().add("art");
+		// add collection of interests into profile
+		profile.setInterests(interests);
+		/*--------------------------------------------*/
+
+		return profile;
+	}
+
+	public void dumpProfile (ProfileType profile, String outputFilename) {
 		JAXBContext jc;
-		Unmarshaller u;
-		
-		/* Read data */
+		Marshaller marshaller;
+
 		try {
-			jc = JAXBContext.newInstance("com.myprofile.profile");
-			u = jc.createUnmarshaller();
-			//ProfileType profile = (ProfileType)(((JAXBElement)u.unmarshal(new FileInputStream(inputFileName))).getValue());
-			JAXBElement<ProfileType> root = u.unmarshal(new StreamSource(new File(inputFileName)),ProfileType.class);
-			ProfileType profile = root.getValue();
-			
-			System.out.println(" Profile content is: ");
-			System.out.println(" Age: " + profile.getAge());
-			System.out.println(" Education:  " + profile.getEducation());
-			System.out.println(" MotivationOfVisit:  " + profile.getMotivationOfVisit());
-			
-			for (int i = 0; i < profile.getVisitedItems().getVisitedItem().size(); i++) {
-				MuseumItem item = profile.getVisitedItems().getVisitedItem().get(i);
-				System.out.println("\t Visited Item<" + i + ">: " + item.getId() + ", " + item.getName() );
-			}
-			for (int i = 0; i < profile.getInterests().getInterest().size(); i++) {
-				System.out.println("\t Profile Interest<" + i + ">: " + profile.getInterests().getInterest().get(i) );
-			}
-			
-			return profile;
-			
+			//dump profile into an XML file
+			jc = JAXBContext.newInstance("Profiler.profile");
+			marshaller = jc.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			String outputFileName = outputFilename;
+			marshaller.marshal( profile , new FileOutputStream(outputFileName));
 		} catch (JAXBException e) {
 			e.printStackTrace();
+			System.exit(1);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+	
+	private ProfileType loadProfile(String inputFileName ) {
+		JAXBContext jc;
+		Unmarshaller u;
+
+		/* Read data */
+		try {
+			jc = JAXBContext.newInstance("Profiler.profile");
+			u = jc.createUnmarshaller();
+			JAXBElement<ProfileType> root = u.unmarshal(new StreamSource(new File(inputFileName)),ProfileType.class);
+			ProfileType profile = root.getValue();
+
+			return profile;
+		} catch (JAXBException e) {
+			//e.printStackTrace();
 			return null;
 		}
 	}
-	
-	
-//	public void dumpProfileStep2(ProfileType profileStep1, ClusterArray recommendation_results, String profile2Filename) {
-//		ObjectFactory factory=new ObjectFactory();
-//		ProfileType profileStep2 = factory.createProfileType();
-//		// copy basic info + interests form step1 profile to the new profile
-//		profileStep2.setAge(profileStep1.getAge());
-//		profileStep2.setAttitude(profileStep1.getAttitude());
-//		profileStep2.setEducation(profileStep1.getEducation());
-//		profileStep2.setMotivationOfVisit(profileStep1.getMotivationOfVisit());
-//		profileStep2.setPrivacy(profileStep1.getPrivacy());
-//		profileStep2.setInterests(profileStep1.getInterests());
-//		//--------------------------
-//		Cluster[] result_clusters = recommendation_results.getItem();
-//		
-//		ProfileType.VisitedItems visitedItems =  factory.createProfileTypeVisitedItems();
-//		for (int i = 0; i < result_clusters.length; i++) {
-//			RecommendationItemUI[] recommendationItems = result_clusters[i].getRecommendationItems();
-//			
-//			for (int j = 0; j < recommendationItems.length; j++) {
-//			    MuseumItem vitem = factory.createMuseumItem();
-//			    vitem.setId(recommendationItems[j].getUri());
-//			    vitem.setName(recommendationItems[j].getName());
-//			    vitem.setRating(recommendationItems[j].getScore());
-//			    visitedItems.getVisitedItem().add(vitem);
-//			}
-//		}
-//		profileStep2.setVisitedItems(visitedItems);
-//		
-//		dumpProfile (profileStep2, profile2Filename);
-//	}
-//	
-//	public void dumpProfile (ProfileType profile, String outputFilename) {
-//		JAXBContext jc;
-//		Marshaller marshaller;
-//		
-//		try {
-//			//dump profile into an XML file
-//			jc = JAXBContext.newInstance("com.myprofile.profile");
-//			marshaller = jc.createMarshaller();
-//			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-//			String outputFileName = outputFilename;
-//			marshaller.marshal( profile , new FileOutputStream(outputFileName));
-//		} catch (JAXBException e) {
-//			e.printStackTrace();
-//		} catch (FileNotFoundException e) {
-//
-//			e.printStackTrace();
-//		}
-//	}
-//	
-//	public static void main (String[]  args) {
-//		ProfileManager profiler = new ProfileManager();
-//		profiler.createProfile();
-//		profiler.loadProfile("Profile.xml");
-//	}
+
+
+	//	public void dumpProfileStep2(ProfileType profileStep1, ClusterArray recommendation_results, String profile2Filename) {
+	//		ObjectFactory factory=new ObjectFactory();
+	//		ProfileType profileStep2 = factory.createProfileType();
+	//		// copy basic info + interests form step1 profile to the new profile
+	//		profileStep2.setAge(profileStep1.getAge());
+	//		profileStep2.setAttitude(profileStep1.getAttitude());
+	//		profileStep2.setEducation(profileStep1.getEducation());
+	//		profileStep2.setMotivationOfVisit(profileStep1.getMotivationOfVisit());
+	//		profileStep2.setPrivacy(profileStep1.getPrivacy());
+	//		profileStep2.setInterests(profileStep1.getInterests());
+	//		//--------------------------
+	//		Cluster[] result_clusters = recommendation_results.getItem();
+	//		
+	//		ProfileType.VisitedItems visitedItems =  factory.createProfileTypeVisitedItems();
+	//		for (int i = 0; i < result_clusters.length; i++) {
+	//			RecommendationItemUI[] recommendationItems = result_clusters[i].getRecommendationItems();
+	//			
+	//			for (int j = 0; j < recommendationItems.length; j++) {
+	//			    MuseumItem vitem = factory.createMuseumItem();
+	//			    vitem.setId(recommendationItems[j].getUri());
+	//			    vitem.setName(recommendationItems[j].getName());
+	//			    vitem.setRating(recommendationItems[j].getScore());
+	//			    visitedItems.getVisitedItem().add(vitem);
+	//			}
+	//		}
+	//		profileStep2.setVisitedItems(visitedItems);
+	//		
+	//		dumpProfile (profileStep2, profile2Filename);
+	//	}
+	//	
+	//	
+	//	public static void main (String[]  args) {
+	//		ProfileManager profiler = new ProfileManager();
+	//		profiler.createProfile();
+	//		profiler.loadProfile("Profile.xml");
+	//	}
 }
