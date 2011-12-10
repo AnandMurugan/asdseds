@@ -6,7 +6,7 @@
 //
 
 
-package CommoClasses;
+package Profiler.profile;
 
 import java.io.Serializable;
 

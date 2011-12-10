@@ -7,12 +7,12 @@ import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 
-public class SearchTourGuideBehaviour extends SimpleBehaviour {
+public class SearchTourGuide extends SimpleBehaviour {
 
 	private static final long serialVersionUID = -5821808715478331827L;
 	private String srvType = "tourGuide";
 	
-	public SearchTourGuideBehaviour(Agent a) {
+	public SearchTourGuide(Agent a) {
 		super(a);
 	}
 	
@@ -29,7 +29,7 @@ public class SearchTourGuideBehaviour extends SimpleBehaviour {
 				pAgent.setTourGuide(result[0].getName());
 			}
 		} catch(FIPAException e) {
-			System.out.println("SearchTourGuideBehaviour FIPAException");
+			System.out.println("SearchTourGuide FIPAException");
 			e.printStackTrace();
 			return;
 		}
