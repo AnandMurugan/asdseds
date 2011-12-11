@@ -37,7 +37,7 @@ public class TourNegotiation extends FSMBehaviour {
 		
 		registerState(new ReceiveProposal(myAgent, profiler), STATE_B);
 		
-		registerState(new EndNegotiation(myAgent, profiler), STATE_C);
+		registerLastState(new EndNegotiation(myAgent, profiler), STATE_C);
 		
 		registerLastState(new SimpleBehaviour() {
 			
