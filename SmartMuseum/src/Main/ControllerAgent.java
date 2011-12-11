@@ -1,18 +1,13 @@
 package Main;
 
-import java.util.Vector;
-
 import CuratorAgent.CuratorAgent;
 import Profiler.ProfilerAgent;
 import TourGuide.TourGuideAgent;
 
 import jade.content.lang.sl.SLCodec;
 import jade.core.Agent;
-import jade.core.ProfileException;
 import jade.core.ProfileImpl;
 import jade.domain.mobility.MobilityOntology;
-import jade.util.leap.HashMap;
-import jade.util.leap.Map;
 import jade.wrapper.AgentController;
 import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
@@ -23,8 +18,6 @@ public class ControllerAgent extends Agent {
 	private jade.wrapper.AgentContainer profilerHome;
 	private jade.wrapper.AgentContainer tourGuideHome;
 	private jade.wrapper.AgentContainer curatorHome;
-	//private Map locations = new HashMap();
-	//private Vector agents = new Vector();
 
 	jade.core.Runtime runtime = jade.core.Runtime.instance();
 
@@ -52,6 +45,8 @@ public class ControllerAgent extends Agent {
 			args = new Object[2];
 			args[0] = profilerHome.getContainerName();
 			args[1] = curatorHome.getContainerName();
+			args[2] = "proposal1.txt";
+			args[3] = "profile1.xml";
 			a = profilerHome.createNewAgent("profiler", ProfilerAgent.class.getName(), args);
 			a.start();
 		} catch (StaleProxyException e) {

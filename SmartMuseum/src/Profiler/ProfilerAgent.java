@@ -34,8 +34,9 @@ public class ProfilerAgent extends Agent{
 	private String curatorHome;
 	private boolean isHome = true;
 	private ArrayList<String> tour;
-	private int nrOfTours = 0;
-	private int profileNr = 1;
+	private int tourNr = 0;
+	private String proposalFile;
+	private String profileFile;
 	
 	protected void setup(){
 		
@@ -43,9 +44,11 @@ public class ProfilerAgent extends Agent{
 		getContentManager().registerOntology(MobilityOntology.getInstance());
 
 		Object[] args = getArguments();
-		if (args != null && args.length == 2) {
+		if (args != null && args.length == 4) {
 			home = (String)args[0];
 			curatorHome = (String)args[1];
+			proposalFile = (String)args[2];
+			profileFile = (String)args[3];
 		} else {
 			System.out.println("arg error");
 			System.exit(1);
@@ -57,7 +60,7 @@ public class ProfilerAgent extends Agent{
 	}
 	
 	public void startTourNegotiation() {
-		addBehaviour(new TourNegotiation(this));
+		addBehaviour(new TourNegotiation(this, tourNr));
 	}
 	
 	public void setTourGuide(AID tourGuide) {
@@ -107,8 +110,8 @@ public class ProfilerAgent extends Agent{
 			addBehaviour(new VisitTour(this, tour));
 		} else {
 			isHome = true;
-			nrOfTours++;
-			if(nrOfTours < 3) {
+			tourNr++;
+			if(tourNr < 3) {
 				startTourNegotiation();
 			} else {
 				System.out.println("finished touring");
@@ -117,14 +120,18 @@ public class ProfilerAgent extends Agent{
 		
 	}
 	
+	public String getProposalFilePath() {
+		return proposalFile;
+	}
+	
 	public void visitItem(MuseumItem museumItem) {
 		Random rand = new Random((new Date()).getTime());
 		System.out.println("item visited");
 		museumItem.setRating(rand.nextInt(6));
 		ProfileManager pm = new ProfileManager();
-		ProfileType profile = pm.getProfile("Profile.xml", profileNr);
+		ProfileType profile = pm.getProfile(profileFile);
 		profile.getVisitedItems().getVisitedItem().add(museumItem);
-		pm.dumpProfile(profile, "Profile.xml");
+		pm.dumpProfile(profile, profileFile);
 	}
 	
 	private Map getAvailableLocations() {
