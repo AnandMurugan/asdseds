@@ -3,6 +3,7 @@ package TourGuide;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,8 +19,8 @@ public class TourGuideAgent extends Agent {
 	private String provideServiceType = "tourGuide";
 	private String serviceId;
 	
-	private Map<Integer,Set<String>> acceptedProposals;
-	private Map<AID,ProfileObject> Profile = new HashMap<AID,ProfileObject>(); 
+	private Set<Proposal> acceptedProposals;
+	private Map<AID,ProfileObject> profile = new HashMap<AID,ProfileObject>(); 
 	private ReadExcel itemDb;
 	protected void setup(){
 		itemDb = new ReadExcel();
@@ -38,38 +39,71 @@ public class TourGuideAgent extends Agent {
 	}
 	
 	private void loadAcceptedProposals() {
-		acceptedProposals = new HashMap<Integer, Set<String>>();
+		acceptedProposals = new HashSet<Proposal>();
 		Set price;
+		Proposal p;
 		
 		price = new HashSet<String>();
 		price.add("P3_1");
 		price.add("P3_2");
-		acceptedProposals.put(3, price);
+		p = new Proposal(3, price);
+		acceptedProposals.add(p);
 		
 		price = new HashSet<String>();
 		price.add("P3_1");
-		acceptedProposals.put(2, price);
+		p = new Proposal(2, price);
+		acceptedProposals.add(p);
 		
 		price = new HashSet<String>();
 		price.add("P3_2");
-		acceptedProposals.put(2, price);
+		p = new Proposal(2, price);
+		acceptedProposals.add(p);
 
 		price = new HashSet<String>();
 		price.add("P2");
-		acceptedProposals.put(2, price);
+		p = new Proposal(2, price);
+		acceptedProposals.add(p);
 		
 		price = new HashSet<String>();
 		price.add("P1");
-		acceptedProposals.put(1, price);
+		p = new Proposal(1, price);
+		acceptedProposals.add(p);
 	}
 
 
 	public boolean checkProposal(Proposal p, AID profiler) {
-		return false;
+		if(acceptedProposals.contains(p)) {
+			Set<String> price = p.getPrice();
+			Iterator<String> it = price.iterator();
+			ProfileObject profileObj = profile.get(profiler);
+			
+			while(it.hasNext()) {
+				String profilePart = it.next();
+				
+				if(profilePart.equals("P1")) {
+					if(profileObj.hasP1()) {
+						return false;
+					}
+				} else if(profilePart.equals("P2")) {
+					if(profileObj.hasP2()) {
+						return false;
+					}
+				} else if(profilePart.equals("P3_1")) {
+					if(profileObj.hasP3_1()) {
+						return false;
+					}
+				} else if(profilePart.equals("P3_2")) {
+					if(profileObj.hasP3_2()) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 	
 	public Map<AID,ProfileObject> getProfile() {
-		return Profile;
+		return profile;
 	}
 
 	public ArrayList<String> getTourT1(){
