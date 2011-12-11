@@ -40,7 +40,7 @@ public class TourGuideAgent extends Agent {
 	
 	private void loadAcceptedProposals() {
 		acceptedProposals = new HashSet<Proposal>();
-		Set price;
+		Set<String> price;
 		Proposal p;
 		
 		price = new HashSet<String>();
