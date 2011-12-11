@@ -108,12 +108,16 @@ public class TourGuideAgent extends Agent {
 
 	public ArrayList<String> getTourT1(){
 		ArrayList<String> tour = new ArrayList<String>();
-		tour = itemDb.getRandomItems(); 
+		tour = itemDb.getRandomTour(); 
 		return tour;
 	}
 	
 	public ArrayList<String> getTourT2(){
 		ArrayList<String> tour = new ArrayList<String>();
+		ArrayList<String> interests = new ArrayList<String>();
+		interests.add("astronomy");
+		interests.add("art");
+		tour = itemDb.getTourT2(interests);
 		return tour;
 	}
 	
