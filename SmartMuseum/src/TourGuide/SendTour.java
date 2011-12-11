@@ -7,12 +7,12 @@ import jade.core.Agent;
 import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
 
-public class SendTourProposal extends SimpleBehaviour {
+public class SendTour extends SimpleBehaviour {
 
 	private static final long serialVersionUID = -8890150364625075207L;
 	private ACLMessage msg;
 
-	public SendTourProposal(Agent a, ACLMessage msg) {
+	public SendTour(Agent a, ACLMessage msg) {
 		super(a);
 		this.msg = msg;
 	}
