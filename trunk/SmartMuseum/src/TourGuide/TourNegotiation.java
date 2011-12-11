@@ -15,7 +15,7 @@ public class TourNegotiation extends FSMBehaviour {
 	public TourNegotiation(Agent a, ACLMessage msg) {
 		super(a);
 		this.msg = msg;
-		registerFirstState(new SendTourProposal(myAgent, msg), STATE_A);
+		registerFirstState(new SendTour(myAgent, msg), STATE_A);
 		registerLastState(new SimpleBehaviour(myAgent) {
 			
 			private static final long serialVersionUID = 1L;
