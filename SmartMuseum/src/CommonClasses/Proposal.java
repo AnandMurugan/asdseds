@@ -19,4 +19,17 @@ public class Proposal {
 	public int getTour() {
 		return tour;
 	}
+	
+	public boolean equals(Object o) {
+		if(o instanceof Proposal) {
+			Proposal p = (Proposal)o;
+			System.out.println(price);
+			System.out.println(p.getPrice());
+			if((tour == p.getTour()) && price.equals(p.getPrice())) {
+				return true;
+			}
+		}
+		return false;
+
+	}
 }
