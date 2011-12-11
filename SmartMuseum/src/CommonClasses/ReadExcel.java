@@ -103,7 +103,7 @@ public class ReadExcel {
 	
 	public ArrayList<String> getRandomItems(){
 		int i, maxIteration=1000;
-		Random randomIndex = new Random();
+		Random randomIndex = new Random((new Date()).getTime());
 		int min=0;
 		int randomNum;
 		ArrayList<String> itemLst = new ArrayList<String>();
