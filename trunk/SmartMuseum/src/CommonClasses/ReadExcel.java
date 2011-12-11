@@ -15,7 +15,7 @@ public class ReadExcel {
 	/**
 	 * creates an {@link HSSFWorkbook} the specified OS filename.
 	 */
-	private String fileName = "C:/ItemList.xls";
+	private String fileName = "ItemList.xls";
 	private static final int searchCol = 0;
 	private static HSSFWorkbook readFile(String filename) throws IOException {
 		return new HSSFWorkbook(new FileInputStream(filename));
