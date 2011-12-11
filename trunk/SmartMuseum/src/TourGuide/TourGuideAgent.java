@@ -1,6 +1,13 @@
 package TourGuide;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import CommonBehaviours.AgtRegisterService;
+import CommonClasses.Proposal;
+import jade.core.AID;
 import jade.core.Agent;
 
 public class TourGuideAgent extends Agent {
@@ -8,6 +15,8 @@ public class TourGuideAgent extends Agent {
 	private static final long serialVersionUID = -2470451374035057773L;
 	private String provideServiceType = "tourGuide";
 	private String serviceId;
+	
+	private Map<Integer,Set<String>> acceptedProposals;
 	
 	protected void setup(){
 		Object[] args = getArguments();
@@ -17,8 +26,41 @@ public class TourGuideAgent extends Agent {
 		else {
 			serviceId = "id1";
 		}
+		
+		loadAcceptedProposals();
+		
 		addBehaviour(new AgtRegisterService(this, provideServiceType, serviceId));
 		addBehaviour(new TourReqListening(this));	
 	}
+	
+	private void loadAcceptedProposals() {
+		acceptedProposals = new HashMap<Integer, Set<String>>();
+		Set price;
+		
+		price = new HashSet<String>();
+		price.add("P3_1");
+		price.add("P3_2");
+		acceptedProposals.put(3, price);
+		
+		price = new HashSet<String>();
+		price.add("P3_1");
+		acceptedProposals.put(2, price);
+		
+		price = new HashSet<String>();
+		price.add("P3_2");
+		acceptedProposals.put(2, price);
 
+		price = new HashSet<String>();
+		price.add("P2");
+		acceptedProposals.put(2, price);
+		
+		price = new HashSet<String>();
+		price.add("P1");
+		acceptedProposals.put(1, price);
+	}
+
+
+	public boolean checkProposal(Proposal p, AID profiler) {
+		return false;
+	}
 }
