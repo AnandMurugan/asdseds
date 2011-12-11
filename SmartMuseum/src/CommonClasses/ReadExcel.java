@@ -4,7 +4,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -144,7 +148,7 @@ public class ReadExcel {
 		return getRandomItems(itemIdLst, nbrOfItems,ListSize);
 	}
 
-	public ArrayList<String> getTourT2(ArrayList<String> interests) {
+	public ArrayList<String> getTourByInterest(ArrayList<String> interests) {
 		ArrayList<String> interestedItems = new ArrayList<String>();
 		if(interests.size() > 0){
 			interestedItems = getInterestedItems(interests);
@@ -193,5 +197,27 @@ public class ReadExcel {
 			e.printStackTrace();
 		}
 		return interestLst;
+	}
+
+	public ArrayList<String> getTourByRating(Map<String, Integer> p3) {
+		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> t3 = new ArrayList<String>();
+		//sort the map based on the ranking in a decreasing order
+		ValueComparator bvc =  new ValueComparator(p3);
+		TreeMap<String,Integer> sorted_map = new TreeMap<String, Integer>(bvc);
+		sorted_map.putAll(p3);
+		//get the interests list with high interest on the top
+		for(Map.Entry<String,Integer> entry : sorted_map.entrySet()) {
+			String id = entry.getKey();
+			Integer value = entry.getValue();
+			if(value>3){
+				MuseumItem item = RetrieveItem(id);
+				if(item!=null){
+					list.add(item.getSubject());
+				}  
+			}
+		}
+		t3 = getTourByInterest(list);
+		return t3;
 	}
 }
