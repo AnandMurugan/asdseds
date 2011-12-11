@@ -8,6 +8,7 @@ import java.util.Set;
 
 import CommonBehaviours.AgtRegisterService;
 import CommonClasses.Proposal;
+import CommonClasses.ReadExcel;
 import jade.core.AID;
 import jade.core.Agent;
 
@@ -19,8 +20,9 @@ public class TourGuideAgent extends Agent {
 	
 	private Map<Integer,Set<String>> acceptedProposals;
 	private Map<AID,ProfileObject> Profile = new HashMap<AID,ProfileObject>(); 
-	
+	private ReadExcel itemDb;
 	protected void setup(){
+		itemDb = new ReadExcel();
 		Object[] args = getArguments();
 		if (args != null && args.length > 0) {
 			serviceId =  (String) args[0];
@@ -72,21 +74,7 @@ public class TourGuideAgent extends Agent {
 
 	public ArrayList<String> getTourT1(){
 		ArrayList<String> tour = new ArrayList<String>();
-		tour.add("urn:imss:instrument:401037");
-		tour.add("urn:imss:instrument:414141");
-		tour.add("urn:imss:instrument:405030");
-		tour.add("urn:imss:instrument:414116");
-		tour.add("urn:imss:instrument:404014");
-		tour.add("urn:imss:instrument:402009");
-		tour.add("urn:imss:instrument:414108");
-		tour.add("urn:imss:instrument:414091");
-		tour.add("urn:imss:instrument:416001");
-		tour.add("urn:imss:instrument:402048");
-		tour.add("urn:imss:instrument:401038");
-		tour.add("urn:imss:instrument:402033");
-		tour.add("urn:imss:instrument:401049");
-		tour.add("urn:imss:instrument:402023");
-		tour.add("urn:imss:instrument:403062");
+		tour = itemDb.getRandomItems(); 
 		return tour;
 	}
 	
