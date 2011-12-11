@@ -42,7 +42,7 @@ public class ControllerAgent extends Agent {
 			a = curatorHome.createNewAgent("curator", CuratorAgent.class.getName(), args);
 			a.start();
 			doWait(1000);
-			args = new Object[2];
+			args = new Object[4];
 			args[0] = profilerHome.getContainerName();
 			args[1] = curatorHome.getContainerName();
 			args[2] = "proposal1.txt";
