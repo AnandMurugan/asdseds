@@ -117,12 +117,22 @@ public class TourGuideAgent extends Agent {
 		ArrayList<String> interests = new ArrayList<String>();
 		interests.add("astronomy");
 		interests.add("art");
-		tour = itemDb.getTourT2(interests);
+		tour = itemDb.getTourByInterest(interests);
 		return tour;
 	}
 	
 	public ArrayList<String> getTourT3(){
 		ArrayList<String> tour = new ArrayList<String>();
+		Map<String, Integer> rankingP3 = new HashMap<String, Integer>();
+		rankingP3.put("urn:imss:instrument:414091", 6);
+		rankingP3.put("urn:imss:instrument:416001", 5);
+		rankingP3.put("urn:imss:instrument:402048", 4);
+		rankingP3.put("urn:imss:instrument:401038", 3);
+		rankingP3.put("urn:imss:instrument:402033", 2);
+		rankingP3.put("urn:imss:instrument:401049", 1);
+		rankingP3.put("urn:imss:instrument:402023", 6);
+		rankingP3.put("urn:imss:instrument:403062", 5);
+		tour = itemDb.getTourByRating(rankingP3);
 		return tour;
 	}
 
