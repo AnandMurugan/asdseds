@@ -26,7 +26,7 @@ public class ReadExcel {
 	private static HSSFWorkbook readFile(String filename) throws IOException {
 		return new HSSFWorkbook(new FileInputStream(filename));
 	}
-	
+
 	private void countItems() {
 		try {
 			HSSFWorkbook wb = ReadExcel.readFile(fileName);
@@ -48,7 +48,7 @@ public class ReadExcel {
 						}
 					}
 				}
-							
+
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -100,27 +100,25 @@ public class ReadExcel {
 		}
 		return null;
 	}
-	
-	public ArrayList<String> getRandomItems(){
+
+	public ArrayList<String> getRandomItems(ArrayList<String> list, int size, int nbrOfItemsToRetrieve){
 		int i, maxIteration=1000;
 		Random randomIndex = new Random((new Date()).getTime());
 		int min=0;
 		int randomNum;
 		ArrayList<String> itemLst = new ArrayList<String>();
-		if(itemIdLst==null){
-			countItems();
-		}
-		for(i=0;i<ListSize;i++){
-			randomNum= randomIndex.nextInt(nbrOfItems - min + 1) + min;
+
+		for(i=0;i<nbrOfItemsToRetrieve;i++){
+			randomNum= randomIndex.nextInt(size - min + 1) + min;
 			int j=0;
 			while(true){
-				if((itemIdLst.get(randomNum))!= null){
-					itemLst.add(itemIdLst.get(randomNum));
+				if((list.get(randomNum))!= null){
+					itemLst.add(list.get(randomNum));
 					break;
 				}else if(j==maxIteration){
 					break;
 				}
-				randomNum= randomIndex.nextInt(nbrOfItems - min + 1) + min;
+				randomNum= randomIndex.nextInt(size - min + 1) + min;
 				j++;
 			}
 		}
@@ -139,4 +137,61 @@ public class ReadExcel {
 		return itemIdLst;
 	}
 
+	public ArrayList<String> getRandomTour() {
+		if(itemIdLst==null){
+			countItems();
+		}
+		return getRandomItems(itemIdLst, nbrOfItems,ListSize);
+	}
+
+	public ArrayList<String> getTourT2(ArrayList<String> interests) {
+		ArrayList<String> interestedItems = new ArrayList<String>();
+		if(interests.size() > 0){
+			interestedItems = getInterestedItems(interests);
+		}
+		if(interestedItems.size() > 0){
+			return getRandomItems(interestedItems, interestedItems.size(), ListSize);
+		}
+		return interestedItems;
+	}
+
+	private ArrayList<String> getInterestedItems(ArrayList<String> interests) {
+		ArrayList<String> interestLst = new ArrayList<String>();
+		HSSFCell subject;
+		String Id;
+		try {
+			HSSFWorkbook wb = ReadExcel.readFile(fileName);
+			for (int k = 0; k < wb.getNumberOfSheets(); k++) {
+				HSSFSheet sheet = wb.getSheetAt(k);
+				int rows = sheet.getPhysicalNumberOfRows();
+				for (int r = 0; r < rows; r++) {
+					HSSFRow row = sheet.getRow(r);
+					if (row == null) {
+						continue;
+					}
+					HSSFCell cell = row.getCell(searchCol);
+					if (cell!=null){
+						if(cell.getCellType()==HSSFCell.CELL_TYPE_STRING){
+							if(cell.getStringCellValue()!=null){
+								Id = cell.getStringCellValue();
+								subject = row.getCell(searchCol + 2);
+								if(subject!=null && subject.getStringCellValue()!=null){
+									for(int i=0; i < interests.size(); i++){
+										if(subject.getStringCellValue().startsWith(interests.get(i))){
+											interestLst.add(Id);
+											break;
+										}
+									}
+
+								}
+							}
+						}
+					}
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return interestLst;
+	}
 }
