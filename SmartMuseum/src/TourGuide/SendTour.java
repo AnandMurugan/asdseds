@@ -11,7 +11,10 @@ public class SendTour extends SimpleBehaviour {
 
 	private static final long serialVersionUID = -8890150364625075207L;
 	private ACLMessage msg;
-
+	private static final int T1=1;
+	private static final int T2=2;
+	private static final int T3=3;
+	
 	public SendTour(Agent a, ACLMessage msg) {
 		super(a);
 		this.msg = msg;
@@ -23,7 +26,7 @@ public class SendTour extends SimpleBehaviour {
 		ACLMessage reply = msg.createReply();
 		reply.setPerformative(ACLMessage.INFORM);
 		try {
-			reply.setContentObject(getTour());
+			reply.setContentObject(getTour(T1));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -36,24 +39,16 @@ public class SendTour extends SimpleBehaviour {
 		return true;
 	}
 
-	public ArrayList<String> getTour() {
-		ArrayList<String> tour = new ArrayList<String>();
-		tour.add("urn:imss:instrument:401037");
-		tour.add("urn:imss:instrument:414141");
-		tour.add("urn:imss:instrument:405030");
-		tour.add("urn:imss:instrument:414116");
-		tour.add("urn:imss:instrument:404014");
-		tour.add("urn:imss:instrument:402009");
-		tour.add("urn:imss:instrument:414108");
-		tour.add("urn:imss:instrument:414091");
-		tour.add("urn:imss:instrument:416001");
-		tour.add("urn:imss:instrument:402048");
-		tour.add("urn:imss:instrument:401038");
-		tour.add("urn:imss:instrument:402033");
-		tour.add("urn:imss:instrument:401049");
-		tour.add("urn:imss:instrument:402023");
-		tour.add("urn:imss:instrument:403062");
-		return tour;
+	public ArrayList<String> getTour(int tourType) {
+		switch(tourType){
+		case T1:
+			return ((TourGuideAgent)myAgent).getTourT1();
+		case T2:
+			return ((TourGuideAgent)myAgent).getTourT2();
+		case T3:
+			return ((TourGuideAgent)myAgent).getTourT3();
+		}
+		return null;
 	}
 
 }
