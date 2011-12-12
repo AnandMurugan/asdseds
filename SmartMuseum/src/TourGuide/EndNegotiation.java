@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import CommonBehaviours.MsgListener;
+import CommonClasses.ProfileObject;
 import Profiler.ProfilerAgent;
 import jade.core.AID;
 import jade.core.Agent;
@@ -18,10 +19,12 @@ public class EndNegotiation extends SequentialBehaviour {
 
 	private AID profiler;
 	private Set<String> visitedItems;
+	private TourNegotiation tourN;
 	
-	public EndNegotiation(Agent a, AID profiler) {
+	public EndNegotiation(Agent a, AID profiler, TourNegotiation tourN) {
 		super(a);
 		this.profiler = profiler;
+		this.tourN = tourN;
 	}
 	
 	public void onStart() {
@@ -33,12 +36,12 @@ public class EndNegotiation extends SequentialBehaviour {
 			public void handle(ACLMessage m) { 
 				if(m != null){
 					System.out.println("tourGuide - received payment");
-//					try {
-//						((TourGuideAgent)myAgent).addPayment(profiler, m.getContentObject());
-//					} catch (UnreadableException e) {
-//						e.printStackTrace();
-//						System.exit(1);
-//					}
+					try {
+						((TourGuideAgent)myAgent).addPayment(profiler, (ProfileObject)m.getContentObject());
+					} catch (UnreadableException e) {
+						e.printStackTrace();
+						System.exit(1);
+					}
 				}
 			}		
 		});
@@ -68,7 +71,15 @@ public class EndNegotiation extends SequentialBehaviour {
 			
 			@Override
 			public void action() {
-				ArrayList<String> tour = ((TourGuideAgent)myAgent).getTourT1(visitedItems);
+				ArrayList<String> tour;
+				int tourType = tourN.getTourType();
+				if(tourType == 1) {
+					tour = ((TourGuideAgent)myAgent).getTourT1(visitedItems);
+				} else if(tourType == 2) {
+					tour = ((TourGuideAgent)myAgent).getTourT2(profiler, visitedItems);
+				} else {
+					tour = ((TourGuideAgent)myAgent).getTourT3(profiler, visitedItems);
+				}
 				ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 				try {
 					msg.setContentObject(tour);
@@ -78,7 +89,6 @@ public class EndNegotiation extends SequentialBehaviour {
 				}
 				msg.addReceiver(profiler);
 				myAgent.send(msg);
-
 			}
 		});
 	}
