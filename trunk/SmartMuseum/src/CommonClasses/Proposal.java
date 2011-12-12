@@ -1,8 +1,10 @@
 package CommonClasses;
 
+import java.io.Serializable;
+import java.util.Iterator;
 import java.util.Set;
 
-public class Proposal {
+public class Proposal implements Serializable {
 
 	private Set<String> price;
 	private int tour;
@@ -20,16 +22,27 @@ public class Proposal {
 		return tour;
 	}
 	
+	@Override
 	public boolean equals(Object o) {
 		if(o instanceof Proposal) {
 			Proposal p = (Proposal)o;
-			System.out.println(price);
-			System.out.println(p.getPrice());
-			if((tour == p.getTour()) && price.equals(p.getPrice())) {
-				return true;
+			if((tour == p.getTour())) {
+				boolean flag = false;
+				if(price.size() != p.getPrice().size()) {
+					return false;
+				}
+				Iterator<String> it = p.getPrice().iterator();
+				while(it.hasNext()) {
+					if(price.contains(it.next())) {
+						flag = true;
+					} else {
+						flag = false;
+						break;
+					}
+				}
+				return flag;
 			}
 		}
 		return false;
-
 	}
 }
