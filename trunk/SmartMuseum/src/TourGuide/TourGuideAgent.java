@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import CommonBehaviours.AgtRegisterService;
+import CommonClasses.ProfileObject;
 import CommonClasses.Proposal;
 import CommonClasses.ReadExcel;
 import jade.core.AID;

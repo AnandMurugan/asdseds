@@ -39,7 +39,6 @@ public class SendProposal extends SequentialBehaviour {
 			private static final long serialVersionUID = 8955673657803014129L;
 			
 			public void handle(ACLMessage m) { 
-				System.out.println("here in ms");
 				proposalStatus = 2;
 				if(m!=null){
 					if(m.getPerformative() == ACLMessage.ACCEPT_PROPOSAL){
