@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,6 +23,7 @@ public class TourGuideAgent extends Agent {
 
 	private Set<Proposal> acceptedProposals;
 	private Map<AID,ProfileObject> profile = new HashMap<AID,ProfileObject>(); 
+	private AID profilerAID;
 	private ReadExcel itemDb;
 	protected void setup(){
 		itemDb = new ReadExcel();
@@ -124,9 +126,10 @@ public class TourGuideAgent extends Agent {
 
 	public ArrayList<String> getTourT2(){
 		ArrayList<String> tour = new ArrayList<String>();
-		ArrayList<String> interests = new ArrayList<String>();
-		interests.add("astronomy");
-		interests.add("art");
+		List<String> interests = new ArrayList<String>();
+		if(profile.get(profilerAID)!=null && profile.get(profilerAID).hasP2()){
+			interests = profile.get(profilerAID).getP2();
+		}
 		tour = itemDb.getTourByInterest(interests);
 		return tour;
 	}
