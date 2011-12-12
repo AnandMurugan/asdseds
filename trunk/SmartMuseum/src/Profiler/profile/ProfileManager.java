@@ -68,12 +68,13 @@ public class ProfileManager {
 
 		/** choose any value of Subject, Object Type, Material from provided list */
 		interests.getInterest().add("astronomy");
-		interests.getInterest().add("art");
+		interests.getInterest().add("mechanics");
 		// add collection of interests into profile
 		profile.setInterests(interests);
 		profile.setVisitedItems(factory.createProfileTypeVisitedItems());
 		/*--------------------------------------------*/
 
+		profile.setVisitedItems(factory.createProfileTypeVisitedItems());
 		return profile;
 	}
 	
@@ -86,24 +87,26 @@ public class ProfileManager {
 		 */
 		/*--------------------------------------------*/
 		//initialize basic information
-		profile.setAge(33);
+		profile.setAge(25);
 		/** only one of : "higher education","postsecondary education","elementary education","secondary education" */
 		profile.setEducation("higher education");
 		/** only one of: "all",	"adventure","art of culture", "educational", "welfare and relaxing" */
-		profile.setMotivationOfVisit("educational");
+		profile.setMotivationOfVisit("welfare and relaxing");
 		/** only use of these values:{ greedy, normal, conservative} */
-		profile.setAttitude("greedy");
-		profile.setPrivacy(0.5);
+		profile.setAttitude("conservative");
+		profile.setPrivacy(0.7);
 		/*--------------------------------------------*/
 		//add interests into profile 
 		ProfileType.Interests interests = factory.createProfileTypeInterests();
 
 		/** choose any value of Subject, Object Type, Material from provided list */
-		interests.getInterest().add("astronomy");
-		interests.getInterest().add("art");
+		interests.getInterest().add("electrical engineering");
+		interests.getInterest().add("optics");
 		// add collection of interests into profile
 		profile.setInterests(interests);
 		/*--------------------------------------------*/
+		
+		profile.setVisitedItems(factory.createProfileTypeVisitedItems());
 
 		return profile;
 	}
