@@ -22,8 +22,18 @@ import javax.xml.transform.stream.StreamSource;
 
 public class ProfileManager {
 
-	public ProfileType getProfile(String profilePath) {
-		ProfileType profile = loadProfile(profilePath);
+	public ProfileType getProfile(String profilePath, boolean reset) {
+		ProfileType profile;
+		if(reset) {
+			if(profilePath.contains("1")) {
+				profile = createProfile1();
+			} else {
+				profile = createProfile2();
+			}
+			dumpProfile(profile, profilePath);
+		}
+		
+		profile = loadProfile(profilePath);
 		if(profile == null) {
 			if(profilePath.contains("1")) {
 				profile = createProfile1();

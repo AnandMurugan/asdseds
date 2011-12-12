@@ -147,6 +147,7 @@ public class ReadExcel {
 
 	public ArrayList<String> getRandomTour(Set<String> visitedItemIdSet) {
 		if(itemIdLst==null){
+			itemIdLst = new ArrayList<String>();
 			countItems();
 		}
 		return getRandomItems(itemIdLst, nbrOfItems,ListSize, visitedItemIdSet);

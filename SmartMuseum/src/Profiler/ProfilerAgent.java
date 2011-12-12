@@ -60,6 +60,9 @@ public class ProfilerAgent extends Agent{
 			System.exit(1);
 		}
 		
+		ProfileManager pm = new ProfileManager();
+		ProfileType profile = pm.getProfile(profileFile, true);
+		
 		addBehaviour(new SearchTourGuide(this));
 		addBehaviour(new SearchCurator(this));
 		startTourNegotiation();
@@ -135,7 +138,7 @@ public class ProfilerAgent extends Agent{
 		System.out.println("item visited");
 		museumItem.setRating(rand.nextInt(6));
 		ProfileManager pm = new ProfileManager();
-		ProfileType profile = pm.getProfile(profileFile);
+		ProfileType profile = pm.getProfile(profileFile, false);
 		profile.getVisitedItems().getVisitedItem().add(museumItem);
 		pm.dumpProfile(profile, profileFile);
 	}
@@ -215,7 +218,7 @@ public class ProfilerAgent extends Agent{
 	private Map<String, String> getP1() {
 		Map<String, String> p1 = new HashMap<String, String>();
 		ProfileManager pm = new ProfileManager();
-		ProfileType profile = pm.getProfile(profileFile);
+		ProfileType profile = pm.getProfile(profileFile, false);
 		
 		p1.put("age", "" + profile.getAge());
 		p1.put("education", profile.getEducation());
@@ -226,14 +229,14 @@ public class ProfilerAgent extends Agent{
 	
 	private List<String> getP2() {
 		ProfileManager pm = new ProfileManager();
-		ProfileType profile = pm.getProfile(profileFile);
+		ProfileType profile = pm.getProfile(profileFile, false);
 		
 		return profile.getInterests().getInterest();
 	}
 	
 	private Map<String, Integer> getP3(int start, int end) {
 		ProfileManager pm = new ProfileManager();
-		ProfileType profile = pm.getProfile(profileFile);
+		ProfileType profile = pm.getProfile(profileFile, false);
 		
 		Map<String, Integer> ratings = new HashMap<String, Integer>();
 		List<MuseumItem> l = profile.getVisitedItems().getVisitedItem();
@@ -248,7 +251,7 @@ public class ProfilerAgent extends Agent{
 	
 	public Set<String> getVisitedItems() {
 		ProfileManager pm = new ProfileManager();
-		ProfileType profile = pm.getProfile(profileFile);
+		ProfileType profile = pm.getProfile(profileFile, false);
 		
 		Set<String> visited = new HashSet<String>();
 		List<MuseumItem> l = profile.getVisitedItems().getVisitedItem();
