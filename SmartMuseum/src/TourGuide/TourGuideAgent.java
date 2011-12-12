@@ -129,7 +129,11 @@ public class TourGuideAgent extends Agent {
 		if(profile.get(profilerAID)!=null && profile.get(profilerAID).hasP2()){
 			interests = profile.get(profilerAID).getP2();
 		}
-		tour = itemDb.getTourByInterest(interests, visitedItemIdSet);
+		if(interests.size()==0){
+			tour = getTourT3(profilerAID, visitedItemIdSet);
+		}else{
+			tour = itemDb.getTourByInterest(interests, visitedItemIdSet);	
+		}
 		return tour;
 	}
 
