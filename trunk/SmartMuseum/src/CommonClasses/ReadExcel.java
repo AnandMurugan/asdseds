@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -106,7 +107,7 @@ public class ReadExcel {
 		return null;
 	}
 
-	public ArrayList<String> getRandomItems(ArrayList<String> list, int size, int nbrOfItemsToRetrieve){
+	public ArrayList<String> getRandomItems(ArrayList<String> list, int size, int nbrOfItemsToRetrieve, Set<String> visitedItemIdSet){
 		int i, maxIteration=1000;
 		Random randomIndex = new Random((new Date()).getTime());
 		int min=0;
@@ -118,8 +119,10 @@ public class ReadExcel {
 			int j=0;
 			while(true){
 				if((list.get(randomNum))!= null){
-					itemLst.add(list.get(randomNum));
-					break;
+					if(!(visitedItemIdSet.contains(list.get(randomNum)))){
+						itemLst.add(list.get(randomNum));
+						break;
+					}
 				}else if(j==maxIteration){
 					break;
 				}
@@ -142,20 +145,20 @@ public class ReadExcel {
 		return itemIdLst;
 	}
 
-	public ArrayList<String> getRandomTour() {
+	public ArrayList<String> getRandomTour(Set<String> visitedItemIdSet) {
 		if(itemIdLst==null){
 			countItems();
 		}
-		return getRandomItems(itemIdLst, nbrOfItems,ListSize);
+		return getRandomItems(itemIdLst, nbrOfItems,ListSize, visitedItemIdSet);
 	}
 
-	public ArrayList<String> getTourByInterest(List<String> interests) {
+	public ArrayList<String> getTourByInterest(List<String> interests, Set<String> visitedItemIdSet) {
 		ArrayList<String> interestedItems = new ArrayList<String>();
 		if(interests.size() > 0){
 			interestedItems = getInterestedItems(interests);
 		}
 		if(interestedItems.size() > 0){
-			return getRandomItems(interestedItems, interestedItems.size(), ListSize);
+			return getRandomItems(interestedItems, interestedItems.size(), ListSize, visitedItemIdSet);
 		}
 		return interestedItems;
 	}
@@ -200,7 +203,7 @@ public class ReadExcel {
 		return interestLst;
 	}
 
-	public ArrayList<String> getTourByRating(Map<String, Integer> p3) {
+	public ArrayList<String> getTourByRating(Map<String, Integer> p3, Set<String> visitedItemIdSet) {
 		List<String> list = new ArrayList<String>();
 		ArrayList<String> t3 = new ArrayList<String>();
 		//sort the map based on the ranking in a decreasing order
@@ -218,7 +221,7 @@ public class ReadExcel {
 				}  
 			}
 		}
-		t3 = getTourByInterest(list);
+		t3 = getTourByInterest(list, visitedItemIdSet);
 		return t3;
 	}
 }
