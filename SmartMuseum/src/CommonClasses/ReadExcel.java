@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
@@ -148,7 +149,7 @@ public class ReadExcel {
 		return getRandomItems(itemIdLst, nbrOfItems,ListSize);
 	}
 
-	public ArrayList<String> getTourByInterest(ArrayList<String> interests) {
+	public ArrayList<String> getTourByInterest(List<String> interests) {
 		ArrayList<String> interestedItems = new ArrayList<String>();
 		if(interests.size() > 0){
 			interestedItems = getInterestedItems(interests);
@@ -159,7 +160,7 @@ public class ReadExcel {
 		return interestedItems;
 	}
 
-	private ArrayList<String> getInterestedItems(ArrayList<String> interests) {
+	private ArrayList<String> getInterestedItems(List<String> interests) {
 		ArrayList<String> interestLst = new ArrayList<String>();
 		HSSFCell subject;
 		String Id;
@@ -200,7 +201,7 @@ public class ReadExcel {
 	}
 
 	public ArrayList<String> getTourByRating(Map<String, Integer> p3) {
-		ArrayList<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<String>();
 		ArrayList<String> t3 = new ArrayList<String>();
 		//sort the map based on the ranking in a decreasing order
 		ValueComparator bvc =  new ValueComparator(p3);
