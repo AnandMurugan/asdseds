@@ -20,6 +20,10 @@ public class MsgListener extends SimpleBehaviour {
 		this.template = template;
 	}
 
+	public MsgListener() {
+		System.out.println("!!!!! this constructor ...error");
+	}
+
 	public ACLMessage getMessage() { 
 		return msg; 
 	}

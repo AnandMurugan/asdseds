@@ -3,10 +3,12 @@ package Profiler;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import CommonClasses.ProfileObject;
 import CommonClasses.Proposal;
@@ -242,6 +244,20 @@ public class ProfilerAgent extends Agent{
 			ratings.put(item.getId(), r);
 		}
 		return ratings;
+	}
+	
+	public Set<String> getVisitedItems() {
+		ProfileManager pm = new ProfileManager();
+		ProfileType profile = pm.getProfile(profileFile);
+		
+		Set<String> visited = new HashSet<String>();
+		List<MuseumItem> l = profile.getVisitedItems().getVisitedItem();
+		MuseumItem item;
+		for(int i = 0; i < l.size(); i++) {
+			item = l.get(i);
+			visited.add(item.getId());
+		}
+		return visited;
 	}
 }
 
