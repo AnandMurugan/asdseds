@@ -150,7 +150,7 @@ public class ReadExcel {
 			itemIdLst = new ArrayList<String>();
 			countItems();
 		}
-		return getRandomItems(itemIdLst, nbrOfItems,ListSize, visitedItemIdSet);
+		return getRandomItems(itemIdLst, itemIdLst.size()-1,ListSize, visitedItemIdSet);
 	}
 
 	public ArrayList<String> getTourByInterest(List<String> interests, Set<String> visitedItemIdSet) {
@@ -159,7 +159,7 @@ public class ReadExcel {
 			interestedItems = getInterestedItems(interests);
 		}
 		if(interestedItems.size() > 0){
-			return getRandomItems(interestedItems, interestedItems.size(), ListSize, visitedItemIdSet);
+			return getRandomItems(interestedItems, interestedItems.size()-1, ListSize, visitedItemIdSet);
 		}
 		return interestedItems;
 	}
