@@ -2,7 +2,6 @@ package TourGuide;
 
 import CommonBehaviours.MsgListener;
 import CommonClasses.Proposal;
-import Profiler.ProfilerAgent;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.SequentialBehaviour;
@@ -57,6 +56,7 @@ public class ReceiveProposal extends SequentialBehaviour {
 	}
 	
 	public int onEnd() {
+		reset();
 		return proposalStatus;
 	}
 }
