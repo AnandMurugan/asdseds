@@ -133,7 +133,7 @@ public class TourGuideAgent extends Agent {
 		return tour;
 	}
 
-	public ArrayList<String> getTourT3(AID profilerAID,Set<String> visitedItemIdSet){
+	public ArrayList<String> getTourT3(AID profilerAID, Set<String> visitedItemIdSet){
 		ArrayList<String> tour = new ArrayList<String>();
 		Map<String, Integer> rankingP3 = new HashMap<String, Integer>();
 		if(profile.get(profilerAID)!=null){
@@ -146,5 +146,21 @@ public class TourGuideAgent extends Agent {
 		}
 		tour = itemDb.getTourByRating(rankingP3, visitedItemIdSet);
 		return tour;
+	}
+	
+	public void addPayment(AID profiler, ProfileObject payment) {
+		ProfileObject profileObj = profile.get(profiler);
+		if(payment.hasP1()) {
+			profileObj.setP1(payment.getP1());
+		}
+		if(payment.hasP2()) {
+			profileObj.setP2(payment.getP2());
+		}
+		if(payment.hasP3_1()) {
+			profileObj.setP3_1(payment.getP3_1());
+		}
+		if(payment.hasP3_2()) {
+			profileObj.setP3_2(payment.getP3_2());
+		}
 	}
 }
