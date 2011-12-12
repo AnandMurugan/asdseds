@@ -1,8 +1,11 @@
 package Profiler;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import CommonBehaviours.MsgListener;
+import CommonClasses.ProfileObject;
+import CommonClasses.Proposal;
 import jade.core.Agent;
 import jade.core.behaviours.SequentialBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -20,8 +23,23 @@ public class EndNegotiation extends SequentialBehaviour {
 	}
 
 	public void onStart() {
-		System.out.println("ending negotiation");
+		System.out.println("profiler - ending negotiation");
 		System.out.println("accepted proposal " + tour.getCurrentProposal());
+		
+		Proposal proposal = tour.getCurrentProposal();
+		ProfileObject payment = ((ProfilerAgent)myAgent).getPayment(proposal);
+		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+		try {
+			msg.setContentObject(payment);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		msg.addReceiver(((ProfilerAgent)myAgent).getTourGuide());
+		myAgent.send(msg);
+		
+		
+
 	
 		MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM); 
 		addSubBehaviour(new MsgListener(myAgent, 3000, mt) {

@@ -1,12 +1,13 @@
-package TourGuide;
+package CommonClasses;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-public class ProfileObject {
+public class ProfileObject implements Serializable{
 
 	private Map<String, String> P1 = null;
-	private Set<String> P2 = null;
+	private List<String> P2 = null;
 	private Map<String, Integer> P3_1 = null;
 	private Map<String, Integer> P3_2 = null;
 	
@@ -42,7 +43,7 @@ public class ProfileObject {
 		this.P1 = P1;
 	}
 	
-	public void setP2(Set<String> P2) {
+	public void setP2(List<String> P2) {
 		this.P2 = P2;
 	}
 	
@@ -54,7 +55,7 @@ public class ProfileObject {
 		this.P3_2 = P3_2;
 	}
 	
-	public Set<String> getP2() {
+	public List<String> getP2() {
 		return P2;
 	}
 	

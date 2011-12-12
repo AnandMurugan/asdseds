@@ -9,4 +9,8 @@ public class EndNegotiation extends SequentialBehaviour {
 	public EndNegotiation(Agent a, AID profiler) {
 		super(a);
 	}
+	
+	public void onStart() {
+		System.out.println("tourGuide - ending negotiation");
+	}
 }

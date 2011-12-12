@@ -2,8 +2,14 @@ package Profiler;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
+import CommonClasses.ProfileObject;
+import CommonClasses.Proposal;
 import Profiler.profile.MuseumItem;
 import Profiler.profile.ProfileManager;
 import Profiler.profile.ProfileType;
@@ -22,8 +28,6 @@ import jade.domain.JADEAgentManagement.QueryPlatformLocationsAction;
 import jade.domain.mobility.MobilityOntology;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import jade.util.leap.HashMap;
-import jade.util.leap.Map;
 
 public class ProfilerAgent extends Agent{
 	private static final long serialVersionUID = 2555041222033394491L;
@@ -182,7 +186,63 @@ public class ProfilerAgent extends Agent{
 		catch (Exception ex) { ex.printStackTrace(); }
 	}
 
+	
+	/*
+	 * payment functions
+	 */
+	public ProfileObject getPayment(Proposal p) {
+		ProfileObject payment = new ProfileObject();
+		Iterator<String> it = p.getPrice().iterator();
 
+		while(it.hasNext()) {
+			String profilePart = it.next();
+
+			if(profilePart.equals("P1")) {
+				payment.setP1(getP1());
+			} else if(profilePart.equals("P2")) {
+				payment.setP2(getP2());
+			} else if(profilePart.equals("P3_1")) {
+				payment.setP3_1(getP3(0, 15));
+			} else if(profilePart.equals("P3_2")) {
+				payment.setP3_2(getP3(15,30));
+			}
+		}
+		return payment;
+	}
+
+	private Map<String, String> getP1() {
+		Map<String, String> p1 = new HashMap<String, String>();
+		ProfileManager pm = new ProfileManager();
+		ProfileType profile = pm.getProfile(profileFile);
+		
+		p1.put("age", "" + profile.getAge());
+		p1.put("education", profile.getEducation());
+		p1.put("motivation", profile.getMotivationOfVisit());
+		
+		return p1;
+	}
+	
+	private List<String> getP2() {
+		ProfileManager pm = new ProfileManager();
+		ProfileType profile = pm.getProfile(profileFile);
+		
+		return profile.getInterests().getInterest();
+	}
+	
+	private Map<String, Integer> getP3(int start, int end) {
+		ProfileManager pm = new ProfileManager();
+		ProfileType profile = pm.getProfile(profileFile);
+		
+		Map<String, Integer> ratings = new HashMap<String, Integer>();
+		List<MuseumItem> l = profile.getVisitedItems().getVisitedItem();
+		MuseumItem item;
+		for(int i = start; i < end; i++) {
+			item = l.get(i);
+			int r = (int) item.getRating();
+			ratings.put(item.getId(), r);
+		}
+		return ratings;
+	}
 }
 
 
