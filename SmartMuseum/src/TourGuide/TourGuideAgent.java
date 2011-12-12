@@ -118,35 +118,34 @@ public class TourGuideAgent extends Agent {
 		return profile;
 	}
 
-	public ArrayList<String> getTourT1(){
+	public ArrayList<String> getTourT1(Set<String> visitedItemIdSet){
 		ArrayList<String> tour = new ArrayList<String>();
-		tour = itemDb.getRandomTour(); 
+		tour = itemDb.getRandomTour(visitedItemIdSet); 
 		return tour;
 	}
 
-	public ArrayList<String> getTourT2(){
+	public ArrayList<String> getTourT2(Set<String> visitedItemIdSet){
 		ArrayList<String> tour = new ArrayList<String>();
 		List<String> interests = new ArrayList<String>();
 		if(profile.get(profilerAID)!=null && profile.get(profilerAID).hasP2()){
 			interests = profile.get(profilerAID).getP2();
 		}
-		tour = itemDb.getTourByInterest(interests);
+		tour = itemDb.getTourByInterest(interests, visitedItemIdSet);
 		return tour;
 	}
 
-	public ArrayList<String> getTourT3(){
+	public ArrayList<String> getTourT3(Set<String> visitedItemIdSet){
 		ArrayList<String> tour = new ArrayList<String>();
 		Map<String, Integer> rankingP3 = new HashMap<String, Integer>();
-		rankingP3.put("urn:imss:instrument:414091", 6);
-		rankingP3.put("urn:imss:instrument:416001", 5);
-		rankingP3.put("urn:imss:instrument:402048", 4);
-		rankingP3.put("urn:imss:instrument:401038", 3);
-		rankingP3.put("urn:imss:instrument:402033", 2);
-		rankingP3.put("urn:imss:instrument:401049", 1);
-		rankingP3.put("urn:imss:instrument:402023", 6);
-		rankingP3.put("urn:imss:instrument:403062", 5);
-		tour = itemDb.getTourByRating(rankingP3);
+		if(profile.get(profilerAID)!=null){
+			if(profile.get(profilerAID).hasP3_1()){
+				rankingP3 = profile.get(profilerAID).getP3_1();
+			}
+			if(profile.get(profilerAID).hasP3_2()){
+				rankingP3.putAll(profile.get(profilerAID).getP3_2());
+			}
+		}
+		tour = itemDb.getTourByRating(rankingP3, visitedItemIdSet);
 		return tour;
 	}
-
 }
