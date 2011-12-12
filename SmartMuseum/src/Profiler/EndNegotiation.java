@@ -27,8 +27,8 @@ public class EndNegotiation extends SequentialBehaviour {
 
 	public void onStart() {
 		System.out.println("profiler - ending negotiation");
-		System.out.println("accepted proposal " + tour.getCurrentProposal());
-
+		System.out.println("accepted proposal " + tour.getCurrentProposal().getTour() + " " + tour.getCurrentProposal().getPrice());
+		
 		Proposal proposal = tour.getCurrentProposal();
 		ProfileObject payment = ((ProfilerAgent)myAgent).getPayment(proposal);
 		ACLMessage msg1 = new ACLMessage(ACLMessage.INFORM);
