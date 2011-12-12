@@ -23,7 +23,6 @@ public class TourGuideAgent extends Agent {
 
 	private Set<Proposal> acceptedProposals;
 	private Map<AID,ProfileObject> profile = new HashMap<AID,ProfileObject>(); 
-	private AID profilerAID;
 	private ReadExcel itemDb;
 	protected void setup(){
 		itemDb = new ReadExcel();
@@ -124,7 +123,7 @@ public class TourGuideAgent extends Agent {
 		return tour;
 	}
 
-	public ArrayList<String> getTourT2(Set<String> visitedItemIdSet){
+	public ArrayList<String> getTourT2(AID profilerAID, Set<String> visitedItemIdSet){
 		ArrayList<String> tour = new ArrayList<String>();
 		List<String> interests = new ArrayList<String>();
 		if(profile.get(profilerAID)!=null && profile.get(profilerAID).hasP2()){
@@ -134,7 +133,7 @@ public class TourGuideAgent extends Agent {
 		return tour;
 	}
 
-	public ArrayList<String> getTourT3(Set<String> visitedItemIdSet){
+	public ArrayList<String> getTourT3(AID profilerAID,Set<String> visitedItemIdSet){
 		ArrayList<String> tour = new ArrayList<String>();
 		Map<String, Integer> rankingP3 = new HashMap<String, Integer>();
 		if(profile.get(profilerAID)!=null){
