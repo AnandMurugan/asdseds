@@ -7,6 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
+import CommonClasses.Proposal;
 
 import jade.core.Agent;
 import jade.core.behaviours.FSMBehaviour;
@@ -14,14 +18,12 @@ import jade.core.behaviours.SimpleBehaviour;
 
 public class TourNegotiation extends FSMBehaviour{
 
-	private static final long serialVersionUID = -9896598676906028L;
-
 	private static final String STATE_A = "Start_Tour_Negotiation";
 	private static final String STATE_B = "Send_Proposal";
 	private static final String STATE_C = "End_Negotiation_Success";
 	private static final String STATE_D = "End_Negotiation_ERROR";
 	
-	private ArrayList<String> proposalList;
+	private ArrayList<Proposal> proposalList;
 	private int currentProposal = 0;
 
 	public TourNegotiation(Agent a, int tourNr) {
@@ -31,9 +33,8 @@ public class TourNegotiation extends FSMBehaviour{
 
 		registerFirstState(new StartNewNegotiation(myAgent), STATE_A);
 		registerState(new SendProposal(myAgent, this), STATE_B);
-		registerLastState(new EndNegotiation(myAgent), STATE_C);
+		registerLastState(new EndNegotiation(myAgent, this), STATE_C);
 		registerLastState(new SimpleBehaviour(myAgent) {
-			private static final long serialVersionUID = -5941691593426959661L;
 
 			@Override
 			public boolean done() {
@@ -42,7 +43,7 @@ public class TourNegotiation extends FSMBehaviour{
 
 			@Override
 			public void action() {
-				System.out.println("end negotiation error");
+				System.out.println("profiler - end negotiation error");
 			}
 		}, STATE_D);
 
@@ -54,19 +55,35 @@ public class TourNegotiation extends FSMBehaviour{
 	}
 
 	private void loadProposalList(int tourNr) {
+		proposalList = new ArrayList<Proposal>();
+		
 		FileInputStream fstream;
 		try {
 			fstream = new FileInputStream(((ProfilerAgent)myAgent).getProposalFilePath());
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			String strLine;
+			String strLine = "";
 			//Read File Line By Line
-			while ((strLine = br.readLine()) != null && tourNr >= 0)   {
-				tourNr--;
+			System.out.println(tourNr);
+			while (tourNr >= 0)   {
+				if((strLine = br.readLine()) != null) {
+					tourNr--;
+				} else {
+					System.out.println("error proposal file doesn't have 3 lines");
+				}
 			}
 			String[] stringList = strLine.split(" ");
 			for(int i = 0; i < stringList.length; i++) {
-				proposalList.add(stringList[i]);
+				int auxTourNr = stringList[i].charAt(2) - '0';
+				String auxPrice = stringList[i].substring(4, stringList[i].length()-1); 
+				String[] priceItems = auxPrice.split(",");
+				
+				Set<String> priceItemsSet = new HashSet<String>();
+				for(int j = 0; j < priceItems.length; j++) {
+					priceItemsSet.add(priceItems[j]);
+				}
+				Proposal p = new Proposal(auxTourNr, priceItemsSet);
+				proposalList.add(p);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -77,7 +94,7 @@ public class TourNegotiation extends FSMBehaviour{
 		}
 	}
 
-	public String getCurrentProposal() {
+	public Proposal getCurrentProposal() {
 		return proposalList.get(currentProposal);
 	}
 	

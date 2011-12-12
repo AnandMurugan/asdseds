@@ -12,13 +12,17 @@ import jade.lang.acl.UnreadableException;
 public class EndNegotiation extends SequentialBehaviour {
 
 	private static final long serialVersionUID = 4562228487637705996L;
-
-	public EndNegotiation(Agent a) {
+	private TourNegotiation tour;
+	
+	public EndNegotiation(Agent a, TourNegotiation tour) {
 		super(a);
+		this.tour = tour;
 	}
 
 	public void onStart() {
 		System.out.println("ending negotiation");
+		System.out.println("accepted proposal " + tour.getCurrentProposal());
+	
 		MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM); 
 		addSubBehaviour(new MsgListener(myAgent, 3000, mt) {
 			private static final long serialVersionUID = 8955673657803014129L;
