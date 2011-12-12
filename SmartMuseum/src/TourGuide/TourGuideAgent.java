@@ -150,6 +150,10 @@ public class TourGuideAgent extends Agent {
 	
 	public void addPayment(AID profiler, ProfileObject payment) {
 		ProfileObject profileObj = profile.get(profiler);
+		if(profileObj == null) {
+			profile.put(profiler, payment);
+			return;
+		}
 		if(payment.hasP1()) {
 			profileObj.setP1(payment.getP1());
 		}
