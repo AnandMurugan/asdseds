@@ -80,7 +80,6 @@ public class EndNegotiation extends SequentialBehaviour {
 				myAgent.send(msg);
 
 			}
-		};
-
+		});
 	}
 }
