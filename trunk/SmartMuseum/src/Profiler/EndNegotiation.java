@@ -1,7 +1,10 @@
 package Profiler;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import CommonBehaviours.MsgListener;
 import CommonClasses.ProfileObject;
@@ -16,7 +19,7 @@ public class EndNegotiation extends SequentialBehaviour {
 
 	private static final long serialVersionUID = 4562228487637705996L;
 	private TourNegotiation tour;
-	
+
 	public EndNegotiation(Agent a, TourNegotiation tour) {
 		super(a);
 		this.tour = tour;
@@ -25,46 +28,45 @@ public class EndNegotiation extends SequentialBehaviour {
 	public void onStart() {
 		System.out.println("profiler - ending negotiation");
 		System.out.println("accepted proposal " + tour.getCurrentProposal());
-		
+
 		Proposal proposal = tour.getCurrentProposal();
 		ProfileObject payment = ((ProfilerAgent)myAgent).getPayment(proposal);
-		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+		ACLMessage msg1 = new ACLMessage(ACLMessage.INFORM);
 		try {
-			msg.setContentObject(payment);
+			msg1.setContentObject(payment);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		msg.addReceiver(((ProfilerAgent)myAgent).getTourGuide());
-		myAgent.send(msg);
-		
-		
+		msg1.addReceiver(((ProfilerAgent)myAgent).getTourGuide());
+		myAgent.send(msg1);
 
-	
-		MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM); 
+		Set<String> visitedItems = ((ProfilerAgent)myAgent).getVisitedItems();
+		ACLMessage msg2 = new ACLMessage(ACLMessage.INFORM_IF);
+		try {
+			msg2.setContentObject((Serializable) visitedItems);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		msg2.addReceiver(((ProfilerAgent)myAgent).getTourGuide());
+		myAgent.send(msg2);
+
+
+		MessageTemplate mt = MessageTemplate.and(MessageTemplate.MatchSender(((ProfilerAgent)myAgent).getTourGuide()),MessageTemplate.MatchPerformative(ACLMessage.INFORM)); 
 		addSubBehaviour(new MsgListener(myAgent, 3000, mt) {
-			private static final long serialVersionUID = 8955673657803014129L;
-
-			private int negotiationStatus = 0;
 
 			public void handle( ACLMessage m) { 
 				if(m!=null){
-					if(m.getPerformative() == ACLMessage.INFORM){
-						System.out.println("negotiation");
-						try {
-							((ProfilerAgent)myAgent).visitTour((ArrayList<String>)m.getContentObject());
-						} catch (UnreadableException e) {
-							e.printStackTrace();
-							System.exit(1);
-						}
-						negotiationStatus = 1;
+					System.out.println("profiler - received tour");
+					try {
+						((ProfilerAgent)myAgent).visitTour((ArrayList<String>)m.getContentObject());
+					} catch (UnreadableException e) {
+						e.printStackTrace();
+						System.exit(1);
 					}
 				}
 			}		
-
-			public int onEnd() {
-				return negotiationStatus;
-			}
 		});
 	}
 }
