@@ -17,10 +17,12 @@ public class ReceiveProposal extends SequentialBehaviour {
 	private int proposalStatus = 1;//keep proposing
 	private Behaviour b;
 	private AID profiler;
+	private TourNegotiation tourN;
 	
-	public ReceiveProposal(Agent a, final AID profiler) {
+	public ReceiveProposal(Agent a, final AID profiler, TourNegotiation tourN) {
 		super(a);
 		this.profiler = profiler;
+		this.tourN = tourN;
 	}
 
 	public void onStart() {
@@ -49,6 +51,7 @@ public class ReceiveProposal extends SequentialBehaviour {
 		if(((TourGuideAgent)myAgent).checkProposal(p, profiler)) {
 			System.out.println("tourGuide - accepted proposal");
 			ACLMessage msg = new ACLMessage(ACLMessage.ACCEPT_PROPOSAL);
+			tourN.setTourType(p.getTour());
 			msg.addReceiver(profiler);
 			myAgent.send(msg);		
 

@@ -55,6 +55,10 @@ public class ProfileObject implements Serializable{
 		this.P3_2 = P3_2;
 	}
 	
+	public Map<String, String> getP1() {
+		return P1;
+	}
+	
 	public List<String> getP2() {
 		return P2;
 	}

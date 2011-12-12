@@ -14,6 +14,8 @@ public class TourNegotiation extends FSMBehaviour {
 	private static final String STATE_C = "End_Negotiation_Success";
 	private static final String STATE_D = "End_Negotiation_Error";
 	
+	private int negotiatedTourType;
+	
 	public TourNegotiation(Agent a, final AID profiler) {
 		super(a);
 
@@ -35,9 +37,9 @@ public class TourNegotiation extends FSMBehaviour {
 			}
 		}, STATE_A);
 		
-		registerState(new ReceiveProposal(myAgent, profiler), STATE_B);
+		registerState(new ReceiveProposal(myAgent, profiler, this), STATE_B);
 		
-		registerLastState(new EndNegotiation(myAgent, profiler), STATE_C);
+		registerLastState(new EndNegotiation(myAgent, profiler, this), STATE_C);
 		
 		registerLastState(new SimpleBehaviour() {
 			
@@ -56,4 +58,13 @@ public class TourNegotiation extends FSMBehaviour {
 		registerTransition(STATE_B, STATE_C, 0);
 		registerTransition(STATE_B, STATE_D, 2);
 	}
+	
+	public int getTourType() {
+		return negotiatedTourType;
+	}
+	
+	public void setTourType(int negotiatedTourType) {
+		this.negotiatedTourType = negotiatedTourType;
+	}
+
 }
